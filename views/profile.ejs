@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Profile Page</title>
+    <style>
+      /* General styles, reset, and layout */
+      body,
+      h1,
+      p,
+      ul,
+      li,
+      a {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        text-decoration: none;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        color: #fff;
+        background-color: #121212;
+      }
+
+      header {
+        background-color: #000;
+        padding: 20px;
+      }
+
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        font-size: 24px;
+        font-weight: bold;
+        color: #32cd32;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 20px;
+        margin-right: 20px;
+      }
+
+      .nav-links a {
+        color: #fff;
+        transition: color 0.3s;
+      }
+
+      .nav-links a:hover {
+        color: #32cd32;
+      }
+
+      @media (max-width: 768px) {
+        .nav-links {
+          display: none;
+        }
+      
+
+        .menu-icon {
+          display: block;
+          font-size: 24px;
+          cursor: pointer;
+          color: #fff;
+        }
+
+        .menu-icon:hover {
+          color: #32cd32;
+        }
+
+        .nav-links.mobile {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          background: #000;
+          position: absolute;
+          top: 60px;
+          right: 20px;
+          padding: 20px;
+          border-radius: 5px;
+        }
+
+        .nav-links.mobile a {
+          color: #32cd32;
+        }
+      }
+
+      @media (min-width: 769px) {
+        .menu-icon {
+          display: none;
+        }
+      }
+
+      .container {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 2rem;
+      }
+
+      .profile-container {
+        flex: 1;
+        padding: 1rem;
+        background-color: #1f1f1f;
+        border-radius: 8px;
+        margin-right: 2rem;
+        position: relative;
+      }
+
+      .profile-container h2 {
+        color: #00ff00;
+      }
+
+      .profile-container p {
+        color: #bfbfbf;
+      }
+
+      .sidebar {
+        width: 200px;
+        background-color: #1f1f1f;
+        border-radius: 8px;
+        padding: 1rem;
+      }
+
+      .sidebar a {
+        display: block;
+        width: 100%;
+        padding: 0.5rem;
+        margin-bottom: 1rem;
+        border: none;
+        border-radius: 4px;
+        background-color: #00ff00;
+        color: #000000;
+        text-align: center;
+        cursor: pointer;
+      }
+
+      .sidebar a:hover {
+        background-color: #00cc00;
+      }
+
+      /* Media Queries */
+      @media (max-width: 768px) {
+        .container {
+          flex-direction: column;
+          padding: 1rem;
+        }
+
+        .profile-container {
+          width: 91%;
+          margin-bottom: 2rem;
+        }
+
+        .sidebar {
+          width: 96%;
+          padding: 0.5rem;
+        }
+
+        .sidebar a {
+          padding: 0.75rem;
+          margin-bottom: 1rem;
+        }
+      }
+
+      #img {
+        display: none;
+      }
+
+      #label {
+        position: absolute;
+        top: 65px;
+        left: 70px;
+        color: white;
+        cursor: pointer;
+      }
+
+      label img {
+        height: 25px;
+      }
+
+      /* Grow Image Styling */
+      .growImage {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.9);
+        justify-content: center;
+        align-items: center;
+      }
+
+      .growImage img {
+        max-width: 80%;
+        max-height: 80%;
+        border-radius: 10px;
+      }
+
+      /* Close button styling */
+      .close-btn {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        font-size: 32px;
+        color: #fff;
+        cursor: pointer;
+        z-index: 1000;
+      }
+
+      .update-btn {
+        display: none;
+        margin-top: -50px;
+        margin-left: 40px;
+        background-color: #000; /* Black background */
+        color: #00cc00; /* Green text color */
+        border: 2px solid #00cc00; /* Green border */
+        padding: 10px 20px; /* Padding for a bigger button */
+        font-size: 10px; /* Larger font size */
+        border-radius: 5px; /* Rounded corners */
+        cursor: pointer; /* Pointer cursor on hover */
+        transition: all 0.3s ease; /* Smooth transition on hover */
+        outline: none;
+        font-weight: bolder; /* Remove default outline */
+      }
+
+      /* Hover effect */
+      .update-btn:hover {
+        background-color: #00cc00; /* Change background to green */
+        color: #000; /* Change text color to black */
+        border: 2px solid #00cc00; /* Keep the green border */
+        transform: scale(1.05); /* Slightly increase button size */
+      }
+
+      /* Active/focus effect */
+      .update-btn:active {
+        background-color: #009900; /* Darker green when pressed */
+        transform: scale(0.98); /* Slightly shrink on click */
+      }
+
+      /* Ensure the navbar stays on top */
+header {
+  background-color: #000;
+  padding: 20px;
+  position: relative; /* Make sure the header stays relative */
+  z-index: 1000; /* Higher z-index ensures it's on top of other elements */
+}
+
+
+
+nav {
+  
+  z-index: 100; 
+}
+
+
+
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div class="logo">RecipeApp</div>
+        <div class="menu-icon">&#9776;</div>
+        <ul class="nav-links">
+          <li><a href="/home">Home</a></li>
+          <li><a href="/home/recipe">Recipes</a></li>
+          <li><a href="/home/account">Account</a></li>
+          <li><a href="/home/leaderBoard">Leader-Board</a></li>
+          <li><a href="/home/aboutus">About</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <div class="container">
+      <div class="profile-container">
+        <img
+          src="/images/profilePic/<%= user.profilePic%>"
+          id="profileImage"
+          style="
+            height: 60px;
+            width: 60px;
+            border-radius: 100%;
+            border: 4px solid #00ff00;
+            padding: 5px;
+            cursor: pointer;
+          "
+          alt=""
+        />
+        <form action="" id="myForm" enctype="multipart/form-data">
+          <label for="img" id="label" onclick="showSubmit()">
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/10015/10015349.png"
+              alt=""
+            />
+            <input
+              type="text"
+              name="id"
+              value="<%=user._id%>"
+              style="display: none"
+              id=""
+            />
+            <input type="file" name="profileImage" id="img" />
+            <input type="submit" class="update-btn" value="Update Image" />
+          </label>
+        </form>
+
+        <h2><%=user.name%></h2>
+        <p>Welcome to your profile page!</p>
+        <br />
+        <p>Here you can manage your posts and account settings.</p>
+      </div>
+
+      <div class="sidebar">
+        <a href="/account/addDish">Add Dish</a>
+        <a href="/account/userSavedRecipe">Saved Posts</a>
+        <a href="/account/postcreated">Created Posts</a>
+        <a href="/logout">Log out</a>
+      </div>
+    </div>
+
+    <!-- Grow Image Div -->
+    <div class="growImage" id="growImageDiv">
+      <span class="close-btn" id="closeBtn">&times;</span>
+      <img
+        src="/images/profilePic/<%= user.profilePic%>"
+        alt="Enlarged Image"
+      />
+    </div>
+
+    <script>
+      const update_button = document.querySelector(".update-btn");
+
+      const form = document.getElementById("myForm");
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const formData = new FormData(form);
+
+        const response = await fetch("/updateProfile", {
+          method: "POST",
+          body: formData, // Send FormData directly
+        });
+        update_button.style.display = "none";
+        const data = await response.json();
+        alert("profile updated succesfully");
+        window.location.reload();
+      });
+
+      const showSubmit = () => {
+        update_button.style.display = "block";
+      };
+
+      // Toggle mobile menu
+      const menuIcon = document.querySelector(".menu-icon");
+      const navLinks = document.querySelector(".nav-links");
+
+      menuIcon.addEventListener("click", () => {
+        navLinks.classList.toggle("mobile");
+      });
+
+      // Logic for enlarging the image
+      const profileImage = document.getElementById("profileImage");
+      const growImageDiv = document.getElementById("growImageDiv");
+      const closeBtn = document.getElementById("closeBtn");
+
+      // Show the enlarged image when the profile image is clicked
+      profileImage.addEventListener("click", () => {
+        growImageDiv.style.display = "flex";
+      });
+
+      // Hide the enlarged image when the close button is clicked
+      closeBtn.addEventListener("click", () => {
+        growImageDiv.style.display = "none";
+      });
+
+      const profileImageElement = document.getElementById("profileImage");
+      const profilePic = "<%=user.profilePic%>"; // Assuming `user` is an object you have
+
+      profileImageElement.src = profilePic
+        ? "/images/profilePic/<%= user.profilePic%>"
+        : "https://srcwap.com/wp-content/uploads/2022/08/abstract-user-flat-4.png";
+    </script>
+  </body>
+</html>

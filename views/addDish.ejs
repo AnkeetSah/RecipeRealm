@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Dish</title>
+    <style>
+        body, h1, p, ul, li, a {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            text-decoration: none;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+        }
+
+        header {
+            background-color: #000;
+            padding: 20px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #32CD32;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            margin-right: 20px;
+        }
+
+        .nav-links a {
+            color: #fff;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #32CD32;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .menu-icon {
+                display: block;
+                font-size: 24px;
+                cursor: pointer;
+                color: #fff;
+            }
+
+            .menu-icon:hover {
+                color: #32CD32;
+            }
+
+            .nav-links.mobile {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                background: #000;
+                position: absolute;
+                top: 60px;
+                right: 20px;
+                padding: 20px;
+                border-radius: 5px;
+            }
+
+            .nav-links.mobile a {
+                color: #32CD32;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .menu-icon {
+                display: none;
+            }
+        }
+
+        .container {
+            display: flex;
+            padding: 2rem;
+        }
+
+        .form-container {
+            flex: 1;
+            padding: 1rem;
+            background-color: #1f1f1f;
+            border-radius: 8px;
+            margin-right: 2rem;
+        }
+
+        .form-container h2 {
+            color: #00ff00;
+        }
+
+        .form-container label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #bfbfbf;
+        }
+
+        .form-container input,
+        .form-container textarea {
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            border: none;
+            border-radius: 4px;
+            background-color: #2b2b2b;
+            color: #ffffff;
+        }
+
+        .form-container button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            background-color: #00ff00;
+            color: #000000;
+            cursor: pointer;
+        }
+
+        .form-container button:hover {
+            background-color: #00cc00;
+        }
+
+        .sidebar {
+            width: 200px;
+            background-color: #1f1f1f;
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .sidebar a, .sidebar button {
+            display: block;
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            border: none;
+            border-radius: 4px;
+            background-color: #00ff00;
+            color: #000000;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .sidebar a:hover, .sidebar button:hover {
+            background-color: #00cc00;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            .form-container {
+                margin-right: 0;
+                margin-bottom: 2rem;
+            }
+
+            .sidebar {
+                width: 96%;
+                padding: 0.5rem;
+            }
+
+            .sidebar a, .sidebar button {
+                padding: 0.75rem;
+                margin-bottom: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .form-container h2 {
+                font-size: 1.25rem;
+            }
+
+            .sidebar a, .sidebar button {
+                font-size: 0.9rem;
+                padding: 0.5rem;
+            }
+        }
+
+        /* Popup styles */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: #000;
+            color: #00ff00;
+            border: 2px solid #00ff00;
+            border-radius: 8px;
+            z-index: 1000;
+            text-align: center;
+        }
+
+        .popup button {
+            margin-top: 10px;
+            padding: 5px 10px;
+            background-color: #00ff00;
+            color: #000;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .popup button:hover {
+            background-color: #00cc00;
+        }
+
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">Dish Video Page</div>
+            <div class="menu-icon">&#9776;</div>
+            <ul class="nav-links">
+                <li><a href="/home">Home</a></li>
+                <li><a href="/home/recipe">Recipes</a></li>
+                <li><a href="/home/account">Account</a></li>
+                <li><a href="/home/leaderBoard">Leader-Board</a></li>
+                <li><a href="/home/aboutus">About</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="container">
+        <div class="form-container">
+            <h2>Create a Dish Post</h2>
+            <form id="dishForm" action="/account/dishUpload" method="post" enctype="multipart/form-data">
+                <label for="dishName">Dish Name:</label>
+                <input type="text" id="dishName" name="dishName" required>
+
+                <label for="dishCategory">Dish Category:</label>
+                <input type="text" id="dishCategory" name="dishCategory" required placeholder="Important! This should be based on the main ingredient you are using in your dish. add the items seperated by space ">
+
+                <label for="dishIngredients">Dish Ingredients:</label>
+                <textarea id="dishIngredients" name="dishIngredients" rows="4" required placeholder="Important! You have to mention the ingredients followed by a full stop."></textarea>
+
+                <label for="dishInstructions">Dish Instructions:</label>
+                <textarea id="dishInstructions" name="dishInstructions" rows="4" placeholder="Important! You have to mention the ingredients followed by a full stop." required></textarea>
+
+                <label for="dishDescription">Dish Description:</label>
+                <textarea id="dishDescription" name="dishDescription" rows="4" required></textarea>
+
+                <label for="dishYouTubeLink">Dish YouTube Link:</label>
+                <input type="url" id="dishYouTubeLink" name="dishYouTubeLink" required>
+
+                <label for="dishImage">Upload Dish Image:</label>
+                <input type="file" id="dishImage" name="dishImage" accept="image/*" required>
+
+                <button class="submit" type="submit">Save Post</button>
+            </form>
+        </div>
+        <div class="sidebar">
+            <a href="/account/addDish" style="background-color: #000;color:white">Add Dish</a>
+            <a href="/account/userSavedRecipe">Save Post</a>
+            <a href="/account/postcreated">Post Created</a>
+            <a href="/logout">Log out</a>
+        </div>
+    </div>
+
+    <div class="popup-overlay"></div>
+    <div class="popup" id="popupMessage">
+        <p>The dish has been added!</p>
+        <button onclick="closePopup()">OK</button>
+    </div>
+
+    <script>
+        const menuIcon = document.querySelector('.menu-icon');
+        const navLinks = document.querySelector('.nav-links');
+
+        menuIcon.addEventListener('click', () => {
+            navLinks.classList.toggle('mobile');
+        });
+
+        const dishForm = document.getElementById('dishForm');
+        const popup = document.getElementById('popupMessage');
+        const overlay = document.querySelector('.popup-overlay');
+
+        dishForm.addEventListener('submit', function(event) {
+    
+            showPopup();
+        });
+
+        function showPopup() {
+            popup.style.display = 'block';
+            overlay.style.display = 'block';
+        }
+
+        function closePopup() {
+            popup.style.display = 'none';
+            overlay.style.display = 'none';
+        }
+    </script>
+</body>
+</html>

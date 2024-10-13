@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recipe App</title>
+    <style>
+      /* Reset some default browser styles */
+      body, h1, p, ul, li, a {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        text-decoration: none;
+        box-sizing: border-box;
+      }
+    
+      /* General body styling */
+      body {
+        font-family: Arial, sans-serif;
+        color: #fff;
+        background-color: #000;
+      }
+    
+      /* Header styling */
+      header {
+        background-color: #000;
+        padding: 20px;
+      }
+    
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+       
+        
+      }
+    
+      .logo {
+        font-size: 24px;
+        font-weight: bold;
+        color: #32cd32;
+      }
+    
+      .nav-links {
+        display: flex;
+        gap: 20px;
+        margin-right: 20px;
+      }
+    
+      .nav-links a {
+        color: #fff;
+        transition: color 0.3s;
+      }
+    
+      .nav-links a:hover {
+        color: #32cd32;
+      }
+    
+      /* Mobile menu icon styling */
+      .menu-icon {
+        display: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: #fff;
+      }
+    
+      .menu-icon:hover {
+        color: #32cd32;
+      }
+    
+      /* Hero section styling */
+      .hero {
+        background-image: url("https://images.unsplash.com/photo-1534080564583-6be75777b70a?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+        background-size: cover;
+        background-position: center;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 0 20px;
+      }
+    
+      .hero-content {
+        background: rgba(0, 0, 0, 0.6);
+        padding: 40px;
+        border-radius: 10px;
+      }
+    
+      .hero h1 {
+        font-size: 48px;
+        margin-bottom: 20px;
+      }
+    
+      .hero p {
+        font-size: 18px;
+        margin-bottom: 30px;
+      }
+    
+      .btn {
+        background-color: #32cd32;
+        color: #000;
+        padding: 15px 30px;
+        border-radius: 5px;
+        font-size: 16px;
+        transition: background-color 0.3s;
+      }
+    
+      .btn:hover {
+        background-color: #28a745;
+      }
+    
+      /* Main section styling */
+      main {
+        padding: 40px 20px;
+        background-color: #111;
+      }
+    
+      main .cuisines {
+        font-size: 36px;
+        color: #32cd32;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+    
+      .countries {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 40px;
+      }
+    
+      .countriesName {
+        width: 120px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+    
+      .countriesName img {
+        width: 100%;
+        height: 120px;
+        border-radius: 100%;
+        object-fit: cover;
+        border: 10px solid #111;
+        outline-style: solid;
+        outline-color: #32cd32;
+      }
+    
+      .countriesName a {
+        color: #fff;
+        margin-top: 10px;
+      }
+    
+      .countries .seemore {
+        display: inline;
+        height: 40px;
+        margin-top: 110px;
+        background-color: #32cd32;
+        color: #000;
+        padding: 10px 20px;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+      }
+    
+      .countries .seemore:hover {
+        background-color: #28a745;
+      }
+    
+      /* Footer styling */
+      footer {
+        background-color: #000;
+        text-align: center;
+        padding: 20px;
+        margin-top: 40px;
+      }
+    
+      footer p {
+        color: #fff;
+      }
+    
+      /* Media Queries */
+      @media (max-width: 768px) {
+        .nav-links {
+          display: none;
+        }
+    
+        .menu-icon {
+          display: block;
+        }
+    
+        .nav-links.mobile {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          background: #000;
+          position: absolute;
+          top: 60px;
+          right: 20px;
+          padding: 20px;
+          border-radius: 5px;
+        }
+    
+        .nav-links.mobile a {
+          color: #32cd32;
+        }
+      }
+    
+      @media (min-width: 769px) {
+        .menu-icon {
+          display: none;
+        }
+      }
+    
+      /* Random card styling */
+      .randomcard {
+        height: 240px;
+        margin-top: 30px;
+        display: flex;
+        justify-content: center;
+        margin-bottom: 10px;
+      }
+    
+      .card {
+        
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        display: flex;
+        gap: 20px;
+        padding: 20px;
+        max-width: 800px;
+        transition: transform 0.3s;
+       background-color: #000;
+      }
+    
+      .card:hover {
+        transform: scale(1.05);
+      }
+    
+      .card img {
+        width: 300px;
+        height: auto;
+        border-radius: 10px;
+        object-fit: cover;
+      }
+    
+      .card-details {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        color: #fff;
+      }
+    
+      .card-title {
+        font-size: 24px;
+        color: #32cd32;
+        margin-bottom: 10px;
+      }
+    
+      .card-name, .card-category, .card-country {
+        font-size: 18px;
+        margin-bottom: 5px;
+      }
+    
+      /* User food card styling */
+      .userfoodcard {
+        margin-top: 20px;
+        height: 310px;
+        width: 210px;
+        border-radius: 10px;
+        padding: 10px;
+        margin-bottom: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background: white;
+        margin-left: 30px;
+      }
+    
+      .userfoodcard img {
+        width: 100%;
+        height: 36%;
+        border-radius: 10px 10px 0 0;
+        object-fit: cover;
+      }
+    
+      .userdata {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        background-color: #222;
+        padding: 10px 0px;
+      }
+    
+      .userdata .category {
+        font-size: smaller;
+        width: 140px;
+        margin-left: 8px;
+        padding: 5px;
+        text-align: center;
+        border-radius: 20px;
+        border: 2px solid rgb(6, 117, 8);
+        color: rgb(248, 246, 246);
+      }
+    
+      .userdata .likes {
+        color: gainsboro;
+        margin-right: 8px;
+        margin-bottom: 10px;
+      }
+    
+      .postdata {
+        width: 100%;
+        background-color: #222;
+        padding: 10px 0px;
+        border-radius: 0 0 10px 10px;
+        text-align: center;
+        height: 100px;
+      }
+    
+      .postdata h2 {
+        font-size: 18px;
+        color: #32cd32;
+        margin-bottom: 5px;
+        margin-top: -14px;
+      }
+    
+      .postdata .desc {
+        font-size: 14px;
+        line-height: 18px;
+        color: #fff;
+        margin-bottom: 5px;
+        margin-left: 4px;
+        margin-right: 4px;
+      }
+    
+      .postdata a {
+        color: #32cd32;
+        text-decoration: none;
+        transition: color 0.3s;
+      }
+    
+      .postdata a:hover {
+        color: #28a745;
+      }
+    
+      /* Food show section styling */
+      .foodshowsection {
+        padding: 30px;
+        display: flex;
+        height: auto;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+      }
+    
+      @media (max-width: 480px) {
+        
+        .hero-content h1 {
+          font-size: 25px;
+        }
+    
+        .hero-content {
+          margin-top: -40px;
+          padding: 20px;
+          padding-bottom: 40px;
+        }
+        .card{
+          flex-direction: column;
+         height: 250px;
+          background: #000;
+          justify-content: space-evenly;
+         
+        }
+        .card img{
+          height: 75px;
+        }
+        .card-title{
+          font-size: 20px;
+        }
+        .card-name, .card-category, .card-country{
+          font-size: 15px;
+        }
+        .card-a{
+          margin-top: 10px;
+        }
+        .byuser{
+          margin-top: 70px;
+        }
+
+       .countries .seemore{
+        margin-top: 0px;
+       }
+        
+      }
+    </style>
+    
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div class="logo">RecipeApp</div>
+        <div class="menu-icon">&#9776;</div>
+        <ul class="nav-links">
+          <li><a href="/home">Home</a></li>
+                <li><a href="/home/recipe">Recipes</a></li>
+                <li><a href="/home/account">Account</a></li>
+                <li><a href="/home/leaderBoard">Leader-Board</a></li>
+                <li><a href="/home/aboutus">About</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="hero-content">
+        <h1>Welcome to RecipeApp</h1>
+        <p>Discover delicious recipes and cooking tips.</p>
+        <a href="/home/recipe" class="btn">Explore Recipes</a>
+      </div>
+    </section>
+
+    <main>
+      <h1 class="cuisines">Search by Cuisines</h1>
+      <div class="countries">
+        <div class="countriesName">
+          <img
+            src="https://nomadparadise.com/wp-content/uploads/2021/03/canadian-food-04-768x512.jpg.webp"
+            alt=""
+          />
+          <a href="/places/Canadian">Canadian</a>
+        </div>
+        <div class="countriesName">
+          <img
+            src="https://th.bing.com/th/id/OIP.LVV-U1wkVKHkMy3tpcGQAAHaHa?rs=1&pid=ImgDetMain"
+            alt=""
+          />
+          <a href="/places/American">American</a>
+        </div>
+        <div class="countriesName">
+          <img
+            src="https://handluggageonly.co.uk/wp-content/uploads/2014/06/Hand-Luggage-Only-10.jpg"
+            alt=""
+          />
+          <a href="/places/British">British</a>
+        </div>
+        <div class="countriesName">
+          <img
+            src="https://www.tripsavvy.com/thmb/f-VZrcG8tCbTyAw3pcGI7RGBpx8=/2121x1414/filters:no_upscale():max_bytes(150000):strip_icc()/GettyImages-639704020-7fc1d09875084524bada655b9ff7e678.jpg"
+            alt=""
+          />
+          <a href="/places/Indian">Indian</a>
+        </div>
+        <div class="countriesName">
+          <img
+            src="https://www.thespruceeats.com/thmb/QLsbljshIZzeoyf7jcJHzk7vcv0=/2232x0/filters:no_upscale():max_bytes(150000):strip_icc()/salade-nicoise-56297221-5aef5859ae9ab8003780495d.jpg"
+            alt=""
+          />
+          <a href="/places/French">French</a>
+        </div>
+        <div class="countriesName">
+          <img
+            src="https://th.bing.com/th/id/OIP.ONc6eMZFBi-K4qTqdxnoeAHaE8?rs=1&pid=ImgDetMain"
+            alt=""
+          />
+          <a href="/places/Italian">Italian</a>
+        </div>
+        <a href="/home/area" class="seemore">See More</a>
+      </div>
+
+      <h1 class="cuisines" style="margin-top: 40px">Random Dish</h1>
+      <div class="randomcard">
+        <div class="card">
+          <img src=<%= randomDish.strMealThumb %> alt=<%= randomDish.strMeal%> class="card-image">
+          <div class="card-details">
+              <h1 class="card-title"><%= randomDish.strMeal %></h1>
+              <p class="card-name">Name: <%=randomDish.strMeal%></p>
+              <p class="card-category">Category:<%= randomDish.strCategory %></p>
+              <p class="card-country">Country: <%=randomDish.strArea%></p>
+              <a class="card-a" href="places/<%= randomDish.strArea %>/<%=randomDish.idMeal%>" style="color: rgb(109, 232, 109); " >Get Recipe</a>
+          </div>
+      </div>
+      </div>
+      <h1  class="byuser" style="color: #32cd32;text-align: center">
+        Dish posted by users
+      </h1>
+      <div class="foodshowsection"></div>
+    </main>
+
+    <footer>
+      <p>&copy; 2024 RecipeApp. All rights reserved.</p>
+    </footer>
+
+    <script>
+      const randomcard = document.querySelector(".randomcard");
+      const menuIcon = document.querySelector(".menu-icon");
+      const navLinks = document.querySelector(".nav-links");
+  
+      menuIcon.addEventListener("click", () => {
+          navLinks.classList.toggle("mobile");
+      });
+  
+      const foodshowsection = document.querySelector(".foodshowsection");
+  
+      window.addEventListener("load", async () => {
+          console.log("Page loaded");
+  
+          try {
+              // Fetch user posts
+              const userPostsResponse = await fetch("http://localhost:3000/allUserPost");
+              const userPostsData = await userPostsResponse.json();
+              console.log(userPostsData);
+  
+              userPostsData.forEach((post) => {
+                  const content = `
+                      <div class="userfoodcard">
+                          <img  src="/images/uploads/${post.filename}" alt="${post.dishName}" />
+                          <div class="userdata">
+                              <p class="category">${post.dishCategory}</p>
+                              <p class="likes"> ❤️ ${post.total_likes.length}Likes</p>
+                          </div>
+                          <div class="postdata">
+                              <h2>${post.dishName}</h2>
+                              <p class="desc">${post.dishDescription}</p>
+                              <a href="/seeRecipe/${post._id}">See Recipe</a>
+                          </div>
+                      </div>`;
+                  
+                  foodshowsection.innerHTML += content;
+              });
+  
+              // Call fetchContent() after posts are added to the DOM
+              fetchContent();
+          } catch (error) {
+              console.error("Error fetching data:", error);
+          }
+      });
+  
+      const limitWords = (element, wordLimit) => {
+          let text = element.innerText;
+          let words = text.split(" ");
+          if (words.length > wordLimit) {
+              text = words.slice(0, wordLimit).join(" ") + "...";
+              element.innerText = text;
+          }
+      };
+  
+      const fetchContent = () => {
+          let desc = document.querySelectorAll(".desc");
+          desc.forEach((child) => {
+              limitWords(child, 10);
+          });
+      };
+  </script>
+  
+  </body>
+</html>

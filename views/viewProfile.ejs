@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Posts Page</title>
+    <style>
+        /* General styles, reset, and layout */
+        body, h1, p, ul, li, a {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            text-decoration: none;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            color: #fff;
+            background-color: #121212;
+        }
+
+        header {
+            background-color: #000;
+            padding: 20px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #32CD32;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            margin-right: 20px;
+        }
+
+        .nav-links a {
+            color: #fff;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #32CD32;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .menu-icon {
+                display: block;
+                font-size: 24px;
+                cursor: pointer;
+                color: #fff;
+            }
+
+            .menu-icon:hover {
+                color: #32CD32;
+            }
+
+            .nav-links.mobile {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                background: #000;
+                position: absolute;
+                top: 60px;
+                right: 20px;
+                padding: 20px;
+                border-radius: 5px;
+            }
+
+            .nav-links.mobile a {
+                color: #32CD32;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .menu-icon {
+                display: none;
+            }
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 15px;
+        }
+
+        .profile-container {
+            flex: 1;
+            padding: 1rem;
+            background-color: #1f1f1f;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .profile-container h2 {
+            color: #00ff00;
+        }
+
+        .profile-container p {
+            color: #bfbfbf;
+        }
+
+        .sidebar {
+            width: 200px;
+            background-color: #1f1f1f;
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .sidebar a {
+            display: block;
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            border: none;
+            border-radius: 4px;
+            background-color: #00ff00;
+            color: #000000;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .sidebar a:hover {
+            background-color: #00cc00;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            .profile-container {
+                margin-right: 0;
+                margin-bottom: 2rem;
+            }
+
+            .sidebar {
+                width: 100%;
+                padding: 0.5rem;
+            }
+
+            .sidebar a {
+                padding: 0.75rem;
+                margin-bottom: 1rem;
+            }
+        }
+
+        .posts-container {
+            flex: 2;
+            padding: 1rem;
+            background-color: #1f1f1f;
+            border-radius: 8px;
+            margin-top: 2rem;
+        }
+
+        .post {
+            background-color: #2a2a2a;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .post h3 {
+            color: #00ff00;
+        }
+
+        .post p {
+            color: #bfbfbf;
+        }
+
+
+        .userfoodcard {
+            margin-top: 20px;
+            height: 265px; /* Adjust height based on content */
+            width: 210px;
+            border-radius: 10px;
+            padding: 10px; /* Adjust padding as needed */
+            margin-bottom: 20px; /* Adjust margin as needed */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: white;
+            margin-left: 30px;
+          }
+    
+          .userfoodcard img {
+            width: 100%;
+            height: 36%; /* Adjust height as needed */
+            border-radius: 10px 10px 0 0; /* Adjust border radius */
+            object-fit: cover;
+          }
+    
+          .userdata {
+            /* Adjust margin as needed */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            background-color: #222;
+            padding: 10px 0px;
+          }
+    
+          .userdata .category {
+            font-size: smaller;
+            width:140px;
+            margin-left: 8px;
+            padding: 5px;
+            text-align: center;
+            border-radius: 20px;
+            border: 2px solid rgb(6, 117, 8);
+            color: rgb(248, 246, 246);
+          }
+    
+          .userdata .likes {
+            color: gainsboro;
+            margin-right: 8px;
+            margin-bottom: 10px;
+          }
+    
+          .postdata {
+            width: 100%;
+            background-color: #222;
+            padding: 10px 0px;
+            border-radius: 0 0 10px 10px;
+            text-align: center;
+            height: 80px;
+          }
+    
+          .postdata h2 {
+            font-size: 18px;
+            color: #32cd32;
+            margin-bottom: 5px;
+            margin-top: -14px;
+          }
+    
+          .postdata .desc {
+            font-size: 14px;
+            line-height: 18px;
+            color: #fff;
+            margin-bottom: 5px;
+            margin-left: 4px;
+            margin-right: 4px;
+            margin-top: 5px;
+            margin-top: -5px; /* Adjust margin as needed */
+          }
+    
+          .postdata a {
+            color: #32cd32;
+            text-decoration: none;
+            transition: color 0.3s;
+          }
+    
+          .postdata a:hover {
+            color: #28a745;
+          }
+    
+          .foodshowsection {
+            padding: 30px;
+            display: flex;
+            height: auto;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+          }
+
+          .posts{
+            flex-wrap: wrap;
+            justify-content:space-around;
+           width: 95%;
+          }
+
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">RecipeApp</div>
+            <div class="menu-icon">&#9776;</div>
+            <ul class="nav-links">
+                <li><a href="/home">Home</a></li>
+                <li><a href="/home/recipe">Recipes</a></li>
+                <li><a href="/home/account">Account</a></li>
+                <li><a href="/home/leaderBoard">Leader-Board</a></li>
+                <li><a href="/home/aboutus">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container" style="display: block;">
+        <div class="profile-container">
+            <img src="/images/profilePic/<%= user.profilePic %>" id="profileImage" style="height: 60px; width: 60px; border-radius: 100%; border: 4px solid #00ff00; padding: 5px; cursor: pointer;" alt="Profile Picture">
+            <h2><%= user.name %></h2>
+            <p>Hi I am <%= user.name %></p>
+            <p>Here you can see all the dishes I've shared.</p>
+        </div>
+    </div>
+
+        <div class="posts" style="display: flex; flex-direction: row;">
+       <% user.post.forEach(e=>{ %>
+                <div class="userfoodcard">
+                    <img  src="/images/uploads/<%= e.filename %>" alt="${post.dishName}" />
+                    <div class="userdata">
+                        <p class="category"><%= e.dishCategory %></p>
+                        <p class="likes"><%=e.total_likes.length%> Likes</p>
+                    </div>
+                    <div class="postdata">
+                        <h2><%=e.dishName %></h2>
+                        <a href="/seeRecipe/<%=e._id%>">See Recipe</a>
+                    </div>
+                </div>
+            
+       <% }) %>
+        </div>
+
+
+
+        
+    
+
+    
+
+    <script>
+        const menuIcon = document.querySelector('.menu-icon');
+        const navLinks = document.querySelector('.nav-links');
+
+        menuIcon.addEventListener('click', () => {
+            navLinks.classList.toggle('mobile');
+        });
+
+
+
+    </script>
+</body>
+</html>

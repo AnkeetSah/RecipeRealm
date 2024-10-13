@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile Page</title>
+    <style>
+        /* General and Reset Styles */
+        body, h1, p, ul, li, a, form, input {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            text-decoration: none;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            color: #fff;
+            background-color: #121212;
+        }
+
+        /* Header */
+        header {
+            background-color: #000;
+            padding: 20px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #32CD32;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: #fff;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #32CD32;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .menu-icon {
+                display: block;
+                font-size: 24px;
+                cursor: pointer;
+                color: #fff;
+            }
+
+            .menu-icon:hover {
+                color: #32CD32;
+            }
+
+            .nav-links.mobile {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                background: #000;
+                position: absolute;
+                top: 60px;
+                right: 20px;
+                padding: 20px;
+                border-radius: 5px;
+            }
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 2rem;
+        }
+
+        .profile-container {
+            flex: 1;
+            padding: 1rem;
+            background-color: #1f1f1f;
+            border-radius: 8px;
+            margin-right: 2rem;
+            text-align: center;
+            position: relative; /* Needed for positioning the plus icon */
+        }
+
+        .profile-container h2 {
+            color: #00ff00;
+        }
+
+        .profile-container p {
+            color: #bfbfbf;
+        }
+
+        .profile-container img {
+            height: 150px;
+            width: 150px;
+            border-radius: 50%;
+            border: 4px solid #00ff00;
+            cursor: pointer;
+            padding: 5px;
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+
+        .profile-container img:hover {
+            transform: scale(1.05);
+        }
+
+        /* Plus icon to upload image */
+        .upload-marker {
+            position: absolute;
+            bottom: 10px;
+            right: 25%;
+            background-color: #32CD32;
+            color: white;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 20px;
+            font-weight: bold;
+            border: 2px solid #fff;
+        }
+
+        .upload-marker:hover {
+            background-color: #28a745;
+        }
+
+        .hidden-input {
+            display: none;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 200px;
+            background-color: #1f1f1f;
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .sidebar a {
+            display: block;
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            border: none;
+            border-radius: 4px;
+            background-color: #00ff00;
+            color: #000;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .sidebar a:hover {
+            background-color: #00cc00;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            .profile-container {
+                margin-right: 0;
+                margin-bottom: 2rem;
+            }
+
+            .sidebar {
+                width: 100%;
+                padding: 0.5rem;
+            }
+        }
+
+        /* Modal Styling */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 600px;
+        }
+
+        .modal-content img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 30px;
+            color: #fff;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">RecipeApp</div>
+            <div class="menu-icon">&#9776;</div>
+            <ul class="nav-links">
+                <li><a href="/home">Home</a></li>
+                <li><a href="/home/recipe">Recipes</a></li>
+                <li><a href="/home/account">Account</a></li>
+                <li><a href="/home/leaderBoard">Leader-Board</a></li>
+                <li><a href="/home/aboutus">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="profile-container">
+            <!-- Profile Image with click event -->
+            <img id="profilePic" src="/images/IMG20231119150920.jpg" alt="User Image">
+            <h2><%= user.name %></h2>
+            <p>Welcome to your profile page!</p>
+
+            <!-- Plus marker for uploading image -->
+            <div class="upload-marker" id="uploadMarker">+</div>
+
+            <!-- Hidden file input for uploading image -->
+            <input type="file" class="hidden-input" id="profilePicInput" name="profilePic" accept="image/*">
+
+            <!-- Image Upload Form (Hidden, to be submitted automatically) -->
+            <form id="uploadForm" action="/updateProfile" method="POST" enctype="multipart/form-data" style="display: none;">
+                <input type="file" id="fileInputHidden" name="profilePic" accept="image/*">
+                <button type="submit" id="submitBtn"></button>
+            </form>
+        </div>
+
+        <div class="sidebar">
+            <a href="/home/addDish">Add Dish</a>
+            <a href="/userSavedRecipe">Saved Posts</a>
+            <a href="/account/postcreated">Created Posts</a>
+            <a href="/logout">Log out</a>
+        </div>
+    </div>
+
+    <!-- Modal for displaying the image -->
+    <div id="imageModal" class="modal">
+        <span class="close">&times;</span>
+        <div class="modal-content">
+            <img id="modalImage" src="/images/IMG20231119150920.jpg" alt="User Image">
+        </div>
+    </div>
+
+    <script>
+        // Modal elements
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImage');
+        const profileImg = document.getElementById('profilePic');
+        const closeModal = document.querySelector('.close');
+
+        // Show modal on image click
+        profileImg.addEventListener('click', function() {
+            modal.style.display = 'block';
+            modalImg.src = this.src;  // Set the modal image source to the clicked image
+        });
+
+        // Hide modal on close click
+        closeModal.addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+
+        // Hide modal if user clicks outside the image
+        window.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        // Image upload functionality
+        const uploadMarker = document.getElementById('uploadMarker');
+        const profilePicInput = document.getElementById('profilePicInput');
+        const fileInputHidden = document.getElementById('fileInputHidden');
+        const uploadForm = document.getElementById('uploadForm');
+
+        // Open file input on clicking the plus marker
+        uploadMarker.addEventListener('click', function() {
+            profilePicInput.click();
+        });
+
+        // Submit the form automatically once the file is selected
+        profilePicInput.addEventListener('change', function() {
+            if (profilePicInput.files.length > 0) {
+                fileInputHidden.files = profilePicInput.files;  // Link file input to form's hidden input
+                uploadForm.submit();  // Submit the form automatically
+            }
+        });
+
+        // Preview image before submitting
+        profilePicInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    profileImg.src = e.target.result;
+                    modalImg.src = e.target.result;  // Update the modal image as well
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+</body>
+</html>

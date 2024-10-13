@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe App - Food List</title>
+    <style>
+        /* Add your CSS styles here */
+        /* Reset some default browser styles */
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body, h1, p, ul, li, a {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            text-decoration: none;
+            box-sizing: border-box;
+        }
+
+        /* General body styling */
+        body {
+            font-family: Arial, sans-serif;
+            color: #ffffff;
+            background-color: #121212;
+        }
+
+        /* Header styling */
+        header {
+            background-color: #000;
+            padding: 20px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #00ff00;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            margin-right: 20px; /* Move links a bit to the left */
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #00ff00;
+        }
+
+        .menu-icon {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #ffffff;
+        }
+
+        .menu-icon:hover {
+            color: #00ff00;
+        }
+
+        /* Search div styling */
+        .search-container {
+            margin-top: 80px;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .search-box {
+            width: 80%;
+            max-width: 500px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 2px solid #00ff00;
+            background-color: #1b1b1b;
+            color: #ffffff;
+            font-size: 16px;
+        }
+
+        .search-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #00ff00;
+            color: #000000;
+            cursor: pointer;
+            font-size: 16px;
+            margin-left: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .search-btn:hover {
+            background-color: #00cc00;
+        }
+
+        /* Container styling */
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .child {
+            background-color: #ffffff;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            width: 200px;
+            margin: 10px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .foodimage {
+            width: 100%;
+            height: 150px;
+            border-radius: 10px;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+
+        .foodname {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .show-btn {
+            background-color: #00ff00;
+            color: #000000;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-top: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .show-btn:hover {
+            background-color: #00cc00;
+        }
+
+        @media(max-width: 450px) {
+            .child {
+                width: 165px;
+            }
+            .show-btn {
+                margin-top: 0px;
+            }
+            .foodname {
+                margin-top: -2px;
+            }
+        }
+
+        @media(max-width:400px){
+            
+            .child{
+                width: 152px;
+                margin-left: 4px;
+                height: 170px;
+               
+            
+        }
+        .foodname{
+            font-size: smaller;
+        }
+        .foodimage{
+            height: 80px;
+            width: 100%;
+        }
+        .show-btn{
+            padding: 4px;
+            width: 80px;
+            font-size: 11px;
+            height: auto;
+          
+    
+        }
+
+        .container{
+            padding: 0px;
+        }
+        .search-container .search-box{
+            width: 230px;
+        }
+
+
+            
+            
+        }
+
+        
+
+    
+        
+
+        @media(max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .menu-icon {
+                display: block;
+            }
+
+            .nav-links.mobile {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                background: #000;
+                position: absolute;
+                top: 60px;
+                right: 20px;
+                padding: 20px;
+                border-radius: 5px;
+            }
+
+            .nav-links.mobile a {
+                color: #00ff00;
+            }
+        }
+
+        @media(min-width: 769px) {
+            .menu-icon {
+                display: none;
+            }
+        }
+        .dropdown-container{
+            display: none;
+        }
+        
+        #recipeDropdown {
+           
+            padding: 10px;
+            border: 2px solid #00ff00;
+            border-radius: 5px;
+            background-color: #1b1b1b;
+            color: #ffffff;
+            font-size: 16px;
+            outline: none;
+        }
+        
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">RecipeApp</div>
+            <div class="menu-icon">&#9776;</div>
+            <ul class="nav-links">
+                <li><a href="/home">Home</a></li>
+                <li><a href="/home/recipe">Recipes</a></li>
+                <li><a href="/home/account">Account</a></li>
+                <li><a href="/home/leaderBoard">Leader-Board</a></li>
+                <li><a href="/home/aboutus">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <form class="search-container" action="/recipe/item" method="post" onsubmit="return handleSubmit()">
+        <input type="text" class="search-box" name="dish" id="dishInput" placeholder="Search for a recipe...">
+        <input type="submit" class="search-btn" value="Search"><br><br>
+        <div>
+            <label>
+                <input type="radio" name="searchType" value="searchFromUser" onclick="toggleDropdown()">
+                Search from Users 
+            </label><br><br>
+           
+        </div>
+
+        <div class="dropdown-container" id="dropdownContainer">
+            <label for="recipeDropdown">Select Recipe Dish:</label>
+            <select id="recipeDropdown" name="selectedDish" onchange="autoSubmitForm()">
+                <option value="">--Select a dish--</option>
+               
+            </select>
+        </div>
+    </form>
+
+    
+
+    <div class="container">
+        <% if (dishData && dishData.length > 0) { %>
+            <% dishData.forEach(data => { %> 
+                <div class="child">
+                    <img src="<%= data.strMealThumb %>" class="foodimage" alt="<%= data.strMeal %>">
+                    <h3 class="foodname"><%= data.strMeal.slice(0, 24) + "..." %></h3>
+                    <a class="show-btn" href="/recipe/item/<%= data.idMeal %>">Explore Cuisine</a>
+                </div>
+            <% }) %> 
+        <% } else { %>
+            <p>Search recipes.</p>
+        <% } %>
+    </div>
+
+    <script>
+        const container=document.querySelector('.container');
+        const dropdown_container=document.querySelector('.dropdown-container');
+        const menuIcon = document.querySelector('.menu-icon');
+        const navLinks = document.querySelector('.nav-links');
+        const recipeDropdown=document.getElementById('recipeDropdown');
+
+        menuIcon.addEventListener('click', () => {
+            navLinks.classList.toggle('mobile');
+        });
+
+        const toggleDropdown=async ()=>{
+            dropdown_container.style.display='block'
+            const response= await fetch('http://localhost:3000/getCategory');
+
+            const data=await response.json();
+            
+            console.log(data);
+            recipeDropdown.innerHTML=`<option value="">--Select a dish--</option>`;
+            data.forEach(d=>{
+                const option=`  <option value="${d}">${d}</option>`
+                recipeDropdown.innerHTML+=option;
+            });
+
+        }
+
+        const autoSubmitForm = async () => {
+            const selectedDish = recipeDropdown.value;
+            if (selectedDish) {
+               const response=await fetch('/getDishListAsPerCategory',{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({category:selectedDish})
+               });
+               const data=await response.json();
+               container.innerHTML='';
+              data.forEach(d=>{
+                const foodCard=`<div class="child">
+                    <img src="/images/uploads/${d.filename}" class="foodimage" alt="">
+                    <h3 class="foodname">${d.dishName}</h3>
+                    <a class="show-btn" href="/seeRecipe/${d._id}">Explore Cuisine</a>
+                </div>`
+                container.innerHTML+=foodCard;
+              })
+               
+            }
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - RecipeApp</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Reset and General Styling */
+        body, h1, p, ul, li, a {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            text-decoration: none;
+            box-sizing: border-box;
+        }
+
+        /* General body styling */
+        body {
+            font-family: Arial, sans-serif;
+            color: #fff;
+            background-color: #121212;
+        }
+
+        /* Header styling */
+        header {
+            background-color: #000;
+            padding: 20px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #32cd32;
+        }
+
+        .menu-icon {
+            display: none; /* Hidden on larger screens */
+            font-size: 24px;
+            cursor: pointer;
+            color: #fff;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: #fff;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #32cd32;
+        }
+
+        /* Responsive Navbar */
+        @media (max-width: 768px) {
+            .menu-icon {
+                display: block;
+            }
+
+            .nav-links {
+                display: none; /* Initially hidden */
+                flex-direction: column;
+                gap: 10px;
+                background: #000;
+                position: absolute;
+                top: 60px;
+                right: 20px;
+                padding: 20px;
+                border-radius: 5px;
+                z-index: 10; /* Ensure it appears above other elements */
+            }
+
+            .nav-links.mobile {
+                display: flex; /* Show when menu icon is clicked */
+            }
+        }
+
+        /* Container styling */
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            
+        }
+
+        .profile-container {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            max-width: 800px;
+            text-align: center;
+        }
+
+        .profile-container h2 {
+            color: #32cd32;
+            font-size: 32px;
+            margin-bottom: 1rem;
+        }
+
+        .profile-container p {
+            color: black;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            font-size: 18px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #32cd32;
+            color: #fff;
+            border-radius: 5px;
+            margin-top: 20px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            background-color: #28a745;
+        }
+
+        /* Media Queries for Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .profile-container h2 {
+                font-size: 24px;
+            }
+
+            .profile-container p {
+                font-size: 16px;
+                color: #000;
+                text-align: justify;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">RecipeApp</div>
+            <div class="menu-icon">&#9776;</div>
+            <ul class="nav-links">
+                <li><a href="/home">Home</a></li>
+                <li><a href="/home/recipe">Recipes</a></li>
+                <li><a href="/home/account">Account</a></li>
+                <li><a href="/home/leaderBoard">Leader-Board</a></li>
+                <li><a href="/home/aboutus">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="profile-container">
+            <h2>About RecipeApp</h2>
+            <p>
+                Welcome to RecipeApp, your go-to platform for discovering, sharing, and creating amazing recipes from around the world. 
+                Our community is made up of passionate home cooks, professional chefs, and food lovers alike. Whether you're looking for
+                new culinary inspiration or want to showcase your favorite dishes, RecipeApp has everything you need!
+            </p>
+            <p>
+                With our easy-to-use interface and personalized recommendations, you can easily find the perfect recipes that suit your tastes. 
+                Join us today and start your culinary journey!
+            </p>
+            <a href="/home" class="cta-button">Start Exploring</a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const menuIcon = document.querySelector(".menu-icon");
+            const navLinks = document.querySelector(".nav-links");
+
+            menuIcon.addEventListener("click", () => {
+                console.log("Hamburger menu clicked");
+                navLinks.classList.toggle("mobile");
+            });
+        });
+    </script>
+</body>
+</html>
