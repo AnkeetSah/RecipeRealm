@@ -13,9 +13,9 @@
         }
 
         .navbar {
-            background-color: #1b1b1b;
-            padding: 1rem;
-            text-align: center;
+            background-color: black;
+            padding: 6px 7px;
+           
         }
 
         .navbar h1 {
@@ -26,6 +26,7 @@
         .container {
             display: flex;
             padding: 2rem;
+            
         }
 
         .form-container {
@@ -104,24 +105,37 @@
         }
         header img{
             height: 50px;
-           
             position: relative;
         
+        }
+        @media(max-width:450px) {
+            .container{
+                flex-wrap: wrap;
+            }
+            .form-container{
+                margin-right: 0px;
+                margin-bottom: 10px;
+            }
+            .sidebar{
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="app-icon">
-            <!-- You can replace "Recipe App" with your preferred app name -->
-            <span class="app-name">
-                <img src="/images/appLogo/headerLogo.png" alt="">
-            </span>
-        </div>
-    </nav>
+    <header>
+        <nav class="navbar">
+            <div class="app-icon">
+                <!-- You can replace "Recipe App" with your preferred app name -->
+                <span class="app-name">
+                    <img src="/images/appLogo/headerLogo.png" alt="">
+                </span>
+            </div>
+        </nav>
+    </header>
     <div class="container">
         <div class="form-container">
-            <h2>Edit Dish Post</h2>
+            <h2>Edit Dish Recipe</h2>
             <form id="dishForm" action="/editDish/<%= post._id %>" method="post" enctype="multipart/form-data">
                 <label for="dishName">Dish Name:</label>
                 <input type="text" id="dishName" name="dishName" value="<%= post.dishName %>" required>
