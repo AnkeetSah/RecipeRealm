@@ -37,7 +37,6 @@ const homeRoutes=require("./routes/homeRoutes");
 app.use('/home',homeRoutes);
 app.use("/", signupRoute);
 
-
 app.post("/register", (req, res) => {
   let { name, email, password } = req.body;
   bcrypt.genSalt(10, (err, salt) => {
