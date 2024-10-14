@@ -136,17 +136,29 @@
         }
   
         @media (max-width: 450px) {
-          .child {
-            width: 165px;
-            height: 300px;
-          }
+          .child{
+            width: 152px;
+            margin-left: 3px;
+            height: 245px;
+           padding: 3px;
+           display: flex;
+           flex-direction: column;
+           justify-content: space-between;
+          
+
+        
+    }
           .show-btn {
             margin-top: 0px;
             font-weight: bold;
             margin-bottom: 7px;
           }
           .foodname {
-             font-size: smaller;
+             font-size: 16px;
+             color: #333;
+          }
+          .foodimage{
+            height: 110px;
           }
         }
   
@@ -222,8 +234,9 @@
         <%dishData.forEach(data => { %>
         <div class="child">
           <img src="<%= data.strMealThumb %>" class="foodimage" alt="<%= data.name %>" />
-          <a class="show-btn" href=" /places/<%= data.area %>/<%= data.idMeal %>">Get the Recipe</a>
-          <h3 class="foodname"><%= data.strMeal %></h3>
+             <h3 class="foodname"><%= data.strMeal.slice(0, 24) + "..." %></h3>
+             <a class="show-btn" href=" /places/<%= data.area %>/<%= data.idMeal %>">Get the Recipe</a>
+       
         </div>
         <% }) %>
       </div>
