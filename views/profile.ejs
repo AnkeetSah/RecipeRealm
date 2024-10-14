@@ -246,7 +246,7 @@
       /* Ensure the navbar stays on top */
 header {
   background-color: #000;
-  padding: 20px;
+  padding: 6px 7px;
   position: relative; /* Make sure the header stays relative */
   z-index: 1000; /* Higher z-index ensures it's on top of other elements */
 }
@@ -258,6 +258,13 @@ nav {
   z-index: 100; 
 }
 
+header img{
+  height: 50px;
+ 
+  position: relative;
+
+}
+
 
 
     </style>
@@ -265,7 +272,12 @@ nav {
   <body>
     <header>
       <nav>
-        <div class="logo">RecipeApp</div>
+        <div class="app-icon">
+          <!-- You can replace "Recipe App" with your preferred app name -->
+          <span class="app-name">
+              <img src="/images/appLogo/headerLogo.png" alt="">
+          </span>
+      </div>
         <div class="menu-icon">&#9776;</div>
         <ul class="nav-links">
           <li><a href="/home">Home</a></li>

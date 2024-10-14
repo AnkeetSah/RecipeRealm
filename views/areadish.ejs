@@ -35,7 +35,7 @@
         /* Header styling */
         header {
           background-color: #1b1b1b;
-          padding: 20px;
+          padding: 6px 7px;
           position: fixed;
           width: 100%;
           top: 0;
@@ -187,12 +187,23 @@
             display: none;
           }
         }
+        header img{
+          height: 50px;
+         
+          position: relative;
+      
+      }
       </style>
 </head>
 <body>
     <header>
         <nav>
-            <div class="logo">RecipeApp</div>
+          <div class="app-icon">
+            <!-- You can replace "Recipe App" with your preferred app name -->
+            <span class="app-name">
+                <img src="/images/appLogo/headerLogo.png" alt="">
+            </span>
+        </div>
             <div class="menu-icon" id="menuIcon">&#9776;</div>
             <ul class="nav-links" id="navLinks">
                 <li><a href="/home">Home</a></li>
