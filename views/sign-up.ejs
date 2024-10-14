@@ -1,170 +1,261 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login/Signup Form</title>
-    <style>
-        /* Reset some default browser styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebVerse Studios</title>
+  <style>
+    /* Universal Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        body {
-            background-color: #121212; /* Dark background */
-            font-family: Arial, sans-serif;
-            color: #fff; /* White text */
-            display: flex;
-            flex-direction: column; /* Adjust for column layout */
-            align-items: center; /* Center horizontally */
-            height: 100vh;
-            margin: 0;
-        }
+    body, html {
+      height: 100%;
+      width: 100%;
+      
+      
+      background-color: black; /* Main background color */
+      font-family: 'Arial', sans-serif;
+    }
 
-        header {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            width: 100%;
-            padding: 6px 5px;
-            background-color: #1f1f1f; /* Darker background for header */
-            border-bottom: 1px solid #555; /* Dark border */
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); /* Subtle shadow */
-        }
+    .splash-screen {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-color: black;
+      z-index: 1000;
+      transition: opacity 1s ease;
+    }
 
-        .app-name {
-            font-size: 20px;
-            color: #32CD32; /* Green text for app name */
-            
-        }
-        
+    .splash-screen.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
 
-        .form-container {
-            background-color: #1f1f1f; /* Darker background for forms */
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-            width: 300px;
-            margin-top: 20px; /* Spacing between header and forms */
-        }
+    .logo-container {
+      width: 150px;
+      height: 150px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-        .form-container h1 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #32CD32; /* Green heading */
-        }
+    .logo {
+      width: 100%;
+      max-height: 100%;
+    }
 
-        .form-container form {
-            display: flex;
-            flex-direction: column;
-        }
+    .brand-name p {
+      color: #00FF00; /* Green Text */
+      font-size: 2em;
+      font-weight: bold;
+    }
 
-        .form-container input {
-            margin-bottom: 10px;
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #32CD32; /* Green border */
-            background-color: #fff; /* White background */
-            color: #121212; /* Dark text */
-            transition: border-color 0.3s, background-color 0.3s;
-        }
+    @media screen and (min-width: 768px) {
+      .logo-container {
+        width: 200px;
+        height: 250px;
+      }
 
-        .form-container input[type=submit] {
-            background-color: #32CD32; /* Green button */
-            color: #fff; /* White text */
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
+      .brand-name p {
+        font-size: 3em;
+      }
+    }
 
-        .form-container input[type=submit]:hover {
-            background-color: #28a745; /* Darker green on hover */
-        }
+    .from {
+      color: #a4f2a4;
+    }
 
-        .switch-form {
-            text-align: center;
-            margin-top: 10px;
-            color: #ccc; /* Light text */
-        }
+    @media screen and (max-width: 450px) {
+      .logo-container {
+        margin-top: -220px;
+      }
 
-        .switch-form a {
-            color: #32CD32; /* Green link */
-            text-decoration: none;
-            font-weight: bold;
-            cursor: pointer;
-            transition: color 0.3s;
-        }
+      .brand-name {
+        position: absolute;
+        bottom: 30px;
+      }
+    }
 
-        .switch-form a:hover {
-            color: #28a745; /* Darker green on hover */
-        }
+    /* Login/Signup Form Styles */
+    .form-container {
+      background-color: #1f1f1f;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      width: 300px;
+      margin-top: 20px;
+      display: none;
+    }
 
-        .none {
-            display: none !important; /* Hidden by default */
-        }
-        header img{
-              height: 50px;
-             
-              position: relative;
+    body.show-form .form-container {
+      display: block;
+    }
 
-        }
-    </style>
+    body.show-form .splash-screen {
+      display: none;
+    }
+
+    body {
+      background-color: #121212;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      width: 100%;
+      padding: 6px 5px;
+      background-color: #1f1f1f;
+      border-bottom: 1px solid #555;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .app-name {
+      font-size: 20px;
+      color: #32CD32;
+    }
+
+    header img {
+      height: 50px;
+    }
+
+    .form-container h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #32CD32;
+    }
+
+    .form-container input {
+        display: block;
+        width: 100%;
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #32CD32;
+      background-color: #fff;
+      color: #121212;
+      transition: border-color 0.3s, background-color 0.3s;
+    }
+
+    .form-container input[type="submit"] {
+      background-color: #32CD32;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .form-container input[type="submit"]:hover {
+      background-color: #28a745;
+    }
+
+    .switch-form {
+      text-align: center;
+      margin-top: 10px;
+      color: #ccc;
+    }
+
+    .switch-form a {
+      color: #32CD32;
+      text-decoration: none;
+      font-weight: bold;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .switch-form a:hover {
+      color: #28a745;
+    }
+
+    .none {
+      display: none !important;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <div class="app-icon">
-            <!-- You can replace "Recipe App" with your preferred app name -->
-            <span class="app-name">
-                <img src="/images/appLogo/headerLogo.png" alt="">
-            </span>
-        </div>
-    </header>
 
-    <div class="form-container" id="formContainer">
-        <form id="loginForm" action="/login" method="post">
-            <h1 id="loginTitle" class="formTitle">Login</h1>
-            <input type="email" name="email" placeholder="Email" required>
-            <input type="password" name="password" placeholder="Password" required>
-            <input type="submit" value="Login">
-            <div class="switch-form">
-                <p id="switchText">Don't have an account? <a href="#" id="switchtoSignLink">Sign Up</a></p>
-            </div>
-        </form>
-        
-        <form id="signupForm" action="/register" method="post" class="none">
-            <h1 id="signupTitle" class="formTitle">Sign Up</h1>
-            <input type="text" name="name" placeholder="Name" required>
-            <input type="email" name="email" placeholder="Email" required>
-            <input type="password" name="password" placeholder="Password" required>
-            <input type="submit" value="Sign Up">
-            <div class="switch-form">
-                <p id="switchText">Have an account? <a href="#" id="switchLogLink">Log in</a></p>
-            </div>
-        </form>
+  <!-- Splash Screen -->
+  <div class="splash-screen">
+    <div class="logo-container">
+      <img src="/images/appLogo/Screenshot__265_-removebg-preview (1).png" alt="WebVerse Studios Logo" class="logo">
     </div>
+    <div class="brand-name">
+      <div class="from"><h3>from</h3></div>
+      <p>WebVerse Studios</p>
+    </div>
+  </div>
 
-    <script>
-        // JavaScript to toggle between login and signup forms
-        document.addEventListener('DOMContentLoaded', function() {
-            const switchtoSignLink = document.getElementById('switchtoSignLink');
-            const switchLogLink = document.getElementById('switchLogLink');
-            const loginForm = document.getElementById('loginForm');
-            const signupForm = document.getElementById('signupForm');
+  <!-- Login/Signup Page -->
+  <header>
+    <div class="app-icon">
+      <span class="app-name">
+        <img src="/images/appLogo/headerLogo.png" alt="">
+      </span>
+    </div>
+  </header>
 
-            switchtoSignLink.addEventListener('click', function(e) {
-                e.preventDefault();
-                loginForm.classList.add('none');
-                signupForm.classList.remove('none');
-            });
+  <div class="form-container" id="formContainer">
+    <form id="loginForm" action="/login" method="post">
+      <h1 id="loginTitle" class="formTitle">Login</h1>
+      <input type="email" name="email" placeholder="Email" required>
+      <input type="password" name="password" placeholder="Password" required>
+      <input type="submit" value="Login">
+      <div class="switch-form">
+        <p id="switchText">Don't have an account? <a href="#" id="switchtoSignLink">Sign Up</a></p>
+      </div>
+    </form>
 
-            switchLogLink.addEventListener('click', function(e) {
-                e.preventDefault();
-                signupForm.classList.add('none');
-                loginForm.classList.remove('none');
-            });
-        });
-    </script>
+    <form id="signupForm" action="/register" method="post" class="none">
+      <h1 id="signupTitle" class="formTitle">Sign Up</h1>
+      <input type="text" name="name" placeholder="Name" required>
+      <input type="email" name="email" placeholder="Email" required>
+      <input type="password" name="password" placeholder="Password" required>
+     
+      <input type="submit" value="Sign Up">
+      <div class="switch-form">
+        <p id="switchText">Have an account? <a href="#" id="switchLogLink">Log in</a></p>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    // Hide splash screen after 3 seconds
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(() => {
+        document.body.classList.add('show-form');
+      }, 2000);
+
+      // Toggle between login and signup forms
+      const switchtoSignLink = document.getElementById('switchtoSignLink');
+      const switchLogLink = document.getElementById('switchLogLink');
+      const loginForm = document.getElementById('loginForm');
+      const signupForm = document.getElementById('signupForm');
+
+      switchtoSignLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        loginForm.classList.add('none');
+        signupForm.classList.remove('none');
+      });
+
+      switchLogLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        signupForm.classList.add('none');
+        loginForm.classList.remove('none');
+      });
+    });
+  </script>
+
 </body>
 </html>

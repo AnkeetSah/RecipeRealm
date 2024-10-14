@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebVerse Studios</title>
+  <style>
+    /* Universal Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body, html {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: black; /* Main background color */
+      font-family: 'Arial', sans-serif;
+    }
+
+    .splash-screen {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .logo-container {
+      width: 150px;
+      height: 150px;
+     
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .logo {
+     width: 100%;
+      max-height: 100%;
+      
+    }
+
+    .brand-name p {
+      color: #00FF00; /* Green Text */
+      font-size: 2em;
+      font-weight: bold;
+      
+    }
+
+    @media screen and (min-width: 768px) {
+      .logo-container {
+        width: 200px;
+        height: 250px;
+        
+      }
+
+      .brand-name p {
+        font-size: 3em;
+      }
+      
+    }
+    
+    .from{
+        color: #a4f2a4;
+    }
+    .splash-screen{
+        
+        height: 100%;
+        width:  100%;
+    }
+    
+    @media screen and (max-width:450px){
+        .logo-container{
+            margin-top: -220px;
+        }
+        .brand-name{
+            position: absolute;
+            bottom: 30px;
+        }
+    }
+
+  </style>
+</head>
+<body>
+  <div class="splash-screen">
+    <div class="logo-container">
+      <img src="./public/images/appLogo/Screenshot__265_-removebg-preview (1).png" alt="WebVerse Studios Logo" class="logo">
+    </div>
+    
+    <div class="brand-name">
+        <div class="from"><h3>from</h3></div>
+      <p>WebVerse Studios</p>
+    </div>
+  </div>
+</body>
+</html>
