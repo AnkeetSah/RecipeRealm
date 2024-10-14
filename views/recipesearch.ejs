@@ -353,7 +353,8 @@
 
         const toggleDropdown=async ()=>{
             dropdown_container.style.display='block'
-            const response= await fetch('http://localhost:3000/getCategory');
+            const response = await fetch('https://reciperealm-1.onrender.com/getCategory');
+
 
             const data=await response.json();
             
