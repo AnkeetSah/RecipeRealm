@@ -99,6 +99,9 @@
           padding: 15px;
           height: 300px;
           text-align: center;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
           box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
   
@@ -137,7 +140,7 @@
   
         @media (max-width: 450px) {
           .child{
-            width: 152px;
+            width: 150px;
             margin-left: 3px;
             height: 245px;
            padding: 3px;
@@ -151,21 +154,25 @@
           .show-btn {
             margin-top: 0px;
             font-weight: bold;
-            margin-bottom: 7px;
+            
           }
           .foodname {
              font-size: 16px;
+             margin-top: -2px;
              color: #333;
           }
           .foodimage{
             height: 110px;
           }
+          .container{
+            padding: 0px;
+          }
         }
   
         @media (max-width: 400px) {
           .child {
-            width: 151px;
-            margin-left: 5px;
+            width: 150px;
+            margin-left: 3px;
           }
         }
   
@@ -228,14 +235,14 @@
         </nav>
     </header>
     <h1 style="color: white ; margin-top: 100px; margin-bottom: -100px; text-align: center;"><%= dishData[1].area %></h1>
-
+     <br>
     <div class="container">
       
         <%dishData.forEach(data => { %>
         <div class="child">
           <img src="<%= data.strMealThumb %>" class="foodimage" alt="<%= data.name %>" />
              <h3 class="foodname"><%= data.strMeal.slice(0, 24) + "..." %></h3>
-             <a class="show-btn" href=" /places/<%= data.area %>/<%= data.idMeal %>">Get the Recipe</a>
+             <a class="show-btn" href=" /places/<%= data.area %>/<%= data.idMeal %>">Explore Cuisine</a>
        
         </div>
         <% }) %>
