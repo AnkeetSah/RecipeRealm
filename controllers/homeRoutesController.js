@@ -105,6 +105,10 @@ const getLeaderBoard = async (req, res) => {
   }
 };
 
+
+
+
+
 module.exports = {
   getHome,
   getArea,
@@ -112,4 +116,5 @@ module.exports = {
   getRecipe,
   getAboutUs,
   getLeaderBoard,
+  
 };

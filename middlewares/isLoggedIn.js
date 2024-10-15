@@ -7,6 +7,7 @@ const isLoggedIn = (req, res, next) => {
     try {
       let data = jwt.verify(req.cookies.token, "shhhhh");
       req.user = data;
+      
       next();
     } catch (err) {
       return res.redirect("/login"); // Redirect to login page on verification failure

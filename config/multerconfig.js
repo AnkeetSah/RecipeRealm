@@ -15,6 +15,8 @@ const storage = multer.diskStorage({
   },
   filename: function (req, file, cb) {
     const userId = req.body.id; 
+    const foodId=req.user.userid;
+    
 
     crypto.randomBytes(12, (err, buffer) => {
       if (err) return cb(err);
@@ -26,8 +28,10 @@ const storage = multer.diskStorage({
       let filename;
       if (file.fieldname === 'profileImage') {
         filename = `${userId}+profile-${randomHex}${ext}`; // Profile Image filename
+        console.log(userId);
       } else if (file.fieldname == 'dishImage') {
-        filename = `${userId}-food-${randomHex}${ext}`; // Document filename
+        
+        filename = `${foodId}-food-${randomHex}${ext}`; // Document filename
       } else {
         filename = `${userId}-${randomHex}${ext}`; // Default filename
       }

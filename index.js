@@ -111,11 +111,6 @@ app.get("/places/:areaname", async (req, res) => {
 });
 
 
-
-
-
-
-
 app.get("/places/:areaname/:id", isLoggedIn, async (req, res) => {
 
   let user = await userModel.findOne({
@@ -233,8 +228,6 @@ app.post('/saveDish', isLoggedIn, async (req, res) => {
     res.status(500).json({ error: 'Failed to save dish' });
   }
 });
-
-
 
 
 app.post('/unSaveDish', isLoggedIn, async (req, res) => {
@@ -382,6 +375,7 @@ app.get('/postEdit/:id', isLoggedIn, async (req, res) => {
 
 });
 app.post('/editDish/:id', isLoggedIn, upload.single('dishImage'), async (req, res) => {
+  
   try {
     let updatedData = {
       dishName: req.body.dishName,
@@ -514,12 +508,13 @@ app.post('/getDishListAsPerCategory', async (req, res) => {
 });
 
 app.post("/updateProfile",upload.single('profileImage'), async (req,res)=>{
+   console.log(req.body.id);
   const user = await userModel.findByIdAndUpdate(
     req.body.id, 
     { profilePic: req.file.filename }, 
     { new: true }  
   );
-  console.log(user);
+  
   
   
   res.status(200).json({
@@ -534,9 +529,9 @@ app.post("/updateProfile",upload.single('profileImage'), async (req,res)=>{
 
 
 
-app.get('/allUserPost',async (req,res)=>{
+ app.get('/allUserPost',async (req,res)=>{
   const post = await postModel.find();
-  res.send(post);
+   res.send(post);
 });
 
 app.get('/viewProfile/:id', async (req,res)=>{
