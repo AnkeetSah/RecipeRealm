@@ -269,10 +269,17 @@ app.get('/account/userSavedRecipe', isLoggedIn, async (req, res) => {
       email: req.user.email
     });
 
-    console.log(user.savedPost);
+    console.log((user.savedPost));
 
     let recipes = [];
     for (let id of user.savedPost) {
+      if(id.length>8){
+        let recipe = await postModel.findById(id);
+        recipes.push(recipe);
+        console.log(recipe._id);
+
+      }else{
+        
       try {
         const recipeResponse = await fetch(
           `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`
@@ -284,9 +291,10 @@ app.get('/account/userSavedRecipe', isLoggedIn, async (req, res) => {
       } catch (error) {
         console.error(`Error fetching recipe with id ${id}:`, error);
       }
+      }
     }
 
-    console.log(recipes)
+   
 
     res.render('savedPost', { recipes });
   } catch (error) {
@@ -294,6 +302,9 @@ app.get('/account/userSavedRecipe', isLoggedIn, async (req, res) => {
     res.status(500).send("An error occurred while fetching data.");
   }
 });
+
+
+
 app.get('/account/postcreated', isLoggedIn, async (req, res) => {
   let user = await userModel.findOne({ email: req.user.email }).populate('post');
   let post = (user.post);
@@ -399,6 +410,9 @@ app.post('/editDish/:id', isLoggedIn, upload.single('dishImage'), async (req, re
   }
 });
 app.get('/seeRecipe/:id', isLoggedIn, async (req, res) => {
+  let user = await userModel.findOne({
+    email: req.user.email
+  });
   const postId = req.params.id;
   let postData = await postModel.findOne({
     _id: req.params.id
@@ -413,7 +427,7 @@ app.get('/seeRecipe/:id', isLoggedIn, async (req, res) => {
 
 
 
-  res.render('userRecipe', { postData, ingredients, instruction, userData, postId });
+  res.render('userRecipe', { postData, ingredients, instruction, userData, postId,user });
 
 });
 app.post('/likeUpdate', isLoggedIn, async (req, res) => {

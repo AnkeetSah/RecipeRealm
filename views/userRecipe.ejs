@@ -393,6 +393,13 @@
       position: relative;
   
   }
+  iframe {
+    width: 100%; /* Make the iframe width 100% of its parent container */
+    max-width: 500px; /* Set a max-width to limit its expansion on large screens */
+    height: auto; /* Let the height adjust proportionally */
+    aspect-ratio: 16/9; /* Maintain a 16:9 aspect ratio */
+  }
+  
     </style>
   </head>
   <body>
@@ -453,7 +460,7 @@
               <%= postData.total_likes.length %> Likes
             </button>     
             <button id="comment" href="#">Comments</button>
-            <button href="#">Save</button>
+            <button id="saveRecipeBtn"  onclick="saveRecipe()">Save</button>
           </div>
           <h4
             style="
@@ -644,6 +651,95 @@ commentButton.addEventListener("click", function () {
   console.log('object');
   comment_div.classList.toggle("show-comment");
 });
+
+
+
+
+
+const saveRecipeBtn = document.getElementById('saveRecipeBtn');
+console.log('yeh hai '+postId);
+        
+        const user='<%= user.savedPost %>';
+        let savedArray= user.split(',');
+        console.log(savedArray);
+        let dishId=postId
+        function saveRecipe() {
+            event.preventDefault(); // Prevent default anchor tag behavior
+
+            // Determine action based on current state
+            if (saveRecipeBtn.style.backgroundColor === 'black') {
+                // Already saved, so unsave
+                unSaveDish();
+            } else {
+                // Not saved, so save
+                saveDish();
+            }
+        }
+
+
+        // Function to handle saving recipe
+          // Function to save the dish
+          function saveDish() {
+            fetch('/saveDish', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ dishId })
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json(); // Parse response JSON
+                }
+                throw new Error('Failed to save recipe');
+            })
+            .then(data => {
+                // Update UI after successful save
+                saveRecipeBtn.textContent = 'Saved';
+                saveRecipeBtn.style.backgroundColor = 'black';
+                isSaved = true;
+            })
+            .catch(error => {
+                console.error('Error saving recipe:', error);
+                // Optionally show error message to user
+            });
+        }
+        // Function to unsave the dish
+        function unSaveDish() {
+            fetch('/unSaveDish', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ dishId })
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json(); // Parse response JSON
+                }
+                throw new Error('Failed to unsave recipe');
+            })
+            .then(data => {
+                // Update UI after successful unsave
+                saveRecipeBtn.textContent = 'Save';
+                saveRecipeBtn.style.backgroundColor = '#444';
+                isSaved = false;
+            })
+            .catch(error => {
+                console.error('Error unsaving recipe:', error);
+                // Optionally show error message to user
+            });
+        }
+
+        window.onload = function() {
+            if(savedArray.includes(dishId)){
+                saveRecipeBtn.textContent = 'Saved';
+                saveRecipeBtn.style.backgroundColor = 'black';
+            }
+            else{
+                saveRecipeBtn.style.backgroundColor = '#444';
+            }
+        };
 
 
    

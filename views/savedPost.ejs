@@ -293,11 +293,20 @@
             <% if (recipes && recipes.length) { %>
                 <% recipes.forEach(recipe => { %>
                     <div class="post">
-                        <img src="<%= recipe.strMealThumb %>" alt="">
-                        <p><%= recipe.strMeal  %></p>
+                        <% if (recipe.strMealThumb) { %>
+                            <img src="<%= recipe.strMealThumb %>" alt="Recipe Image">
+                        <% } else { %>
+                            <img src="/images/uploads/<%= recipe.filename %>" alt="Uploaded Image">
+                        <% } %>
+                        <p><%= recipe.strMeal %>  <%= recipe.dishName %> </p>
                         <div class="action">
                             <p>Unsave</p>
-                            <a href="/places/<%= recipe.strArea %>/<%= recipe.idMeal%>">View</a>
+                            <% if (recipe.idMeal) { %>
+                                <a href="/places/<%= recipe.strArea %>/<%= recipe.idMeal %>">View</a>
+                            <% } else { %>
+                                <a href="/seeRecipe/<%= recipe._id %>">View</a>
+                            <% } %>
+                            
                         </div>
                     </div>
                 <% }) %>
