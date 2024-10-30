@@ -1,0 +1,79 @@
+{
+  "dishName": "chicken fried rice",
+  "ingredients": [
+    {
+      "name": "chicken",
+      "measurement": "1 pound",
+      "unit": "boneless, skinless, diced"
+    },
+    {
+      "name": "rice",
+      "measurement": "2 cups",
+      "unit": "cooked"
+    },
+    {
+      "name": "onions",
+      "measurement": "1",
+      "unit": "medium, chopped"
+    },
+    {
+      "name": "garlic",
+      "measurement": "2",
+      "unit": "cloves, minced"
+    },
+    {
+      "name": "bell peppers",
+      "measurement": "1",
+      "unit": "large, chopped"
+    },
+    {
+      "name": "soy sauce",
+      "measurement": "1/4 cup",
+      "unit": ""
+    },
+    {
+      "name": "vegetable oil",
+      "measurement": "2",
+      "unit": "tablespoons"
+    },
+    {
+      "name": "salt",
+      "measurement": "1/2",
+      "unit": "teaspoon"
+    },
+    {
+      "name": "black pepper",
+      "measurement": "1/4",
+      "unit": "teaspoon"
+    }
+  ],
+  "instructions": [
+    "heat the vegetable oil in a large skillet or wok over medium heat.",
+    "add the chicken and cook until browned on all sides.",
+    "remove the chicken from the skillet and set aside.",
+    "add the onions and garlic to the skillet and cook until softened, about 3 minutes.",
+    "add the bell peppers and cook for 2 more minutes.",
+    "stir in the soy sauce, salt, and pepper.",
+    "return the chicken to the skillet and add the cooked rice.",
+    "stir to combine everything.",
+    "cook for 2-3 minutes, or until heated through."
+  ],
+  "tips": [
+    "use a non-stick skillet or wok for easier cooking.",
+    "if you like your fried rice with a bit of heat, add a pinch of red pepper flakes.",
+    "for extra flavor, you can add a splash of sesame oil to the skillet before cooking the chicken."
+  ],
+  "substitutions": [
+    "if you don't have soy sauce, you can use tamari or a low-sodium soy sauce.",
+    "if you don't have bell peppers, you can use other vegetables like carrots, peas, or broccoli.",
+    "if you don't have fresh garlic, you can use 1/4 teaspoon of garlic powder.",
+    "if you don't have fresh ginger, you can omit it or substitute it with 1/4 teaspoon of ground ginger."
+  ],
+  "cookingTime": "20 minutes",
+  "nutritionalInformation": [
+    "calories: 350",
+    "protein: 25 grams",
+    "carbohydrates: 40 grams",
+    "fat: 10 grams"
+  ]
+}

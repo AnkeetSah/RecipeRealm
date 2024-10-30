@@ -581,7 +581,75 @@ app.get('/logout', (req, res) => {
   res.cookie('token', '');
   res.redirect('/');
 });
+/**************************************************************************************************** */
+require("dotenv").config();
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
+async function run(dish, country, language) {
+  const text = `You have to act like world best chief I have the following ingredients: ${dish} for country ${country}. Can you suggest a recipe that uses most or all of these ingredients? Please include:
+The dish name,
+    A list of additional ingredients if needed with there measurement having key name as measurement,
+        Step-by-step instructions,
+            Tips for cooking or substitutions it should be like this [
+    "If you don't have sesame oil, you can use olive oil or vegetable oil.",
+    "If you don't have soy sauce, you can use tamari or a low-sodium soy sauce.",
+    "If you don't like ginger, you can omit it or substitute it with 1/4 teaspoon of ground ginger."
+  ],
+            Nutritional information of the meal as array like this [
+    "calories: 350",
+    "protein: 25 grams",
+    "carbohydrates: 40 grams",
+    "fat: 10 grams"
+  ],
+                An estimated cooking time.
+
+Focus on creating a flavorful and easy-to-make dish!
+give the response in different section give the response in braces for each section like dishname in one braces ingredients in another braces and 
+
+instruction in another braces tips another braces substitution another braces cooking time in another Nutritional information in another braces
+
+give the response in form of javascript object in ${language}
+ language all in small letter and camel case and plural use instructions tips substitutions all in small letter only give the response and dont say anything in the begning just give the result `;
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+  const result = await model.generateContent([text]);
+  const recipeText = result.response.text();
+  console.log(recipeText)
+ const cleanedRecipeText = recipeText
+ .replace(/```(?:javascript|json)?\s*/g, "")  // Removes ```javascript or ```json
+ .replace(/\s*```/g, "")  // Removes closing ```
+ .replace(/,\s*([}\]])/g, "$1") // Remove trailing commas before closing braces/brackets
+ .trim();
+
+try {
+ const recipeObject = JSON.parse(cleanedRecipeText);
+ fs.writeFileSync("recipe.txt", JSON.stringify(recipeObject, null, 2), "utf8");
+ console.log(recipeObject);
+ console.log("Recipe saved to recipe.json");
+ return recipeObject;
+} catch (error) {
+ console.error("Error parsing recipe text:", error);
+ console.error("Response received:", cleanedRecipeText); // Log the problematic response
+}
+
+}
+// run();
+
+app.get("/aiform", (req, res) => {
+  res.render("form");
+});
+
+app.post("/aiResponse", async (req, res) => {
+  const { dish, language, country } = req.body;
+  const recipeObject = await run(dish, country, language);
+  if (recipeObject) {
+    res.render("recipe1", { recipeObject });
+  } else {
+    res.status(500).send("Failed to generate recipe."); // Handle the error gracefully
+  }
+});
+
+/************************************************************* */
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000");
