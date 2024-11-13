@@ -1,75 +1,73 @@
 {
-  "dishName": "chicken fried rice",
+  "dishName": "मुर्गी चावल (Murgi Chawal)",
   "ingredients": [
     {
-      "name": "chicken",
-      "measurement": "1 pound",
-      "unit": "boneless, skinless, diced"
+      "name": "चिकन",
+      "measurement": "500 ग्राम",
+      "type": "बोनलेस और स्किनलेस"
     },
     {
-      "name": "rice",
-      "measurement": "2 cups",
-      "unit": "cooked"
+      "name": "चावल",
+      "measurement": "2 कप"
     },
     {
-      "name": "onions",
-      "measurement": "1",
-      "unit": "medium, diced"
+      "name": "प्याज",
+      "measurement": "1 बड़ा, कटा हुआ"
     },
     {
-      "name": "garlic",
-      "measurement": "2",
-      "unit": "cloves, minced"
+      "name": "लहसुन",
+      "measurement": "4 लौंग, कटी हुई"
     },
     {
-      "name": "bell peppers",
-      "measurement": "1",
-      "unit": "medium, diced"
+      "name": "शिमला मिर्च",
+      "measurement": "1, कटी हुई"
     },
     {
-      "name": "soy sauce",
-      "measurement": "1/4 cup",
-      "unit": ""
+      "name": "सोया सॉस",
+      "measurement": "1/4 कप"
     },
     {
-      "name": "vegetable oil",
-      "measurement": "2",
-      "unit": "tablespoons"
+      "name": "नमक",
+      "measurement": "स्वादानुसार"
     },
     {
-      "name": "salt",
-      "measurement": "1/2",
-      "unit": "teaspoon"
+      "name": "काली मिर्च",
+      "measurement": "1/2 छोटा चम्मच"
     },
     {
-      "name": "black pepper",
-      "measurement": "1/4",
-      "unit": "teaspoon"
+      "name": "तेल",
+      "measurement": "2 बड़े चम्मच"
+    },
+    {
+      "name": "हरा धनिया",
+      "measurement": "1/4 कप, कटा हुआ (गार्निशिंग के लिए)"
     }
   ],
   "instructions": [
-    "heat the vegetable oil in a large skillet or wok over medium heat.",
-    "add the chicken and cook until browned on all sides.",
-    "add the onions, garlic, and bell peppers to the skillet and cook until softened, about 5 minutes.",
-    "stir in the cooked rice, soy sauce, salt, and pepper.",
-    "cook for 2-3 minutes, or until heated through.",
-    "serve immediately."
+    "एक बड़े पैन या कढ़ाई में तेल गरम करें।",
+    "प्याज और लहसुन डालें और सुनहरा भूरा होने तक भूनें।",
+    "चिकन डालें और अच्छी तरह से पकाएं।",
+    "शिमला मिर्च डालें और कुछ मिनट तक भूनें।",
+    "सोया सॉस, नमक और काली मिर्च डालें।",
+    "चावल डालें और अच्छी तरह मिलाएं।",
+    "2 कप पानी डालें और उबाल आने दें।",
+    "धीमी आँच पर ढककर 15-20 मिनट तक पकाएं या जब तक चावल नर्म न हो जाएँ।",
+    "हरा धनिया डालें और गरमा गरम सर्व करें।"
   ],
   "tips": [
-    "for a more flavorful dish, use chicken broth instead of water to cook the rice.",
-    "add a pinch of red pepper flakes for a bit of heat.",
-    "garnish with chopped green onions or sesame seeds before serving.",
-    "you can also add other vegetables to your chicken fried rice, such as carrots, peas, or broccoli."
+    "अगर आप चाहें तो चिकन को मसालों में मैरीनेट कर सकते हैं।",
+    "आप चाहें तो चावल को पहले से पका भी सकते हैं।",
+    "अगर आपके पास हरा धनिया नहीं है, तो आप इसके बदले पार्सली या धनिया का प्रयोग कर सकते हैं।",
+    "आप चाहें तो अपने पसंद के अनुसार मसाले डाल सकते हैं।"
   ],
   "substitutions": [
-    "if you don't have soy sauce, you can use tamari or a low-sodium soy sauce.",
-    "if you don't like bell peppers, you can omit them or substitute them with other vegetables, such as carrots, peas, or broccoli."
+    "अगर आपके पास सोया सॉस नहीं है, तो आप उसके बदले टमारी या कम सोडियम सोया सॉस का उपयोग कर सकते हैं।"
   ],
-  "cookingTime": "30 minutes",
+  "cookingTime": "30 मिनट",
   "nutritionalInformation": [
-    "calories: 350",
-    "protein: 25 grams",
-    "carbohydrates: 40 grams",
-    "fat: 10 grams"
+    "कैलोरी: 350",
+    "प्रोटीन: 25 ग्राम",
+    "कार्बोहाइड्रेट: 40 ग्राम",
+    "वसा: 10 ग्राम"
   ]
 }

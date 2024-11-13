@@ -99,13 +99,14 @@
 
     /* Login/Signup Form Styles */
     .form-container {
-      background-color: #1f1f1f;
+      
       padding: 20px;
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
       width: 300px;
       margin-top: 20px;
       display: none;
+      background: rgba(0, 0, 0, 0.6);
     }
 
     body.show-form .form-container {
@@ -121,6 +122,10 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      background-image: url('https://img.freepik.com/premium-photo/food-cooking-frame-background-ingredients-prepare-green-lentils-with-vegetables-spices-herbs-wooden-kitchen-table-background-place-text-vegan-vegetarian-food-oncept-top-view-flat-lay_630207-7101.jpg?w=996');
+      background-repeat: no-repeat;
+      background-size: cover; 
+    background-position: center; 
     }
 
     header {
@@ -129,8 +134,8 @@
       justify-content: flex-start;
       width: 100%;
       padding: 6px 5px;
-      background-color: #1f1f1f;
-      border-bottom: 1px solid #555;
+      background-color: black;
+    
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
     }
 
@@ -194,6 +199,15 @@
     .none {
       display: none !important;
     }
+
+    .container{
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
   </style>
 </head>
 <body>
@@ -218,6 +232,7 @@
     </div>
   </header>
 
+ <div class="container">
   <div class="form-container" id="formContainer">
     <form id="loginForm" action="/login" method="post">
       <h1 id="loginTitle" class="formTitle">Login</h1>
@@ -242,6 +257,7 @@
     </form>
   </div>
 
+ </div>
   <script>
     // Hide splash screen after 3 seconds
     document.addEventListener('DOMContentLoaded', function() {

@@ -585,7 +585,7 @@ app.get('/logout', (req, res) => {
 require("dotenv").config();
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-console.log(genAI);
+console.log(process.env.GEMINI_API_KEY);
 async function run(dish, country, language) {
   const text = `You have to act like world best chief I have the following ingredients: ${dish} for country ${country}. Can you suggest a recipe that uses most or all of these ingredients? Please include:
 The dish name,
@@ -627,7 +627,7 @@ try {
  console.log(recipeObject);
  console.log("Recipe saved to recipe.json");
  return recipeObject;
-} catch (error) {
+} catch (error) {``
  console.error("Error parsing recipe text:", error);
  console.error("Response received:", cleanedRecipeText); // Log the problematic response
 }
