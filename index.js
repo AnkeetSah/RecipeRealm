@@ -37,8 +37,14 @@ const homeRoutes = require("./routes/homeRoutes");
 app.use('/home', homeRoutes);
 app.use("/", signupRoute);
 
-app.post("/register", (req, res) => {
+app.post("/register", async (req, res) => {
   let { name, email, password } = req.body;
+  const existingUser = await userModel.findOne({ email });
+  if (existingUser) {
+    return res.json({ error: "This email is already registered!" });
+  }
+
+
   bcrypt.genSalt(10, (err, salt) => {
     bcrypt.hash(password, salt, async (err, hash) => {
       let user = await userModel.create({
@@ -50,10 +56,23 @@ app.post("/register", (req, res) => {
 
       let token = jwt.sign({ email, userid: user._id }, "shhhhh");
       res.cookie("token", token);
-      res.status(200).redirect("/home");
+      res.json({ success: "Registration successful!" });
     });
   });
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
   console.log(password)
@@ -592,7 +611,7 @@ app.get('/logout', (req, res) => {
 
 app.get('/delete', isLoggedIn, async (req, res) => {
   try {
-    
+
     let user = await userModel.findByIdAndDelete(req.user.userid);
 
     if (!user) {

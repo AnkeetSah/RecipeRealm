@@ -215,10 +215,22 @@
     }
 
     .messageDiv {
-      color: RED;
+      color: red;
       text-align: center;
       font-weight: bold;
-      margin-top: 20PX;
+      margin-top: 20px;
+
+      border-radius: 5px;
+      display: inline-block;
+    }
+
+    .messageDiv.success {
+      color: green;
+      background-color: rgba(0, 255, 0, 0.1);
+    }
+
+    .success-message {
+      text-align: center;
     }
   </style>
 </head>
@@ -271,6 +283,8 @@
         <div class="switch-form">
           <p id="switchText">Have an account? <a href="#" id="switchLogLink">Log in</a></p>
         </div>
+        <div id="error-message" style="color: red; font-weight: bold; display: none;"></div>
+        <div id="success-message" style="color: green; font-weight: bold; display: none;"></div>
       </form>
     </div>
 
@@ -281,39 +295,39 @@
       setTimeout(() => {
         document.body.classList.add('show-form');
       }, 2000);
-    
+
       // Toggle between login and signup forms
       const switchtoSignLink = document.getElementById('switchtoSignLink');
       const switchLogLink = document.getElementById('switchLogLink');
       const loginForm = document.getElementById('loginForm');
       const signupForm = document.getElementById('signupForm');
       const messageDiv = document.querySelector('.messageDiv');
-    
+
       // Hide login and show sign-up
       switchtoSignLink.addEventListener('click', function (e) {
         e.preventDefault();
         loginForm.classList.add('none');
         signupForm.classList.remove('none');
       });
-    
+
       // Hide sign-up and show login
       switchLogLink.addEventListener('click', function (e) {
         e.preventDefault();
         signupForm.classList.add('none');
         loginForm.classList.remove('none');
       });
-    
+
       // Handle login form submission using Fetch API
       loginForm.addEventListener('submit', async function (e) {
         e.preventDefault(); // Prevent default form submission
-    
+
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
         const loginButton = loginForm.querySelector('input[type="submit"]');
-    
+
         // Disable the button during login processing
         loginButton.disabled = true;
-    
+
         try {
           const response = await fetch('/login', {
             method: 'POST',
@@ -322,9 +336,9 @@
             },
             body: JSON.stringify({ email, password }),
           });
-    
+
           const data = await response.json();
-    
+
           if (response.ok) {
             // Save authentication token if provided
             if (data.token) {
@@ -342,27 +356,73 @@
           loginButton.disabled = false;
         }
       });
-    
+
       // Function to display messages dynamically
       function showMessage(message, type) {
         // Clear any previous message
         messageDiv.textContent = '';
-    
+
         // Set the error message
         messageDiv.textContent = message;
-    
+
         // You could also add additional styling based on the error type, if needed.
         messageDiv.style.color = type === 'error' ? 'red' : 'green';
-    
+
         // Display the message and set a timeout to remove it
         setTimeout(() => {
           messageDiv.textContent = '';  // Clears the message after 5 seconds
         }, 5000);
       }
     });
-    
+
+    signupForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(signupForm);
+      const formObject = {};
+      formData.forEach((value, key) => {
+        formObject[key] = value;
+      });
+
+
+      try {
+        // Send data to server using fetch and async/await
+        const response = await fetch('/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(formObject)  // Send the form data as JSON
+        });
+
+        const result = await response.json();  // Parse JSON response
+
+        // Handle success and error messages with template literals
+        if (result.success) {
+          window.location.href = '/home';
+        } else if (result.error) {
+          document.getElementById('error-message').textContent = `${result.error}`;
+          document.getElementById('error-message').style.display = 'block';
+          document.getElementById('success-message').style.display = 'none';
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('error-message').textContent = 'An error occurred. Please try again.';
+        document.getElementById('error-message').style.display = 'block';
+        document.getElementById('success-message').style.display = 'none';
+      }
+
+
+
+    })
+
+
+
+
+
+
+
   </script>
-  
+
 
 </body>
 
