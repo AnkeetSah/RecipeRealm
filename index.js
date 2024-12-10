@@ -589,6 +589,26 @@ app.get('/logout', (req, res) => {
   res.cookie('token', '');
   res.redirect('/');
 });
+
+app.get('/delete', isLoggedIn, async (req, res) => {
+  try {
+    
+    let user = await userModel.findByIdAndDelete(req.user.userid);
+
+    if (!user) {
+      console.log('User not found');
+      return res.status(404).send('User not found');
+    }
+
+    console.log('Account deleted successfully:', user);
+    res.cookie('token', '', { maxAge: 0 });
+    res.render('deleted');
+  } catch (error) {
+    console.error('Error deleting account:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 /**************************************************************************************************** */
 require("dotenv").config();
 const { GoogleGenerativeAI } = require("@google/generative-ai");
@@ -631,7 +651,7 @@ give the response in form of javascript object in ${language}
 
   try {
     const recipeObject = JSON.parse(cleanedRecipeText);
-    fs.writeFileSync("recipe.txt", JSON.stringify(recipeObject, null, 2), "utf8");
+    // fs.writeFileSync("recipe.txt", JSON.stringify(recipeObject, null, 2), "utf8");
     console.log(recipeObject);
     console.log("Recipe saved to recipe.json");
     return recipeObject;

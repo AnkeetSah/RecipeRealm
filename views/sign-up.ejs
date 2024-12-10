@@ -333,7 +333,7 @@
             // Redirect to dashboard
             window.location.href = '/home';
           } else {
-            showMessage(data.message || 'Login failed. Please try again.', 'error');
+            showMessage(data.message || 'Invalid Credential. Please try again.', 'error');
           }
         } catch (error) {
           console.error('Error:', error);

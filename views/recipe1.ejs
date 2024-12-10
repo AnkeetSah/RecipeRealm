@@ -27,7 +27,7 @@
             max-width: 800px;
             margin: 60px auto;
             padding: 20px;
-            background: #1e1e1e; /* Darker container background */
+            background: #f2efef; /* Darker container background */
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
             
@@ -247,7 +247,7 @@
             
 <ul>
     <% recipeObject.ingredients.forEach(e => { %>
-        <li><%= e.name %> <%= e.ingredient %>  <%= e.measurement%> <%= e.unit %></li>
+        <li><%=e.item%><%= e.name %> <%= e.ingredient %>  <%= e.measurement%></li>
     <% }) %>
 </ul>
         </section>

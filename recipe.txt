@@ -1,73 +1,111 @@
 {
-  "dishName": "मुर्गी चावल (Murgi Chawal)",
+  "dishName": "indian style chicken and rice stir-fry",
   "ingredients": [
     {
-      "name": "चिकन",
-      "measurement": "500 ग्राम",
-      "type": "बोनलेस और स्किनलेस"
+      "item": "chicken breast",
+      "measurement": "1 pound",
+      "unit": "pound"
     },
     {
-      "name": "चावल",
-      "measurement": "2 कप"
+      "item": "basmati rice",
+      "measurement": "1 cup",
+      "unit": "cup"
     },
     {
-      "name": "प्याज",
-      "measurement": "1 बड़ा, कटा हुआ"
+      "item": "onions",
+      "measurement": "1 medium",
+      "unit": "medium"
     },
     {
-      "name": "लहसुन",
-      "measurement": "4 लौंग, कटी हुई"
+      "item": "garlic",
+      "measurement": "2 cloves",
+      "unit": "cloves"
     },
     {
-      "name": "शिमला मिर्च",
-      "measurement": "1, कटी हुई"
+      "item": "bell peppers",
+      "measurement": "1 medium",
+      "unit": "medium"
     },
     {
-      "name": "सोया सॉस",
-      "measurement": "1/4 कप"
+      "item": "soy sauce",
+      "measurement": "2 tablespoons",
+      "unit": "tablespoons"
     },
     {
-      "name": "नमक",
-      "measurement": "स्वादानुसार"
+      "item": "ginger",
+      "measurement": "1 tablespoon",
+      "unit": "tablespoon",
+      "form": "grated"
     },
     {
-      "name": "काली मिर्च",
-      "measurement": "1/2 छोटा चम्मच"
+      "item": "vegetable oil",
+      "measurement": "1 tablespoon",
+      "unit": "tablespoon"
     },
     {
-      "name": "तेल",
-      "measurement": "2 बड़े चम्मच"
+      "item": "turmeric powder",
+      "measurement": "1/2 teaspoon",
+      "unit": "teaspoon"
     },
     {
-      "name": "हरा धनिया",
-      "measurement": "1/4 कप, कटा हुआ (गार्निशिंग के लिए)"
+      "item": "red chili powder",
+      "measurement": "1/2 teaspoon",
+      "unit": "teaspoon"
+    },
+    {
+      "item": "coriander powder",
+      "measurement": "1 teaspoon",
+      "unit": "teaspoon"
+    },
+    {
+      "item": "salt",
+      "measurement": "to taste",
+      "unit": "to taste"
+    },
+    {
+      "item": "water",
+      "measurement": "1 1/2 cups",
+      "unit": "cups"
+    },
+    {
+      "item": "fresh cilantro",
+      "measurement": "2 tablespoons",
+      "unit": "tablespoons",
+      "form": "chopped"
     }
   ],
   "instructions": [
-    "एक बड़े पैन या कढ़ाई में तेल गरम करें।",
-    "प्याज और लहसुन डालें और सुनहरा भूरा होने तक भूनें।",
-    "चिकन डालें और अच्छी तरह से पकाएं।",
-    "शिमला मिर्च डालें और कुछ मिनट तक भूनें।",
-    "सोया सॉस, नमक और काली मिर्च डालें।",
-    "चावल डालें और अच्छी तरह मिलाएं।",
-    "2 कप पानी डालें और उबाल आने दें।",
-    "धीमी आँच पर ढककर 15-20 मिनट तक पकाएं या जब तक चावल नर्म न हो जाएँ।",
-    "हरा धनिया डालें और गरमा गरम सर्व करें।"
+    "rinse the rice and cook according to package directions.",
+    "dice the chicken breast into bite-sized pieces.",
+    "finely chop the onions, garlic, and bell peppers.",
+    "grate the ginger.",
+    "heat the oil in a large pan or wok over medium-high heat.",
+    "add the chicken and cook until browned, about 5-7 minutes.",
+    "add the onions, garlic, and bell peppers and cook until softened, about 3-5 minutes.",
+    "stir in the ginger, turmeric powder, red chili powder, coriander powder, and salt.",
+    "cook for 1 minute, stirring constantly.",
+    "pour in the soy sauce and water.",
+    "bring to a boil, then reduce heat and simmer for 10-15 minutes, or until the chicken is cooked through and the sauce has thickened.",
+    "stir in the cooked rice and fresh cilantro.",
+    "serve hot."
   ],
   "tips": [
-    "अगर आप चाहें तो चिकन को मसालों में मैरीनेट कर सकते हैं।",
-    "आप चाहें तो चावल को पहले से पका भी सकते हैं।",
-    "अगर आपके पास हरा धनिया नहीं है, तो आप इसके बदले पार्सली या धनिया का प्रयोग कर सकते हैं।",
-    "आप चाहें तो अपने पसंद के अनुसार मसाले डाल सकते हैं।"
+    "for extra flavor, marinate the chicken in the soy sauce, ginger, and spices for at least 30 minutes before cooking.",
+    "adjust the amount of red chili powder to your preferred level of spiciness.",
+    "if you like, you can add other vegetables, such as peas, carrots, or broccoli.",
+    "serve with a side of raita (yogurt dip) for a cooling contrast."
   ],
   "substitutions": [
-    "अगर आपके पास सोया सॉस नहीं है, तो आप उसके बदले टमारी या कम सोडियम सोया सॉस का उपयोग कर सकते हैं।"
+    "if you don't have basmati rice, you can use any other type of long-grain rice.",
+    "if you don't have fresh ginger, you can use 1/2 teaspoon of ground ginger.",
+    "if you don't have red chili powder, you can use a pinch of cayenne pepper.",
+    "if you don't have coriander powder, you can omit it or use another spice like cumin."
   ],
-  "cookingTime": "30 मिनट",
+  "cookingTime": "30-40 minutes",
   "nutritionalInformation": [
-    "कैलोरी: 350",
-    "प्रोटीन: 25 ग्राम",
-    "कार्बोहाइड्रेट: 40 ग्राम",
-    "वसा: 10 ग्राम"
+    "calories: 400-450",
+    "protein: 30-35 grams",
+    "carbohydrates: 50-55 grams",
+    "fat: 12-15 grams"
   ]
 }
