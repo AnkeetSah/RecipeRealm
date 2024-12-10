@@ -29,12 +29,12 @@ app.use(cors());
 /*****************/
 
 const signupRoute = require("./routes/signup");
-const homeRoutes=require("./routes/homeRoutes");
+const homeRoutes = require("./routes/homeRoutes");
 
 /***************/
 
 
-app.use('/home',homeRoutes);
+app.use('/home', homeRoutes);
 app.use("/", signupRoute);
 
 app.post("/register", (req, res) => {
@@ -55,23 +55,31 @@ app.post("/register", (req, res) => {
   });
 });
 app.post("/login", async (req, res) => {
-  let { email, password } = req.body;
- 
-  const user = await userModel.findOne({ email: req.body.email });
-  if (user) {
-    bcrypt.compare(password, user.password, (err, result) => {
-      if (result) {
-        let token = jwt.sign({ email, userid: user._id }, "shhhhh");
-        res.cookie("token", token);
-        res.status(200).redirect("/home");
-      } else {
-        res.redirect("/login");
-      }
-    });
-  } else{
-    res.redirect("/");
+  const { email, password } = req.body;
+  console.log(password)
+
+  try {
+    const user = await userModel.findOne({ email });
+    if (user) {
+      bcrypt.compare(password, user.password, (err, result) => {
+        if (result) {
+          const token = jwt.sign({ email, userid: user._id }, "shhhhh");
+          res.cookie("token", token);
+          res.status(200).send({ success: true, message: "Login successful", token });
+        } else {
+          res.status(401).send({ success: false, error: "Invalid Credentials" });
+        }
+      });
+    } else {
+      res.status(401).send({ success: false, error: "Invalid Credentials" });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ success: false, error: "Server error" });
   }
 });
+
+
 
 app.get("/places/:areaname", async (req, res) => {
   const key = req.params.areaname;
@@ -102,7 +110,7 @@ app.get("/places/:areaname", async (req, res) => {
     dishData.map((dishData) => {
       dishData.area = key;
     });
-  
+
     res.render("areadish", { dishData });
   } catch (error) {
     console.error(error);
@@ -201,7 +209,7 @@ app.get('/recipe/item/:id', isLoggedIn, async (req, res) => {
 app.post('/saveDish', isLoggedIn, async (req, res) => {
   let { dishId } = req.body;  // Change 'id' to 'dishId' here for consistency
   console.log(dishId);  // Logging the dishId
-  
+
   try {
     // Find the user by email
     let user = await userModel.findOne({ email: req.user.email });
@@ -273,28 +281,28 @@ app.get('/account/userSavedRecipe', isLoggedIn, async (req, res) => {
 
     let recipes = [];
     for (let id of user.savedPost) {
-      if(id.length>8){
+      if (id.length > 8) {
         let recipe = await postModel.findById(id);
         recipes.push(recipe);
         console.log(recipe._id);
 
-      }else{
-        
-      try {
-        const recipeResponse = await fetch(
-          `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`
-        );
-        const recipe = await recipeResponse.json();
+      } else {
 
-        const data = recipe.meals[0];
-        recipes.push(data);
-      } catch (error) {
-        console.error(`Error fetching recipe with id ${id}:`, error);
-      }
+        try {
+          const recipeResponse = await fetch(
+            `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`
+          );
+          const recipe = await recipeResponse.json();
+
+          const data = recipe.meals[0];
+          recipes.push(data);
+        } catch (error) {
+          console.error(`Error fetching recipe with id ${id}:`, error);
+        }
       }
     }
 
-   
+
 
     res.render('savedPost', { recipes });
   } catch (error) {
@@ -386,7 +394,7 @@ app.get('/postEdit/:id', isLoggedIn, async (req, res) => {
 
 });
 app.post('/editDish/:id', isLoggedIn, upload.single('dishImage'), async (req, res) => {
-  
+
   try {
     let updatedData = {
       dishName: req.body.dishName,
@@ -427,7 +435,7 @@ app.get('/seeRecipe/:id', isLoggedIn, async (req, res) => {
 
 
 
-  res.render('userRecipe', { postData, ingredients, instruction, userData, postId,user });
+  res.render('userRecipe', { postData, ingredients, instruction, userData, postId, user });
 
 });
 app.post('/likeUpdate', isLoggedIn, async (req, res) => {
@@ -496,10 +504,10 @@ app.post('/comments', isLoggedIn, async (req, res) => {
 
 app.get('/getCategory', async (req, res) => {
   try {
-    const posts = await postModel.find(); 
-    const categories = posts.map(m => m.dishCategory); 
+    const posts = await postModel.find();
+    const categories = posts.map(m => m.dishCategory);
     const combinedIngredients = categories.join(',').split(',');
-    res.json(combinedIngredients); 
+    res.json(combinedIngredients);
   } catch (err) {
     console.error(err);
     res.status(500).send("Error fetching categories");
@@ -513,7 +521,7 @@ app.post('/getDishListAsPerCategory', async (req, res) => {
       const dishCategories = post.dishCategory.split(',').map(c => c.trim());
       return dishCategories.includes(cat);
     });
-  
+
     res.json(filteredPosts);
   } catch (error) {
     console.error('Error fetching posts:', error);
@@ -521,20 +529,20 @@ app.post('/getDishListAsPerCategory', async (req, res) => {
   }
 });
 
-app.post("/updateProfile",upload.single('profileImage'), async (req,res)=>{
-   console.log(req.body.id);
+app.post("/updateProfile", upload.single('profileImage'), async (req, res) => {
+  console.log(req.body.id);
   const user = await userModel.findByIdAndUpdate(
-    req.body.id, 
-    { profilePic: req.file.filename }, 
-    { new: true }  
+    req.body.id,
+    { profilePic: req.file.filename },
+    { new: true }
   );
-  
-  
-  
+
+
+
   res.status(200).json({
     message: "Profile updated successfully",
   });
-     
+
 
 
 
@@ -543,20 +551,20 @@ app.post("/updateProfile",upload.single('profileImage'), async (req,res)=>{
 
 
 
- app.get('/allUserPost',async (req,res)=>{
+app.get('/allUserPost', async (req, res) => {
   const post = await postModel.find();
-   res.send(post);
+  res.send(post);
 });
 
-app.get('/viewProfile/:id', async (req,res)=>{
-  
-   console.log(req.params.id);
-   
-  const user=await userModel.findById(req.params.id).populate('post');
+app.get('/viewProfile/:id', async (req, res) => {
+
+  console.log(req.params.id);
+
+  const user = await userModel.findById(req.params.id).populate('post');
   console.log(user);
 
-  
-  res.render('viewProfile',{user})
+
+  res.render('viewProfile', { user })
 
 
 });
@@ -615,22 +623,23 @@ give the response in form of javascript object in ${language}
   const result = await model.generateContent([text]);
   const recipeText = result.response.text();
   console.log(recipeText)
- const cleanedRecipeText = recipeText
- .replace(/```(?:javascript|json)?\s*/g, "")  // Removes ```javascript or ```json
- .replace(/\s*```/g, "")  // Removes closing ```
- .replace(/,\s*([}\]])/g, "$1") // Remove trailing commas before closing braces/brackets
- .trim();
+  const cleanedRecipeText = recipeText
+    .replace(/```(?:javascript|json)?\s*/g, "")  // Removes ```javascript or ```json
+    .replace(/\s*```/g, "")  // Removes closing ```
+    .replace(/,\s*([}\]])/g, "$1") // Remove trailing commas before closing braces/brackets
+    .trim();
 
-try {
- const recipeObject = JSON.parse(cleanedRecipeText);
- fs.writeFileSync("recipe.txt", JSON.stringify(recipeObject, null, 2), "utf8");
- console.log(recipeObject);
- console.log("Recipe saved to recipe.json");
- return recipeObject;
-} catch (error) {``
- console.error("Error parsing recipe text:", error);
- console.error("Response received:", cleanedRecipeText); // Log the problematic response
-}
+  try {
+    const recipeObject = JSON.parse(cleanedRecipeText);
+    fs.writeFileSync("recipe.txt", JSON.stringify(recipeObject, null, 2), "utf8");
+    console.log(recipeObject);
+    console.log("Recipe saved to recipe.json");
+    return recipeObject;
+  } catch (error) {
+    ``
+    console.error("Error parsing recipe text:", error);
+    console.error("Response received:", cleanedRecipeText); // Log the problematic response
+  }
 
 }
 // run();

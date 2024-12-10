@@ -1,21 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RecipeRealm by WebVerse Studios</title>
+
   <head>
     <meta property="og:title" content="RecipeRealm">
     <meta property="og:site_name" content="RecipeRealm">
     <meta property="og:url" content="https://reciperealm-1.onrender.com/">
-    <meta property="og:description" content="Explore a wide variety of recipes from around the world, add your own creations, like your favorites, and leave comments. Join our community of food lovers!">
+    <meta property="og:description"
+      content="Explore a wide variety of recipes from around the world, add your own creations, like your favorites, and leave comments. Join our community of food lovers!">
     <meta property="og:type" content="website">
     <meta property="og:image" content="https://reciperealm-1.onrender.com/images/og/og.png">
-    
-    
-    
+
+
+
   </head>
-  
+
   <style>
     /* Universal Styles */
     * {
@@ -24,12 +27,14 @@
       box-sizing: border-box;
     }
 
-    body, html {
+    body,
+    html {
       height: 100%;
       width: 100%;
-      
-      
-      background-color: black; /* Main background color */
+
+
+      background-color: black;
+      /* Main background color */
       font-family: 'Arial', sans-serif;
     }
 
@@ -66,7 +71,8 @@
     }
 
     .brand-name p {
-      color: #00FF00; /* Green Text */
+      color: #00FF00;
+      /* Green Text */
       font-size: 2em;
       font-weight: bold;
     }
@@ -99,7 +105,7 @@
 
     /* Login/Signup Form Styles */
     .form-container {
-      
+
       padding: 20px;
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
@@ -124,8 +130,8 @@
       align-items: center;
       background-image: url('https://img.freepik.com/premium-photo/food-cooking-frame-background-ingredients-prepare-green-lentils-with-vegetables-spices-herbs-wooden-kitchen-table-background-place-text-vegan-vegetarian-food-oncept-top-view-flat-lay_630207-7101.jpg?w=996');
       background-repeat: no-repeat;
-      background-size: cover; 
-    background-position: center; 
+      background-size: cover;
+      background-position: center;
     }
 
     header {
@@ -135,7 +141,7 @@
       width: 100%;
       padding: 6px 5px;
       background-color: black;
-    
+
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
     }
 
@@ -155,8 +161,8 @@
     }
 
     .form-container input {
-        display: block;
-        width: 100%;
+      display: block;
+      width: 100%;
       margin-bottom: 10px;
       padding: 10px;
       border-radius: 5px;
@@ -200,16 +206,23 @@
       display: none !important;
     }
 
-    .container{
+    .container {
       width: 100%;
       height: 100%;
       display: flex;
       justify-content: center;
       align-items: center;
     }
-    
+
+    .messageDiv {
+      color: RED;
+      text-align: center;
+      font-weight: bold;
+      margin-top: 20PX;
+    }
   </style>
 </head>
+
 <body>
 
   <!-- Splash Screen -->
@@ -218,7 +231,9 @@
       <img src="/images/appLogo/Screenshot__265_-removebg-preview (1).png" alt="WebVerse Studios Logo" class="logo">
     </div>
     <div class="brand-name">
-      <div class="from"><h3>from</h3></div>
+      <div class="from">
+        <h3>from</h3>
+      </div>
       <p>WebVerse Studios</p>
     </div>
   </div>
@@ -232,59 +247,123 @@
     </div>
   </header>
 
- <div class="container">
-  <div class="form-container" id="formContainer">
-    <form id="loginForm" action="/login" method="post">
-      <h1 id="loginTitle" class="formTitle">Login</h1>
-      <input type="email" name="email" placeholder="Email" required>
-      <input type="password" name="password" placeholder="Password" required>
-      <input type="submit" value="Login">
-      <div class="switch-form">
-        <p id="switchText">Don't have an account? <a href="#" id="switchtoSignLink">Sign Up</a></p>
-      </div>
-    </form>
+  <div class="container">
+    <div class="form-container" id="formContainer">
+      <form id="loginForm">
+        <h1 id="loginTitle" class="formTitle">Login</h1>
+        <input type="email" id="email" name="email" placeholder="Email" required>
+        <input type="password" id="password" name="password" placeholder="Password" required>
+        <input type="submit" value="Login">
+        <div class="switch-form">
+          <p id="switchText">Don't have an account? <a href="#" id="switchtoSignLink">Sign Up</a></p>
+        </div>
+      </form>
+      <div class="messageDiv"></div>
 
-    <form id="signupForm" action="/register" method="post" class="none">
-      <h1 id="signupTitle" class="formTitle">Sign Up</h1>
-      <input type="text" name="name" placeholder="Name" required>
-      <input type="email" name="email" placeholder="Email" required>
-      <input type="password" name="password" placeholder="Password" required>
-     
-      <input type="submit" value="Sign Up">
-      <div class="switch-form">
-        <p id="switchText">Have an account? <a href="#" id="switchLogLink">Log in</a></p>
-      </div>
-    </form>
+
+      <form id="signupForm" action="/register" method="post" class="none">
+        <h1 id="signupTitle" class="formTitle">Sign Up</h1>
+        <input type="text" name="name" placeholder="Name" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="password" name="password" placeholder="Password" required>
+
+        <input type="submit" value="Sign Up">
+        <div class="switch-form">
+          <p id="switchText">Have an account? <a href="#" id="switchLogLink">Log in</a></p>
+        </div>
+      </form>
+    </div>
+
   </div>
-
- </div>
   <script>
-    // Hide splash screen after 3 seconds
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
+      // Hide splash screen after 3 seconds
       setTimeout(() => {
         document.body.classList.add('show-form');
       }, 2000);
-
+    
       // Toggle between login and signup forms
       const switchtoSignLink = document.getElementById('switchtoSignLink');
       const switchLogLink = document.getElementById('switchLogLink');
       const loginForm = document.getElementById('loginForm');
       const signupForm = document.getElementById('signupForm');
-
-      switchtoSignLink.addEventListener('click', function(e) {
+      const messageDiv = document.querySelector('.messageDiv');
+    
+      // Hide login and show sign-up
+      switchtoSignLink.addEventListener('click', function (e) {
         e.preventDefault();
         loginForm.classList.add('none');
         signupForm.classList.remove('none');
       });
-
-      switchLogLink.addEventListener('click', function(e) {
+    
+      // Hide sign-up and show login
+      switchLogLink.addEventListener('click', function (e) {
         e.preventDefault();
         signupForm.classList.add('none');
         loginForm.classList.remove('none');
       });
+    
+      // Handle login form submission using Fetch API
+      loginForm.addEventListener('submit', async function (e) {
+        e.preventDefault(); // Prevent default form submission
+    
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const loginButton = loginForm.querySelector('input[type="submit"]');
+    
+        // Disable the button during login processing
+        loginButton.disabled = true;
+    
+        try {
+          const response = await fetch('/login', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, password }),
+          });
+    
+          const data = await response.json();
+    
+          if (response.ok) {
+            // Save authentication token if provided
+            if (data.token) {
+              localStorage.setItem('authToken', data.token);
+            }
+            // Redirect to dashboard
+            window.location.href = '/home';
+          } else {
+            showMessage(data.message || 'Login failed. Please try again.', 'error');
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          showMessage('An error occurred. Please try again later.', 'error');
+        } finally {
+          loginButton.disabled = false;
+        }
+      });
+    
+      // Function to display messages dynamically
+      function showMessage(message, type) {
+        // Clear any previous message
+        messageDiv.textContent = '';
+    
+        // Set the error message
+        messageDiv.textContent = message;
+    
+        // You could also add additional styling based on the error type, if needed.
+        messageDiv.style.color = type === 'error' ? 'red' : 'green';
+    
+        // Display the message and set a timeout to remove it
+        setTimeout(() => {
+          messageDiv.textContent = '';  // Clears the message after 5 seconds
+        }, 5000);
+      }
     });
+    
   </script>
+  
 
 </body>
+
 </html>
-  
