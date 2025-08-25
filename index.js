@@ -36,7 +36,9 @@ const homeRoutes = require("./routes/homeRoutes");
 
 app.use('/home', homeRoutes);
 app.use("/", signupRoute);
-
+app.get("/alive", (req, res) => {
+  res.send("server is running");
+});
 app.post("/register", async (req, res) => {
   let { name, email, password } = req.body;
   const existingUser = await userModel.findOne({ email });
