@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile Page</title>
+       <link rel="icon" type="image/png" href="./images/appLogo/fav.png">
+       <link rel="stylesheet" href="/css/header.css">
     <style>
         body, h1, p, ul, li, a {
             margin: 0;
@@ -263,24 +265,7 @@
     </style>
 </head>
 <body>
-    <header>
-        <nav>
-            <div class="app-icon">
-                <!-- You can replace "Recipe App" with your preferred app name -->
-                <span class="app-name">
-                    <img src="/images/appLogo/headerLogo.png" alt="">
-                </span>
-            </div>
-            <div class="menu-icon">&#9776;</div>
-            <ul class="nav-links">
-                <li><a href="/home">Home</a></li>
-                <li><a href="/home/recipe">Recipes</a></li>
-                <li><a href="/home/account">Account</a></li>
-                <li><a href="/home/leaderBoard">Leader-Board</a></li>
-                <li><a href="/home/aboutus">About</a></li>
-            </ul>
-        </nav>
-    </header>
+   <%- include("./header") %>
     <div class="container">
         <div class="post-container">
             

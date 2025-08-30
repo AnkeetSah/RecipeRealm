@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Leaderboard</title>
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         /* Reset and General Styling */
         body,
@@ -21,9 +25,11 @@
 
         /* General body styling */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
             color: #fff;
-            background-color: #121212;
+            background: linear-gradient(135deg, #121212 0%, #1a1a1a 100%);
+            min-height: 100vh;
+            padding-top: 90px;
         }
 
         /* Header styling */
@@ -93,59 +99,138 @@
             }
         }
 
+        /* Main content container */
+        .main-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 70px);
+            padding: 20px;
+        }
+
         /* Leaderboard container styling */
         .leaderboard-container {
-            background-color: #121212;
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            background: linear-gradient(145deg, #1a1a1a, #222);
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
             width: 100%;
             max-width: 850px;
             text-align: center;
-            margin: 40px auto;
-            border: 2px solid #00ff00; /* Green border */
+            border: 2px solid #00ff00;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .leaderboard-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0,255,0,0.1) 0%, transparent 70%);
+            transform: rotate(30deg);
+            pointer-events: none;
         }
 
         h1 {
-            margin-bottom: 25px;
-            color: #00ff00; /* Green title */
-            font-size: 24px;
+            margin-bottom: 30px;
+            color: #00ff00;
+            font-size: 32px;
             font-weight: 700;
             position: relative;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         h1:before {
             content: "";
-            width: 50px;
+            width: 80px;
             height: 4px;
-            background-color: #00ff00;
+            background: linear-gradient(90deg, transparent, #00ff00, transparent);
             position: absolute;
             left: 50%;
-            bottom: -10px;
+            bottom: -15px;
             transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .logo-container {
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo-container img {
+            max-width: 120px;
+            height: auto;
+            filter: drop-shadow(0 0 10px rgba(0, 255, 0, 0.5));
         }
 
         .leaderboard {
             list-style-type: none;
             padding: 0;
             margin: 0;
-            border-radius: 8px;
-            max-height: 300px;
+            border-radius: 12px;
+            max-height: 400px;
             overflow-y: auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Custom scrollbar */
+        .leaderboard::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .leaderboard::-webkit-scrollbar-track {
+            background: #1a1a1a;
+            border-radius: 4px;
+        }
+
+        .leaderboard::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, #00ff00, #026c02);
+            border-radius: 4px;
         }
 
         .leaderboard li {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 5px;
-            margin-bottom: 8px;
-            background: linear-gradient(to right, #00ff00, #026c02);
+            padding: 15px 20px;
+            margin-bottom: 12px;
+            background: linear-gradient(to right, rgba(0, 255, 0, 0.15), rgba(2, 108, 2, 0.15));
             color: white;
-            border-radius: 8px;
+            border-radius: 12px;
             font-size: 16px;
-            font-weight: 600;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 255, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .leaderboard li::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .leaderboard li:hover::before {
+            left: 100%;
+        }
+
+        .leaderboard li:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 255, 0, 0.2);
+            background: linear-gradient(to right, rgba(0, 255, 0, 0.25), rgba(2, 108, 2, 0.25));
         }
 
         .leaderboard li span {
@@ -153,93 +238,232 @@
             align-items: center;
         }
 
-        .leaderboard li img {
-            margin-left: 10px;
-            width: 30px;
-            height: 30px;
+        .userPic {
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+            border: 2px solid #00ff00;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
         }
 
-        .leaderboard li:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        .leaderboard li h4 {
+            font-size: 16px;
+            cursor: pointer;
+            margin: 0;
+            font-weight: 500;
+            transition: color 0.3s ease;
         }
+
+        .leaderboard li:hover h4 {
+            color: #00ff00;
+        }
+
+        .profile-link img {
+            border-radius: 0;
+            height: 20px;
+            width: 20px;
+            margin-left: 15px;
+            transition: all 0.3s ease;
+            filter: invert(1);
+        }
+
+        .profile-link:hover img {
+            transform: scale(1.2);
+            filter: invert(0.5) sepia(1) saturate(5) hue-rotate(70deg);
+        }
+
+        .rank {
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(to bottom, #00ff00, #026c02);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 28px;
+            margin-right: 12px;
+            font-weight: 600;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+        }
+
+        .top-3 .rank {
+            width: 34px;
+            height: 34px;
+            line-height: 34px;
+            font-size: 18px;
+        }
+
+        /* Special styling for top 3 */
+        .leaderboard li:nth-child(1) {
+            background: linear-gradient(to right, rgba(255, 215, 0, 0.2), rgba(218, 165, 32, 0.2));
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .leaderboard li:nth-child(1) .rank {
+            background: linear-gradient(to bottom, #FFD700, #DAA520);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+        }
+
+        .leaderboard li:nth-child(2) {
+            background: linear-gradient(to right, rgba(192, 192, 192, 0.2), rgba(169, 169, 169, 0.2));
+            border: 1px solid rgba(192, 192, 192, 0.3);
+        }
+
+        .leaderboard li:nth-child(2) .rank {
+            background: linear-gradient(to bottom, #C0C0C0, #A9A9A9);
+            box-shadow: 0 0 15px rgba(192, 192, 192, 0.5);
+        }
+
+        .leaderboard li:nth-child(3) {
+            background: linear-gradient(to right, rgba(205, 127, 50, 0.2), rgba(160, 82, 45, 0.2));
+            border: 1px solid rgba(205, 127, 50, 0.3);
+        }
+
+        .leaderboard li:nth-child(3) .rank {
+            background: linear-gradient(to bottom, #CD853F, #A0522D);
+            box-shadow: 0 0 15px rgba(205, 127, 50, 0.5);
+        }
+
+        .likes-count {
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 255, 0, 0.3);
+        }
+
+        /* Animation for list items */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .leaderboard li {
+            animation: fadeInUp 0.5s ease forwards;
+            opacity: 0;
+        }
+
+        .leaderboard li:nth-child(1) { animation-delay: 0.1s; }
+        .leaderboard li:nth-child(2) { animation-delay: 0.2s; }
+        .leaderboard li:nth-child(3) { animation-delay: 0.3s; }
+        .leaderboard li:nth-child(4) { animation-delay: 0.4s; }
+        .leaderboard li:nth-child(5) { animation-delay: 0.5s; }
+        .leaderboard li:nth-child(6) { animation-delay: 0.6s; }
+        .leaderboard li:nth-child(7) { animation-delay: 0.7s; }
+        .leaderboard li:nth-child(8) { animation-delay: 0.8s; }
+        .leaderboard li:nth-child(9) { animation-delay: 0.9s; }
+        .leaderboard li:nth-child(10) { animation-delay: 1.0s; }
 
         /* Responsive Design */
         @media (max-width: 768px) {
+            .main-container {
+                padding: 15px;
+            }
+            
             .leaderboard-container {
-                width: 70%;
-                padding: 20px;
+                width: 90%;
+                padding: 25px 15px;
+            }
+
+            h1 {
+                font-size: 26px;
             }
 
             .leaderboard li {
-                font-size: 12px;
-                display: flex;
-                align-items: center;
+                font-size: 14px;
+                padding: 12px 15px;
+            }
+
+            .userPic {
+                width: 35px;
+                height: 35px;
+                margin-right: 10px;
+            }
+
+            .rank {
+                width: 24px;
+                height: 24px;
+                line-height: 24px;
+                margin-right: 10px;
+            }
+
+            .top-3 .rank {
+                width: 28px;
+                height: 28px;
+                line-height: 28px;
+            }
+
+            .likes-count {
+                font-size: 14px;
+                padding: 4px 10px;
             }
         }
 
-        .logo-container {
-            margin-bottom: 20px;
-        }
+        @media (max-width: 480px) {
+            .leaderboard-container {
+                width: 95%;
+                padding: 20px 10px;
+            }
 
-        .logo-container img {
-            max-width: 100px;
-            height: auto;
-        }
+            h1 {
+                font-size: 22px;
+            }
 
-        .userPic {
-            width: 30px;
-            height: 30px;
-            border-radius: 100%;
+            .leaderboard li {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .leaderboard li span:last-child {
+                align-self: flex-end;
+            }
         }
 
         header img{
             height: 50px;
-           
             position: relative;
-        
         }
     </style>
 </head>
 <body>
     <!-- Header -->
-    <header>
-        <nav>
-            <div class="app-icon">
-                <!-- You can replace "Recipe App" with your preferred app name -->
-                <span class="app-name">
-                    <img src="/images/appLogo/headerLogo.png" alt="">
-                </span>
-            </div>
-            <div class="menu-icon">&#9776;</div>
-            <ul class="nav-links">
-                <li><a href="/home">Home</a></li>
-                <li><a href="/home/recipe">Recipes</a></li>
-                <li><a href="/home/account">Account</a></li>
-                <li><a href="/home/leaderBoard">Leader-Board</a></li>
-                <li><a href="/home/aboutus">About</a></li>
-            </ul>
-        </nav>
-    </header>
+    <%- include("./header") %>
 
-    <div class="leaderboard-container">
-      <div class="logo-container">
-        <img src="https://images.squarespace-cdn.com/content/v1/60576b36c740e90bc9edbc76/1617285138250-KO51124U9UURCJDG6EMF/Logo+transparent+background.png" alt="Logo">
-      </div>
-      <h1>Leaderboard</h1>
-      <ul id="leaderboard" class="leaderboard">
-        <% leaderBoard.forEach((user, i) => { %>
-          <% let src = user.pic ? `/images/profilePic/${user.pic}` : 'https://srcwap.com/wp-content/uploads/2022/08/abstract-user-flat-4.png'; %>   
-          <li>
-            <span>
-              <%= i + 1 %>. <img src="<%= src %>" class="userPic" alt="Profile Picture" style="margin-right: 5px;">    <h4 style="font-size: smaller; cursor: pointer;"><%= user.name %></h4>
-            </span>
-            <span><%= user.total_likes %> Likes  <a href="/viewProfile/<%=user.id %>" style="margin-left: 10px; margin-right: 10px;"><img style="border-radius: 0px; height: 15px; width: 15px;" src="https://cdn-icons-png.flaticon.com/512/11102/11102083.png" alt=""></a> </span>
-          </li>
-        <% }) %>
-        
-      </ul>
+    <div class="main-container">
+        <div class="leaderboard-container">
+            <div class="logo-container">
+                <img src="https://images.squarespace-cdn.com/content/v1/60576b36c740e90bc9edbc76/1617285138250-KO51124U9UURCJDG6EMF/Logo+transparent+background.png" alt="Logo">
+            </div>
+            <h1>Leaderboard</h1>
+            <ul id="leaderboard" class="leaderboard">
+                <% leaderBoard.forEach((user, i) => { %>
+                    <% let src = user.pic ? `/images/profilePic/${user.pic}` : 'https://srcwap.com/wp-content/uploads/2022/08/abstract-user-flat-4.png'; %>   
+                    <li class="<%= i < 3 ? 'top-3' : '' %>">
+                        <span>
+                            <span class="rank"><%= i + 1 %></span>
+                            <img src="<%= src %>" class="userPic" alt="Profile Picture">
+                            <h4><%= user.name %></h4>
+                        </span>
+                        <span>
+                            <span class="likes-count"><%= user.total_likes %> Likes</span>
+                            <a href="/viewProfile/<%=user.id %>" class="profile-link">
+                                <img src="https://cdn-icons-png.flaticon.com/512/11102/11102083.png" alt="View Profile">
+                            </a>
+                        </span>
+                    </li>
+                <% }) %>
+            </ul>
+        </div>
     </div>
     <script>
         document.addEventListener("DOMContentLoaded", () => {

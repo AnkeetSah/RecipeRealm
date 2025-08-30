@@ -1,0 +1,21 @@
+<% 
+  const countries = [
+    { name: "Canadian", img: "https://nomadparadise.com/wp-content/uploads/2021/03/canadian-food-04-768x512.jpg.webp" },
+    { name: "American", img: "https://th.bing.com/th/id/OIP.LVV-U1wkVKHkMy3tpcGQAAHaHa?rs=1&pid=ImgDetMain" },
+    { name: "British",  img: "https://handluggageonly.co.uk/wp-content/uploads/2014/06/Hand-Luggage-Only-10.jpg" },
+    { name: "Indian",   img: "https://www.tripsavvy.com/thmb/f-VZrcG8tCbTyAw3pcGI7RGBpx8=/2121x1414/filters:no_upscale():max_bytes(150000):strip_icc()/GettyImages-639704020-7fc1d09875084524bada655b9ff7e678.jpg" },
+    { name: "French",   img: "https://www.thespruceeats.com/thmb/QLsbljshIZzeoyf7jcJHzk7vcv0=/2232x0/filters:no_upscale():max_bytes(150000):strip_icc()/salade-nicoise-56297221-5aef5859ae9ab8003780495d.jpg" },
+    { name: "Italian",  img: "https://th.bing.com/th/id/OIP.ONc6eMZFBi-K4qTqdxnoeAHaE8?rs=1&pid=ImgDetMain" }
+  ];
+%>
+
+<div class="countries">
+  <% countries.forEach(country => { %>
+    <div class="countriesName">
+      <img src="<%= country.img %>" alt="<%= country.name %>" />
+      <a href="/places/<%= country.name %>"><%= country.name %></a>
+    </div>
+  <% }) %>
+
+  <a href="/home/area" class="seemore">See More</a>
+</div>

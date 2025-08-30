@@ -30,7 +30,7 @@ app.use(cors());
 
 const signupRoute = require("./routes/signup");
 const homeRoutes = require("./routes/homeRoutes");
-
+const placeRoutes=require('./routes/places');
 /***************/
 
 
@@ -100,73 +100,7 @@ app.post("/login", async (req, res) => {
   }
 });
 
-
-
-app.get("/places/:areaname", async (req, res) => {
-  const key = req.params.areaname;
-
-  // Check if data is in cache
-  if (cache.has(key)) {
-    const dishData = cache.get(key);
-    dishData.map((dishData) => {
-      dishData.area = key;
-    });
-    return res.render("areadish", { dishData });
-  }
-
-  // If not in cache, fetch data from API
-  try {
-    const fetch = await import("node-fetch");
-    const dishResponse = await fetch.default(
-      `https://www.themealdb.com/api/json/v1/1/filter.php?a=${key}`
-    );
-    const dishes = await dishResponse.json();
-    const dishData = dishes.meals;
-
-    // 5640ca91a659c972cf2247fea42e5f8b	
-    // 379a75d9
-
-    // Store the fetched data in cache
-    cache.set(key, dishData);
-    dishData.map((dishData) => {
-      dishData.area = key;
-    });
-
-    res.render("areadish", { dishData });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("An error occurred while fetching data.");
-  }
-});
-
-
-app.get("/places/:areaname/:id", isLoggedIn, async (req, res) => {
-
-  let user = await userModel.findOne({
-    email: req.user.email
-  });
-
-
-  let id = req.params.id;
-
-
-
-  // If not in cache, fetch data from API
-  try {
-    const recipeResponse = await fetch(
-      `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`
-    );
-    const recipe = await recipeResponse.json();
-
-    const data = recipe.meals[0];
-
-
-    res.render("recipe", { data, user });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("An error occurred while fetching data.");
-  }
-});
+app.use("/places", placeRoutes);
 
 
 app.post("/recipe/item", async (req, res) => {
@@ -331,8 +265,6 @@ app.get('/account/userSavedRecipe', isLoggedIn, async (req, res) => {
     res.status(500).send("An error occurred while fetching data.");
   }
 });
-
-
 
 app.get('/account/postcreated', isLoggedIn, async (req, res) => {
   let user = await userModel.findOne({ email: req.user.email }).populate('post');

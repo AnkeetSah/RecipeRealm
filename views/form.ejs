@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recipe App - Food List</title>
+    <title>Recipe App - AI Recipe Generator</title>
+    <link rel="icon" type="image/png" href="./images/appLogo/fav.png">
+    <link rel="stylesheet" href="/css/header.css">
     <style>
         /* Global Styles */
         * {
@@ -21,112 +23,183 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: #ffffff;
-            background-color: #121212;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+            min-height: 100vh;
         }
 
-        /* Header Styles */
-        header {
-            background-color: #000;
-            padding: 20px;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-        }
+        
 
-        nav {
+       
+
+       
+
+
+       
+
+        /* Main content wrapper */
+        .main-content {
+            margin-top: 100px;
+            min-height: calc(100vh - 100px);
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
         }
 
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: #00ff00;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 20px;
-            margin-right: 20px;
-        }
-
-        .nav-links a {
-            color: #ffffff;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: #00ff00;
-        }
-
-        .menu-icon {
-            display: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: #ffffff;
-        }
-
-        /* Search Container Styles */
+        /* Enhanced Search Container */
         .search-container {
-            margin-top: 80px;
+            background: black;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(0, 255, 0, 0.1);
+            backdrop-filter: blur(10px);
+            max-width: 600px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .search-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #00ff00, transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .form-title {
             text-align: center;
-            padding: 20px;
+            font-size: 28px;
+            font-weight: 300;
+            color: #ffffff;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .form-subtitle {
+            text-align: center;
+            color: #00ff00;
+            font-size: 16px;
+            margin-bottom: 30px;
+            font-weight: 500;
         }
 
         .dropdown-container {
             display: flex;
-            flex-direction: column; /* Stack vertically */
-            align-items: center;
-            gap: 15px; /* Increased space between elements */
+            flex-direction: column;
+            gap: 25px;
             width: 100%;
-            max-width: 500px; /* Wider container for better usability */
-            margin: 0 auto; /* Center the form */
         }
 
-        /* Input Styles */
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .input-label {
+            color: #00ff00;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .input-description {
+            color: #888;
+            font-size: 12px;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        /* Enhanced Input Styles */
         .search-box, #recipeDropdown {
             width: 100%;
-            padding: 12px;
-            border-radius: 5px;
-            border: 2px solid #00ff00;
-            background-color: #1b1b1b;
+            padding: 16px 20px;
+            border-radius: 12px;
+            border: 2px solid rgba(0, 255, 0, 0.3);
+            background: rgba(255, 255, 255, 0.05);
             color: #ffffff;
             font-size: 16px;
-            transition: border-color 0.3s, box-shadow 0.3s; /* Added transition */
-            font-family: inherit; /* Ensure consistent font across inputs */
+            transition: all 0.3s ease;
+            font-family: inherit;
+            outline: none;
+            position: relative;
         }
 
         .search-box:focus, #recipeDropdown:focus {
-            border-color: #00cc00; /* Change border color on focus */
-            box-shadow: 0 0 5px rgba(0, 255, 0, 0.5); /* Add shadow effect */
-            outline: none; /* Remove default outline */
+            border-color: #00ff00;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-1px);
         }
 
-        /* Button Styles */
+        .search-box::placeholder, #recipeDropdown::placeholder {
+            color: #666;
+            transition: opacity 0.3s ease;
+        }
+
+        .search-box:focus::placeholder, #recipeDropdown:focus::placeholder {
+            opacity: 0.6;
+        }
+
+        /* Enhanced Button Styles */
         .search-btn {
-            padding: 12px 20px;
+            padding: 18px 30px;
             border: none;
-            border-radius: 5px;
-            background-color: #00ff00;
+            border-radius: 50px;
+            background: linear-gradient(135deg, #00ff00 0%, #00cc00 100%);
             color: #000000;
             cursor: pointer;
-            font-size: 16px;
-            margin-top: 10px; /* Space above button */
-            transition: background-color 0.3s, transform 0.2s; /* Added transform */
-            width: 100%; /* Make button full width */
-            max-width: 400px; /* Keep max width */
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 8px 25px rgba(0, 255, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .search-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
         }
 
         .search-btn:hover {
-            background-color: #00cc00;
-            transform: scale(1.05); /* Scale effect on hover */
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(0, 255, 0, 0.4);
         }
 
-        /* Dropdown Styles */
+        .search-btn:hover::before {
+            left: 100%;
+        }
+
+        .search-btn:active {
+            transform: translateY(-1px);
+        }
+
+        /* Enhanced Dropdown Styles */
         .dropdown {
             position: relative;
             width: 100%;
@@ -135,25 +208,110 @@
         .dropdown-list {
             display: none;
             position: absolute;
-            background-color: #1b1b1b;
-            border: 2px solid #00ff00;
-            z-index: 1;
-            max-height: 150px;
+            background: linear-gradient(135deg, #2a2a2a 0%, #1e1e1e 100%);
+            border: 2px solid rgba(0, 255, 0, 0.3);
+            border-radius: 12px;
+            z-index: 1000;
+            max-height: 200px;
             overflow-y: auto;
             width: 100%;
-            border-radius: 5px;
-            margin-top: 5px; /* Space above dropdown */
+            margin-top: 5px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        .dropdown-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .dropdown-list::-webkit-scrollbar-track {
+            background: #1a1a1a;
+            border-radius: 3px;
+        }
+
+        .dropdown-list::-webkit-scrollbar-thumb {
+            background: #00ff00;
+            border-radius: 3px;
         }
 
         .dropdown-item {
-            padding: 10px;
+            padding: 15px 20px;
             color: #ffffff;
             cursor: pointer;
-            transition: background-color 0.3s; /* Transition for item hover */
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-weight: 500;
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
         }
 
         .dropdown-item:hover {
-            background-color: #00cc00;
+            background: linear-gradient(135deg, #00ff00 0%, #00cc00 100%);
+            color: #000000;
+            transform: translateX(5px);
+        }
+
+        /* Sample ingredients styling */
+        .sample-ingredients {
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid rgba(0, 255, 0, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 10px;
+        }
+
+        .sample-title {
+            color: #00ff00;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .sample-text {
+            color: #ccc;
+            font-size: 14px;
+            line-height: 1.4;
+            font-style: italic;
+        }
+
+        /* Loading animation */
+        .loading-overlay {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 20px;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 20px;
+            z-index: 1001;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(0, 255, 0, 0.3);
+            border-top: 3px solid #00ff00;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .loading-text {
+            color: #00ff00;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         /* Responsive Styles */
@@ -173,106 +331,202 @@
             .nav-links.mobile a {
                 color: #00ff00;
             }
+
             .nav-links {
                 display: none;
             }
+
             .menu-icon {
                 display: block;
             }
+
+            .main-content {
+                padding: 20px 15px;
+            }
+
+            .search-container {
+                padding: 30px 25px;
+            }
+
+            .form-title {
+                font-size: 24px;
+            }
+
+            .form-subtitle {
+                font-size: 14px;
+            }
+
             .dropdown-container {
-                width: 90%; /* Make dropdown container responsive */
+                gap: 20px;
+            }
+
+            .search-box, #recipeDropdown {
+                padding: 14px 16px;
+                font-size: 15px;
             }
 
             .search-btn {
-                max-width: 90%; /* Adjust button width on small screens */
+                padding: 16px 25px;
+                font-size: 16px;
+            }
+
+            .dropdown-list {
+                max-height: 150px;
+            }
+
+            .dropdown-item {
+                padding: 12px 16px;
             }
         }
 
-        header img {
-            height: 50px;
-            position: relative;
+        @media (max-width: 480px) {
+            .search-container {
+                padding: 25px 20px;
+                margin: 0 10px;
+            }
+
+            .form-title {
+                font-size: 22px;
+            }
+
+            .input-label {
+                font-size: 13px;
+            }
+
+            .search-box, #recipeDropdown {
+                padding: 12px 15px;
+                font-size: 14px;
+            }
+
+            .search-btn {
+                padding: 14px 20px;
+                font-size: 15px;
+            }
         }
     </style>
 </head>
 <body>
-    <header>
-        <nav>
-            <div class="logo">RecipeApp</div>
-            <div class="menu-icon">&#9776;</div>
-            <ul class="nav-links">
-                <li><a href="/home">Home</a></li>
-                <li><a href="/home/recipe">Recipes</a></li>
-                <li><a href="/home/account">Account</a></li>
-                <li><a href="/home/leaderBoard">Leader-Board</a></li>
-                <li><a href="/home/aboutus">About</a></li>
-            </ul>
-        </nav>
-    </header>
+    <%- include("./header") %>
 
-    <form class="search-container" action="/aiResponse" method="post">
-        <div class="dropdown-container">
-            <label for="dishInput">Enter the ingredients followed by comma.</label>
-            <input type="text" class="search-box" name="dish" id="dishInput" placeholder="Search for a recipe..." value="chicken, rice, onions, garlic, bell peppers, soy sauce">
-            <label for="recipeDropdown">Choose a language.</label>
-            <div class="dropdown">
-                <input type="text" id="recipeDropdown" name="language" value="english" placeholder="Select a language..." onfocus="showDropdown()" oninput="filterDropdown()" autocomplete="off">
-                <div class="dropdown-list" id="dropdownList">
-                    <div class="dropdown-item" data-value="Hindi">Hindi</div>
-                    <div class="dropdown-item" data-value="English">English</div>
-                    <div class="dropdown-item" data-value="Bengali">Bengali</div>
-                    <div class="dropdown-item" data-value="Telugu">Telugu</div>
-                    <div class="dropdown-item" data-value="Marathi">Marathi</div>
-                    <div class="dropdown-item" data-value="Tamil">Tamil</div>
-                    <div class="dropdown-item" data-value="Urdu">Urdu</div>
-                    <div class="dropdown-item" data-value="Gujarati">Gujarati</div>
-                    <div class="dropdown-item" data-value="Malayalam">Malayalam</div>
-                    <div class="dropdown-item" data-value="Kannada">Kannada</div>
-                    <div class="dropdown-item" data-value="Odia">Odia</div>
-                    <div class="dropdown-item" data-value="Punjabi">Punjabi</div>
-                    <div class="dropdown-item" data-value="Assamese">Assamese</div>
-                    <div class="dropdown-item" data-value="Maithili">Maithili</div>
-                    <div class="dropdown-item" data-value="Sanskrit">Sanskrit</div>
-                    <div class="dropdown-item" data-value="Dogri">Dogri</div>
-                    <div class="dropdown-item" data-value="Kashmiri">Kashmiri</div>
-                    <div class="dropdown-item" data-value="Sindhi">Sindhi</div>
-                    <div class="dropdown-item" data-value="Manipuri">Manipuri</div>
-                    <div class="dropdown-item" data-value="Santhali">Santhali</div>
-                    <div class="dropdown-item" data-value="Spanish">Spanish</div>
-                    <div class="dropdown-item" data-value="French">French</div>
-                    <div class="dropdown-item" data-value="Chinese">Chinese</div>
-                    <div class="dropdown-item" data-value="Arabic">Arabic</div>
-                    <div class="dropdown-item" data-value="Russian">Russian</div>
-                    <div class="dropdown-item" data-value="German">German</div>
-                    <div class="dropdown-item" data-value="Japanese">Japanese</div>
-                    <div class="dropdown-item" data-value="Korean">Korean</div>
-                    <div class="dropdown-item" data-value="Italian">Italian</div>
+    <div class="main-content">
+        <form class="search-container" action="/aiResponse" method="post" onsubmit="showLoading()">
+            <h1 class="form-title">AI Recipe Generator</h1>
+            <p class="form-subtitle">Create personalized recipes with artificial intelligence</p>
+            
+            <div class="dropdown-container">
+                <div class="input-group">
+                    <label class="input-label" for="dishInput">Ingredients</label>
+                    <p class="input-description">Enter ingredients separated by commas (e.g., chicken, rice, onions)</p>
+                    <input type="text" class="search-box" name="dish" id="dishInput" placeholder="Enter your ingredients..." value="chicken, rice, onions, garlic, bell peppers, soy sauce">
+                    <div class="sample-ingredients">
+                        <div class="sample-title">Popular combinations:</div>
+                        <div class="sample-text">• Pasta, tomatoes, basil, garlic, cheese<br>• Chicken, lemon, herbs, potatoes<br>• Rice, vegetables, soy sauce, ginger</div>
+                    </div>
                 </div>
-            </div>
-            <label for="countryInput">Enter Country:</label>
-            <input type="text" class="search-box" value="India" name="country" id="countryInput" placeholder="Enter country...">
 
-            <input type="submit" class="search-btn" value="Get Recipe">
-        </div>
-    </form>
+                <div class="input-group">
+                    <label class="input-label" for="recipeDropdown">Language Preference</label>
+                    <p class="input-description">Select the language for your recipe instructions</p>
+                    <div class="dropdown">
+                        <input type="text" id="recipeDropdown" name="language" value="English" placeholder="Choose language..." onfocus="showDropdown()" oninput="filterDropdown()" autocomplete="off">
+                        <div class="dropdown-list" id="dropdownList">
+                            <div class="dropdown-item" data-value="Hindi">Hindi</div>
+                            <div class="dropdown-item" data-value="English">English</div>
+                            <div class="dropdown-item" data-value="Bengali">Bengali</div>
+                            <div class="dropdown-item" data-value="Telugu">Telugu</div>
+                            <div class="dropdown-item" data-value="Marathi">Marathi</div>
+                            <div class="dropdown-item" data-value="Tamil">Tamil</div>
+                            <div class="dropdown-item" data-value="Urdu">Urdu</div>
+                            <div class="dropdown-item" data-value="Gujarati">Gujarati</div>
+                            <div class="dropdown-item" data-value="Malayalam">Malayalam</div>
+                            <div class="dropdown-item" data-value="Kannada">Kannada</div>
+                            <div class="dropdown-item" data-value="Odia">Odia</div>
+                            <div class="dropdown-item" data-value="Punjabi">Punjabi</div>
+                            <div class="dropdown-item" data-value="Assamese">Assamese</div>
+                            <div class="dropdown-item" data-value="Maithili">Maithili</div>
+                            <div class="dropdown-item" data-value="Sanskrit">Sanskrit</div>
+                            <div class="dropdown-item" data-value="Dogri">Dogri</div>
+                            <div class="dropdown-item" data-value="Kashmiri">Kashmiri</div>
+                            <div class="dropdown-item" data-value="Sindhi">Sindhi</div>
+                            <div class="dropdown-item" data-value="Manipuri">Manipuri</div>
+                            <div class="dropdown-item" data-value="Santhali">Santhali</div>
+                            <div class="dropdown-item" data-value="Spanish">Spanish</div>
+                            <div class="dropdown-item" data-value="French">French</div>
+                            <div class="dropdown-item" data-value="Chinese">Chinese</div>
+                            <div class="dropdown-item" data-value="Arabic">Arabic</div>
+                            <div class="dropdown-item" data-value="Russian">Russian</div>
+                            <div class="dropdown-item" data-value="German">German</div>
+                            <div class="dropdown-item" data-value="Japanese">Japanese</div>
+                            <div class="dropdown-item" data-value="Korean">Korean</div>
+                            <div class="dropdown-item" data-value="Italian">Italian</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label class="input-label" for="countryInput">Cuisine Style</label>
+                    <p class="input-description">Specify the regional cuisine style (e.g., Indian, Italian, Mexican)</p>
+                    <input type="text" class="search-box" value="India" name="country" id="countryInput" placeholder="Enter cuisine style...">
+                </div>
+
+                <input type="submit" class="search-btn" value="Generate Recipe">
+            </div>
+
+            <div class="loading-overlay" id="loadingOverlay">
+                <div class="loading-spinner"></div>
+                <div class="loading-text">Generating your personalized recipe...</div>
+            </div>
+        </form>
+    </div>
 
     <script>
         // JavaScript code for dropdown functionality
         const recipeDropdown = document.getElementById('recipeDropdown');
         const dropdownList = document.getElementById('dropdownList');
         const dropdownItems = dropdownList.querySelectorAll('.dropdown-item');
+        const menuIcon = document.querySelector('.menu-icon');
+        const navLinks = document.querySelector('.nav-links');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+
+        // Ensure loading overlay is hidden on page load
+        window.addEventListener('load', function() {
+            loadingOverlay.style.display = 'none';
+        });
+
+        // Also hide loading overlay when DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            loadingOverlay.style.display = 'none';
+            
+            // Add focus effects to input groups
+            const inputGroups = document.querySelectorAll('.input-group');
+            
+            inputGroups.forEach(group => {
+                const input = group.querySelector('input');
+                const label = group.querySelector('.input-label');
+                
+                if (input && label) {
+                    input.addEventListener('focus', () => {
+                        label.style.color = '#00ff00';
+                        label.style.transform = 'scale(1.05)';
+                    });
+                    
+                    input.addEventListener('blur', () => {
+                        label.style.color = '#00ff00';
+                        label.style.transform = 'scale(1)';
+                    });
+                }
+            });
+        });
+
+        // Mobile menu toggle
+        menuIcon.addEventListener('click', () => {
+            navLinks.classList.toggle('mobile');
+        });
 
         // Show dropdown on focus
         function showDropdown() {
             dropdownList.style.display = 'block';
         }
-        const container=document.querySelector('.container');
-        const dropdown_container=document.querySelector('.dropdown-container');
-        const menuIcon = document.querySelector('.menu-icon');
-        const navLinks = document.querySelector('.nav-links');
-       
-        menuIcon.addEventListener('click', () => {
-            navLinks.classList.toggle('mobile');
-        });
 
         // Hide dropdown when clicking outside
         document.addEventListener('click', function(event) {
@@ -284,10 +538,17 @@
         // Filter dropdown items based on input
         function filterDropdown() {
             const inputValue = recipeDropdown.value.toLowerCase();
+            let hasVisibleItems = false;
+            
             dropdownItems.forEach(item => {
                 const text = item.getAttribute('data-value').toLowerCase();
-                item.style.display = text.includes(inputValue) ? 'block' : 'none';
+                const isVisible = text.includes(inputValue);
+                item.style.display = isVisible ? 'block' : 'none';
+                if (isVisible) hasVisibleItems = true;
             });
+
+            // Show dropdown only if there are visible items
+            dropdownList.style.display = hasVisibleItems ? 'block' : 'none';
         }
 
         // Set selected value to input and hide dropdown on item click
@@ -298,9 +559,38 @@
             });
         });
 
+        // Show loading overlay on form submission
+        function showLoading() {
+            loadingOverlay.style.display = 'flex';
+        }
+
         // Hide dropdown on form submission
-        document.querySelector('form').addEventListener('submit', function() {
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const dishInput = document.getElementById('dishInput').value.trim();
+            const languageInput = recipeDropdown.value.trim();
+            const countryInput = document.getElementById('countryInput').value.trim();
+
+            // Basic validation
+            if (!dishInput) {
+                alert('Please enter at least one ingredient.');
+                e.preventDefault();
+                return false;
+            }
+
+            if (!languageInput) {
+                alert('Please select a language.');
+                e.preventDefault();
+                return false;
+            }
+
+            if (!countryInput) {
+                alert('Please enter a cuisine style.');
+                e.preventDefault();
+                return false;
+            }
+
             dropdownList.style.display = 'none';
+            showLoading();
         });
     </script>
 </body>

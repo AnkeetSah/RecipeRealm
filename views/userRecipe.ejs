@@ -4,6 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Recipe Page</title>
+       <link rel="icon" type="image/png" href="./images/appLogo/fav.png">
+       <link rel="stylesheet" href="/css/header.css">
     <style>
       /* Reset some default browser styles */
       * {
@@ -403,24 +405,7 @@
     </style>
   </head>
   <body>
-    <header>
-      <nav>
-        <div class="app-icon">
-          <!-- You can replace "Recipe App" with your preferred app name -->
-          <span class="app-name">
-              <img src="/images/appLogo/headerLogo.png" alt="">
-          </span>
-      </div>
-        <div class="menu-icon" id="menuIcon">&#9776;</div>
-        <ul class="nav-links" id="navLinks">
-          <li><a href="/home">Home</a></li>
-                <li><a href="/home/recipe">Recipes</a></li>
-                <li><a href="/home/account">Account</a></li>
-                <li><a href="/home/leaderBoard">Leader-Board</a></li>
-                <li><a href="/home/aboutus">About</a></li>
-        </ul>
-      </nav>
-    </header>
+   <%- include("./header") %>
 
     <div class="comment_div">
 <h1>Comments(4)</h1>

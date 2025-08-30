@@ -1,0 +1,14 @@
+<div class="randomcard">
+  <div class="card">
+    <img src="<%= randomDish.strMealThumb %>" alt="<%= randomDish.strMeal %>" class="card-image">
+    <div class="card-details">
+        <h1 class="card-title"><%= randomDish.strMeal %></h1>
+        <p class="card-name">Name: <%= randomDish.strMeal %></p>
+        <p class="card-category">Category: <%= randomDish.strCategory %></p>
+        <p class="card-country">Country: <%= randomDish.strArea %></p>
+        <a class="card-a" href="places/<%= randomDish.strArea %>/<%= randomDish.idMeal %>" style="color: rgb(109, 232, 109);">
+          Get Recipe
+        </a>
+    </div>
+  </div>
+</div>
