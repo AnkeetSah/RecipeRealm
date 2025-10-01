@@ -31,10 +31,12 @@ app.use(cors());
 const signupRoute = require("./routes/signup");
 const homeRoutes = require("./routes/homeRoutes");
 const placeRoutes=require('./routes/places');
+const recipeRoutes=require('./routes/recipeRoutes');
 /***************/
 
 
 app.use('/home', homeRoutes);
+app.use('/home/recipe', recipeRoutes);
 app.use("/", signupRoute);
 app.get("/alive", (req, res) => {
   res.send("server is running");
@@ -132,30 +134,72 @@ app.post("/recipe/item", async (req, res) => {
     res.status(500).send("An error occurred while fetching data.");
   }
 });
+
+
 app.get('/recipe/item/:id', isLoggedIn, async (req, res) => {
-  let id = req.params.id;
-  let user = await userModel.findOne({
-    email: req.user.email
-  });
-
-
-  // If not in cache, fetch data from API
+  const id = req.params.id;
+  
   try {
-    const recipeResponse = await fetch(
-      `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`
-    );
-    const recipe = await recipeResponse.json();
-
-    const data = recipe.meals[0];
-
-
-
-    res.render("recipe", { data, user });
+    // First, check if ID is a MongoDB ObjectId (24 hex characters)
+    const isMongoDBId = /^[0-9a-fA-F]{24}$/.test(id);
+    
+    let user = null;
+    let localRecipe = null;
+    let data = null;
+    
+    // Get user data
+    user = await userModel.findOne({ email: req.user.email });
+    
+    if (isMongoDBId) {
+      // Only try to find in database if it's a valid MongoDB ID
+      localRecipe = await postModel.findById(id);
+      
+      if (localRecipe) {
+        // Use local database recipe
+        data = {
+          idMeal: localRecipe._id?.toString(),
+          strMeal: localRecipe.strMeal,
+          strMealThumb: localRecipe.strMealThumb,
+          strInstructions: localRecipe.strInstructions || localRecipe.dishDescription,
+          strYoutube: localRecipe.strYoutube,
+          strCategory: localRecipe.strCategory,
+dishIngredients: localRecipe.dishIngredients.split('.'),
+ // Include this for frontend
+          strArea: 'Custom',
+          // Add empty ingredient fields to match external API structure
+          strIngredient1: '',
+          strMeasure1: ''
+        };
+      }
+    }console.log(data)
+    
+    // If no local recipe found (either not MongoDB ID or not found in DB), try external API
+    if (!data) {
+      try {
+        const recipeResponse = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
+        if (recipeResponse.ok) {
+          const recipe = await recipeResponse.json();
+          data = recipe?.meals?.[0];
+        }
+      } catch (apiError) {
+        console.error('Error fetching from external API:', apiError);
+      }
+    }
+    
+    // If no data found from either source
+    if (!data) {
+      return res.status(404).send("Recipe not found");
+    }
+    
+    console.log('Final data:', data);
+    res.render("recipe", { data, user: user || {} });
+    
   } catch (error) {
-    console.error(error);
+    console.error('Error fetching recipe:', error);
     res.status(500).send("An error occurred while fetching data.");
   }
 });
+
 
 
 
@@ -272,29 +316,32 @@ app.get('/account/postcreated', isLoggedIn, async (req, res) => {
 
   res.render('createdPost', { post });
 });
-app.post('/account/dishUpload', isLoggedIn, upload.single("dishImage"), async (req, res) => {
-  let { email, userid } = req.user;
-  let user = await userModel.findOne({
-    email: email
-  });
 
-  let { filename, } = (req.file);
-  let { dishName, dishIngredients, dishInstructions, dishDescription, dishYouTubeLink, dishCategory } = req.body;
+app.post('/account/dishUpload', isLoggedIn, upload.single('dishImage'), async (req, res) => {
+  const { email } = req.user;
+  const user = await userModel.findOne({ email });
+
+  const imageUrl = req.file?.path || req.file?.secure_url || req.file?.url;
+  const publicId = req.file?.public_id || req.file?.filename;
+
+  const { dishName, dishIngredients, dishInstructions, dishDescription, dishYouTubeLink, dishCategory } = req.body;
+
   let postcreated = await postModel.create({
-    dishName,
-    filename,
+    strMeal: dishName,
+    strMealThumb: imageUrl,
+    strMealThumbPublicId: publicId,
     dishIngredients,
     dishDescription,
-    dishYouTubeLink,
-    dishInstructions,
-    dishCategory,
+    strYoutube: dishYouTubeLink,
+    strInstructions: dishInstructions,
+    strCategory: dishCategory,
   });
+
+  // attach post -> user
   postcreated.user.push(user._id);
   await postcreated.save();
-
   user.post.push(postcreated._id);
   await user.save();
-
 
   res.redirect('/account/addDish');
 });
@@ -302,40 +349,26 @@ app.post('/account/dishUpload', isLoggedIn, upload.single("dishImage"), async (r
 
 
 
+
 app.get('/postDelete/:id', isLoggedIn, async (req, res) => {
-  try {
-    let deletedPost = await postModel.findOneAndDelete({ _id: req.params.id });
-    if (!deletedPost) {
-      return res.status(404).send('Post not found');
-    }
+  const deletedPost = await postModel.findOneAndDelete({ _id: req.params.id });
 
-    let user = await userModel.findOne({ email: req.user.email });
-    if (!user) {
-      return res.status(404).send('User not found');
-    }
+  // remove reference from user
+  const user = await userModel.findOne({ email: req.user.email });
+  const idx = user.post.indexOf(deletedPost._id);
+  if (idx > -1) { user.post.splice(idx, 1); await user.save(); }
 
-    let postIndex = user.post.indexOf(deletedPost._id);
-    if (postIndex > -1) {
-      user.post.splice(postIndex, 1);
-      await user.save();
-    }
-
-    fs.unlink(`./public/images/uploads/${deletedPost.filename}`, (err) => {
-      if (err) {
-        console.error('Error deleting image:', err);
-      } else {
-        console.log('Image deleted successfully');
-      }
-    });
-
-
-    console.log(deletedPost);
-    res.redirect('/account/postcreated');
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Internal Server Error');
+  // delete from Cloudinary if we have the public id
+  if (deletedPost?.strMealThumbPublicId) {
+    try {
+      await cloudinary.uploader.destroy(deletedPost.strMealThumbPublicId);
+    } catch (err) { console.error('Cloudinary delete error', err); }
   }
+
+  res.redirect('/account/postcreated');
 });
+
+
 app.get('/postEdit/:id', isLoggedIn, async (req, res) => {
   let post = await postModel.findOne({
     _id: req.params.id
@@ -346,30 +379,33 @@ app.get('/postEdit/:id', isLoggedIn, async (req, res) => {
 
 
 });
+
+
 app.post('/editDish/:id', isLoggedIn, upload.single('dishImage'), async (req, res) => {
+  const post = await postModel.findById(req.params.id);
 
-  try {
-    let updatedData = {
-      dishName: req.body.dishName,
-      dishCategory: req.body.dishCategory,
-      dishIngredients: req.body.dishIngredients,
-      dishInstructions: req.body.dishInstructions,
-      dishDescription: req.body.dishDescription,
-      dishYouTubeLink: req.body.dishYouTubeLink,
-    };
+  const updatedData = {
+    dishName: req.body.dishName,
+    dishCategory: req.body.dishCategory,
+    dishIngredients: req.body.dishIngredients,
+    dishInstructions: req.body.dishInstructions,
+    dishDescription: req.body.dishDescription,
+    dishYouTubeLink: req.body.dishYouTubeLink,
+  };
 
-    if (req.file) {
-      updatedData.filename = req.file.filename;
+  if (req.file) {
+    // delete previous image
+    if (post?.strMealThumbPublicId) {
+      await cloudinary.uploader.destroy(post.strMealThumbPublicId);
     }
-
-    let updatedPost = await postModel.findByIdAndUpdate(req.params.id, updatedData, { new: true });
-
-    res.redirect('/account/postcreated');
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Internal Server Error');
+    updatedData.strMealThumb = req.file?.path || req.file?.secure_url || req.file?.url;
+    updatedData.strMealThumbPublicId = req.file?.public_id || req.file?.filename;
   }
+
+  await postModel.findByIdAndUpdate(req.params.id, updatedData, { new: true });
+  res.redirect('/account/postcreated');
 });
+
 app.get('/seeRecipe/:id', isLoggedIn, async (req, res) => {
   let user = await userModel.findOne({
     email: req.user.email
@@ -483,31 +519,65 @@ app.post('/getDishListAsPerCategory', async (req, res) => {
 });
 
 app.post("/updateProfile", upload.single('profileImage'), async (req, res) => {
-  console.log(req.body.id);
+  const imageUrl = req.file?.path || req.file?.secure_url || req.file?.url;
+  const publicId = req.file?.public_id || req.file?.filename;
+
   const user = await userModel.findByIdAndUpdate(
     req.body.id,
-    { profilePic: req.file.filename },
+    { profilePic: imageUrl, profilePicPublicId: publicId },
     { new: true }
   );
 
-
-
-  res.status(200).json({
-    message: "Profile updated successfully",
-  });
-
-
-
-
-
-})
-
-
-
-app.get('/allUserPost', async (req, res) => {
-  const post = await postModel.find();
-  res.send(post);
+  res.status(200).json({ message: "Profile updated successfully", user });
 });
+
+
+
+
+app.post('/allUserPost/ingredient', async (req, res) => {
+  try {
+    const { ingredient } = req.body;
+    if (!ingredient) {
+      return res.status(400).json({ error: "Ingredient is required" });
+    }
+
+    // 1️⃣ Fetch your own recipes from MongoDB
+    const recipes = await postModel.find();
+ 
+    const filteredLocal = recipes.filter(recipe => {
+      const ingArr = recipe.dishIngredients
+        .split(/[\n,.]/)
+        .map(i => i.trim().toLowerCase());
+      return ingArr.some(i => i.includes(ingredient.toLowerCase()));
+    });
+   
+    
+      
+    // Map to MealDB format
+    const mappedLocal = filteredLocal.map(recipe => ({
+      strMeal: recipe.strMeal,
+     strMealThumb: recipe.strMealThumb, // already a URL from DB
+
+      idMeal: recipe._id.toString()
+    }));
+
+    // 2️⃣ Fetch third-party MealDB API
+    const response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${ingredient}`);
+    const mealDBData = await response.json();
+    const mealsFromAPI = mealDBData.meals || []; // ensure it's an array
+
+    // 3️⃣ Merge both results
+    const mergedResults = [...mappedLocal, ...mealsFromAPI];
+    console.log(mergedResults)
+    res.json(mergedResults);
+
+  } catch (err) {
+    console.error("Error fetching recipes:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+
 
 app.get('/viewProfile/:id', async (req, res) => {
 
@@ -562,70 +632,137 @@ app.get('/delete', isLoggedIn, async (req, res) => {
   }
 });
 
+
 /**************************************************************************************************** */
 require("dotenv").config();
-const { GoogleGenerativeAI } = require("@google/generative-ai");
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-console.log(process.env.GEMINI_API_KEY);
-async function run(dish, country, language) {
-  const text = `You have to act like world best chief I have the following ingredients: ${dish} for country ${country}. Can you suggest a recipe that uses most or all of these ingredients? Please include:
-The dish name,
-    A list of additional ingredients if needed with there measurement having key name as measurement,
-        Step-by-step instructions,
-            Tips for cooking or substitutions it should be like this [
-    "If you don't have sesame oil, you can use olive oil or vegetable oil.",
-    "If you don't have soy sauce, you can use tamari or a low-sodium soy sauce.",
-    "If you don't like ginger, you can omit it or substitute it with 1/4 teaspoon of ground ginger."
+const { GoogleGenAI } = require("@google/genai");
+
+// Initialize the client; API key is taken from GEMINI_API_KEY environment variable
+const ai = new GoogleGenAI({});
+
+// Utility: remove markdown-style characters
+function sanitizeText(text) {
+  if (!text) return "";
+  return text
+    .replace(/\*\*/g, "") // remove **
+    .replace(/\*/g, "")   // remove *
+    .replace(/[_`#>-]/g, ""); // remove other markdown symbols
+}
+
+async function run(ingredients, language, cuisine, dishName) {
+  const hasDishName = dishName && dishName.trim() !== "";
+
+  const prompt = `
+You are a professional chef and recipe writer. 
+Return ONLY a valid JSON object (with double-quoted keys + values). 
+Do not include explanations, greetings, or markdown. 
+The structure must be:
+
+{
+  "dishName": "string",
+  "ingredients": [
+    { "item": "string", "measurement": "string" }
   ],
-            Nutritional information of the meal as array like this [
+  "instructions": ["Step 1 ...", "Step 2 ..."],
+  "tips": ["Tip 1 ...", "Tip 2 ..."],
+  "cookingTime": "string",
+  "nutritionalInformation": [
     "calories: 350",
     "protein: 25 grams",
     "carbohydrates: 40 grams",
     "fat: 10 grams"
-  ],
-                An estimated cooking time.
+  ]
+}
 
-Focus on creating a flavorful and easy-to-make dish!
-give the response in different section give the response in braces for each section like dishname in one braces ingredients in another braces and 
-
-instruction in another braces tips another braces substitution another braces cooking time in another Nutritional information in another braces
-
-give the response in form of javascript object in ${language}
- language all in small letter and camel case and plural use instructions tips substitutions all in small letter only give the response and dont say anything in the begning just give the result `;
-  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-  const result = await model.generateContent([text]);
-  const recipeText = result.response.text();
-  console.log(recipeText)
-  const cleanedRecipeText = recipeText
-    .replace(/```(?:javascript|json)?\s*/g, "")  // Removes ```javascript or ```json
-    .replace(/\s*```/g, "")  // Removes closing ```
-    .replace(/,\s*([}\]])/g, "$1") // Remove trailing commas before closing braces/brackets
-    .trim();
+Now generate the recipe for:
+Cuisine: ${cuisine} 
+Dish: ${hasDishName ? dishName : "Suggest a dish with my ingredients"} 
+Ingredients I have: ${ingredients}
+Language: ${language}
+`;
 
   try {
-    const recipeObject = JSON.parse(cleanedRecipeText);
-    // fs.writeFileSync("recipe.txt", JSON.stringify(recipeObject, null, 2), "utf8");
-    console.log(recipeObject);
-    console.log("Recipe saved to recipe.json");
-    return recipeObject;
-  } catch (error) {
-    ``
-    console.error("Error parsing recipe text:", error);
-    console.error("Response received:", cleanedRecipeText); // Log the problematic response
-  }
+    const response = await ai.models.generateContent({
+      model: "gemini-2.5-flash",
+      contents: prompt,
+    });
 
+    let recipeText = response.text
+      .replace(/```[\s\S]*?```/g, "") // remove code fences
+      .replace(/,\s*([}\]])/g, "$1") // remove trailing commas
+      .replace(/[“”]/g, '"') // fix curly quotes
+      .replace(/[‘’]/g, "'") // fix curly single quotes
+      .trim();
+
+    // Auto-fix unquoted keys (JS -> JSON)
+    recipeText = recipeText.replace(/([{,]\s*)([a-zA-Z0-9_]+)\s*:/g, '$1"$2":');
+
+    // ✅ Sanitize before parsing
+    recipeText = sanitizeText(recipeText);
+
+    const recipeObject = JSON.parse(recipeText);
+
+    // ✅ Sanitize parsed fields too
+    if (recipeObject.dishName) recipeObject.dishName = sanitizeText(recipeObject.dishName);
+    if (Array.isArray(recipeObject.ingredients)) {
+      recipeObject.ingredients = recipeObject.ingredients.map((ing) => ({
+        item: sanitizeText(ing.item),
+        measurement: sanitizeText(ing.measurement),
+      }));
+    }
+    if (Array.isArray(recipeObject.instructions)) {
+      recipeObject.instructions = recipeObject.instructions.map(sanitizeText);
+    }
+    if (Array.isArray(recipeObject.tips)) {
+      recipeObject.tips = recipeObject.tips.map(sanitizeText);
+    }
+    if (recipeObject.cookingTime) recipeObject.cookingTime = sanitizeText(recipeObject.cookingTime);
+    if (Array.isArray(recipeObject.nutritionalInformation)) {
+      recipeObject.nutritionalInformation = recipeObject.nutritionalInformation.map(sanitizeText);
+    }
+
+    console.log("✅ Parsed recipe object:\n", recipeObject);
+    return recipeObject;
+
+  } catch (error) {
+    console.error("❌ Error generating or parsing recipe:", error);
+    return {
+      dishName: hasDishName ? dishName : "Custom Recipe Creation",
+      ingredients: [],
+      instructions: ["There was an error generating the recipe. Please try again."],
+      tips: ["Check your internet connection and try again."],
+      cookingTime: "Unknown",
+      nutritionalInformation: ["Information not available"]
+    };
+  }
 }
+
+
+
+
+// Example usage:
+// run("chicken, garlic, onion, tomato", "Italy", "Chicken Alfredo", "javascript");
+
+
+
+
+// Example usage
+// run("chicken, onion, garlic", "Italy", "javascript");
+
 // run();
 
 app.get("/aiform", (req, res) => {
   res.render("form");
 });
 
+
+
+
 app.post("/aiResponse", async (req, res) => {
-  const { dish, language, country } = req.body;
-  const recipeObject = await run(dish, country, language);
+  const {ingredients, language,cuisine, dishName} = req.body;
+  const recipeObject = await run(ingredients, language,cuisine, dishName);
   if (recipeObject) {
-    res.render("recipe1", { recipeObject });
+    res.json( { recipeObject });
   } else {
     res.status(500).send("Failed to generate recipe."); // Handle the error gracefully
   }

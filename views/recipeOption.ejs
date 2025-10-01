@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recipe Finder</title>
+  <link rel="icon" type="image/png" href="./images/appLogo/fav.png">
+  <link rel="stylesheet" href="/css/header.css">
+
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    body {
+      background-color: #111;
+      color: #eee;
+      padding-top: 70px;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 3rem auto;
+      padding: 1rem;
+    }
+
+    h1.page-title {
+      text-align: center;
+      font-size: 2.4rem;
+      margin-bottom: 0.5rem;
+      color: #20f803;
+      letter-spacing: 1px;
+    }
+
+    p.page-subtitle {
+      text-align: center;
+      font-size: 1rem;
+      color: #bbb;
+      margin-bottom: 2.5rem;
+    }
+
+    .options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .option-card {
+      background: #1a1a1a;
+      border: 2px solid #32cd32;
+      border-radius: 14px;
+      padding: 2rem;
+      text-align: center;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .option-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 10px 20px rgba(0,255,0,0.2);
+    }
+
+    .option-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: #20f803;
+    }
+
+    .option-card h2 {
+      font-size: 1.5rem;
+      margin-bottom: 0.8rem;
+      color: #20f803;
+    }
+
+    .option-card p {
+      font-size: 1rem;
+      color: #ccc;
+      margin-bottom: 1.2rem;
+      line-height: 1.5;
+    }
+
+    .option-card a {
+      display: inline-block;
+      margin-top: 0.5rem;
+      padding: 0.7rem 1.5rem;
+      background: #000;
+      color: #20f803;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 0.95rem;
+      border: 1px solid #20f803;
+      transition: all 0.25s ease;
+    }
+
+    .option-card a:hover {
+      background: #20f803;
+      color: #000;
+      transform: scale(1.05);
+    }
+
+    footer {
+      margin-top: 4rem;
+      text-align: center;
+      padding: 1rem;
+      border-top: 1px solid #222;
+      color: #888;
+      font-size: 0.9rem;
+    }
+  </style>
+
+  <!-- Font Awesome (for icons) -->
+  <script src="https://kit.fontawesome.com/4c0c1e6f6b.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <!-- Header -->
+  <%- include("./header") %>
+
+  <main>
+    <h1 class="page-title">Options for Finding Recipes</h1>
+    <p class="page-subtitle">Choose how you want to explore delicious recipes with your ingredients.</p>
+
+    <div class="options">
+      <div class="option-card">
+        <div class="option-icon"><i class="fas fa-carrot"></i></div>
+        <h2>By Ingredient</h2>
+        <p>Search recipes based on a single ingredient you have in your kitchen.</p>
+        <a href="/home/recipe/recipeBySingleIngredinet">Explore</a>
+      </div>
+
+      <div class="option-card">
+        <div class="option-icon"><i class="fas fa-robot"></i></div>
+        <h2>By Multiple Ingredients (AI Powered)</h2>
+        <p>Enter multiple ingredients and let AI suggest creative and tasty recipes.</p>
+        <a href="/home/recipe/recipeByMultiIngredinet">Try Now</a>
+      </div>
+    </div>
+  </main>
+
+ 
+</body>
+</html>

@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
 <header>
   <nav>
     <div class="app-icon">
@@ -7,11 +9,22 @@
     </div>
     <div class="menu-icon">&#9776;</div>
     <ul class="nav-links">
-      <li><a href="/home">Home</a></li>
-      <li><a href="/home/recipe">Recipes</a></li>
-      <li><a href="/home/account">Account</a></li>
-      <li><a href="/home/leaderBoard">Leader-Board</a></li>
-      <li><a href="/home/aboutus">About</a></li>
+      <li><a href="/home"><i style="margin-right: 3px;" class="fas fa-home"></i> Home</a></li>
+      <li><a href="/home/recipe"><i  style="margin-right: 3px;" class="fas fa-utensils"></i> Recipes</a></li>
+      <li><a href="/home/account"><i  style="margin-right:3px;" class="fas fa-user"></i> Account</a></li>
+      <li><a href="/home/leaderBoard"><i  style="margin-right: 3px;" class="fas fa-trophy"></i> Leader-Board</a></li>
+      <li><a href="/home/aboutus"><i  style="margin-right: 3px;" class="fas fa-info-circle"></i> About</a></li>
     </ul>
   </nav>
 </header>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const menuIcon = document.querySelector(".menu-icon");
+    const navLinks = document.querySelector(".nav-links");
+
+    menuIcon.addEventListener("click", () => {
+      console.log("Hamburger menu clicked");
+      navLinks.classList.toggle("mobile");
+    });
+  });
+</script>

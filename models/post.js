@@ -7,13 +7,13 @@ const commentSchema = mongoose.Schema({
 });
 
 const postSchema = mongoose.Schema({
-  dishName: String,
-  filename: String,
-  dishIngredients: String,
-  dishDescription: String,
-  dishYouTubeLink: String,
-  dishInstructions: String,
-  dishCategory: String,
+  strMeal: String,
+   strMealThumb: String,
+   dishIngredients: String,
+   dishDescription: String,
+   strYoutube: String,
+   strInstructions: String,
+   strCategory: String,
   comments: [commentSchema], // Comments array
   user: [
     {

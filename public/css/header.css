@@ -45,10 +45,14 @@ header img {
 .nav-links a {
   color: #fff;
   transition: color 0.3s;
+   font-weight: 500;
+            padding: 5px 10px;
+            border-radius: 4px;
 }
 
 .nav-links a:hover {
-  color: #32cd32;
+   color: #00ff00;
+            background-color: rgba(0, 255, 0, 0.1);
 }
 
 /* Mobile menu icon */

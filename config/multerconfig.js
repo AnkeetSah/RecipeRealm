@@ -1,48 +1,44 @@
-const multer = require('multer');
-const path = require('path');
-const crypto = require('crypto');
+const multer = require("multer");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const cloudinary = require("cloudinary").v2;
 
-// Disk storage configuration with dynamic destination and userId-based filenames
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    if (file.fieldname === 'profileImage') {
-      cb(null, './public/images/profilePic'); 
-    } else if (file.fieldname === 'dishImage') {
-      cb(null, './public/images/uploads'); 
-    } else {
-      cb(null, './public/uploads'); 
-    }
-  },
-  filename: function (req, file, cb) {
-    
-    
-    
-
-    crypto.randomBytes(12, (err, buffer) => {
-      if (err) return cb(err);
-
-      const randomHex = buffer.toString('hex');
-      const ext = path.extname(file.originalname);
-
-     
-      let filename;
-      if (file.fieldname === 'profileImage') {
-        const userId = req.body.id;
-        filename = `${userId}+profile-${randomHex}${ext}`; // Profile Image filename
-        console.log(userId);
-      } else if (file.fieldname == 'dishImage') {
-        const foodId=req.user.userid;
-        filename = `${foodId}-food-${randomHex}${ext}`; // Document filename
-      } else {
-        filename = `${userId}-${randomHex}${ext}`; // Default filename
-      }
-
-      cb(null, filename);
-    });
-  }
+// ✅ Configure Cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// Multer instance for handling the file upload
-const upload = multer({ storage: storage });
+// ✅ Define storage using multer-storage-cloudinary
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: async (req, file) => {
+    let folder = "uploads"; // default folder
+
+    if (file.fieldname === "profileImage") {
+      folder = "profilePic";
+    } else if (file.fieldname === "dishImage") {
+      folder = "dishImages";
+    }
+
+    return {
+      folder: folder,
+      format: file.mimetype.split("/")[1], // auto-detect file extension
+      public_id: () => {
+        const randomHex = Math.random().toString(36).substring(2, 12);
+        if (file.fieldname === "profileImage") {
+          return `${req.body.id || "unknown"}-profile-${randomHex}`;
+        } else if (file.fieldname === "dishImage") {
+          return `${req.user?.userid || "unknown"}-food-${randomHex}`;
+        } else {
+          return `file-${randomHex}`;
+        }
+      },
+    };
+  },
+});
+
+// ✅ Multer instance with Cloudinary storage
+const upload = multer({ storage });
 
 module.exports = upload;
