@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile Page</title>
-       <link rel="icon" type="image/png" href="./images/appLogo/fav.png">
-      <link rel="stylesheet" href="/css/header.css">
+    <link rel="icon" type="image/png" href="./images/appLogo/fav.png">
+    <link rel="stylesheet" href="/css/header.css">
     <style>
         body, h1, p, ul, li, a {
             margin: 0;
@@ -143,7 +143,6 @@
             background-color: #00cc00;
         }
 
-        /* Media Queries for Responsive Design */
         @media (max-width: 768px) {
             .container {
                 flex-direction: column;
@@ -183,11 +182,10 @@
                 font-size: 0.9rem;
                 padding: 0.5rem;
             }
-            
         }
 
         .post {
-           min-height: 165px;
+            min-height: 165px;
             width: 150px;
             background: #000;
             border-radius: 10px;
@@ -196,7 +194,7 @@
             align-items: center;
             margin-right: 10px;
             padding: 0.5rem;
-             margin-bottom: 20px;
+            margin-bottom: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
@@ -206,7 +204,6 @@
             height: 100px;
             border-radius: 10px;
             object-fit: cover;
-           
         }
 
         .post p {
@@ -217,10 +214,7 @@
         }
 
         .post a {
-           
             display: block;
-            
-            
             color: wheat;
             border-radius: 4px;
             text-decoration: none;
@@ -228,44 +222,51 @@
             transition: background-color 0.2s ease;
         }
 
-        
-
         .post:hover {
             transform: translateY(-5px);
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
         }
-        .action{
+
+        .action {
             display: flex;
             align-items: center;
             justify-content: space-evenly;
-            
             width: 190px;
         }
-        
-        .action a{
-            display: block;
-            
+
+        .action button {
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 0.3rem 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
         }
+
+        .action button:hover {
+            background-color: #cc0000;
+        }
+
         @media (max-width:480px){
             .post {
                 width: 120px;
-                
-                 
-                  }
-                  .post-container{
-                    justify-content: space-around;
-                    overflow-y: scroll;
-                    height: 200px;
-                    margin-left: -15px;
-                    flex-wrap: nowrap;
-                    width: 100%;
-                  }
-                  .sidebar{
-                    margin-left: -10px;
-                    width: 100%;
-                  }
+            }
+            .post-container{
+                justify-content: space-around;
+                overflow-y: scroll;
+                height: 200px;
+                margin-left: -15px;
+                flex-wrap: nowrap;
+                width: 100%;
+            }
+            .sidebar{
+                margin-left: -10px;
+                width: 100%;
+            }
         }
-        header img{
+
+        header img {
             height: 50px;
         }
     </style>
@@ -274,7 +275,6 @@
     <header>
         <nav>
             <div class="app-icon">
-                <!-- You can replace "Recipe App" with your preferred app name -->
                 <span class="app-name">
                     <img src="/images/appLogo/headerLogo.png" alt="">
                 </span>
@@ -286,43 +286,38 @@
                 <li><a href="/home/account">Account</a></li>
                 <li><a href="/home/leaderBoard">Leader-Board</a></li>
                 <li><a href="/home/aboutus">About</a></li>
-                
             </ul>
         </nav>
     </header>
+
     <div class="container">
         <div class="post-container">
-            
             <% if (recipes && recipes.length) { %>
                 <% recipes.forEach(recipe => { %>
                     <div class="post">
-                        <% if (recipe.strMealThumb) { %>
-                            <img src="<%= recipe.strMealThumb %>" alt="Recipe Image">
-                        <% } else { %>
-                            <img src="/images/uploads/<%= recipe.filename %>" alt="Uploaded Image">
+                        <% if (recipe?.strMealThumb) { %>
+                            <img src="<%= recipe?.strMealThumb %>" alt="Recipe Image">
                         <% } %>
-                        <p><%= recipe.strMeal %>  <%= recipe.dishName %> </p>
+                        <p><%= recipe?.strMeal %> <%= recipe?.dishName %></p>
                         <div class="action">
-                            <p>Unsave</p>
-                            <% if (recipe.idMeal) { %>
-                                <a href="/places/<%= recipe.strArea %>/<%= recipe.idMeal %>">View</a>
+                            <button class="unsave-btn" data-id="<%= recipe?.idMeal || recipe?._id %>">Unsave</button>
+                            <% if (recipe?.idMeal) { %>
+                                <a href="/home/recipe/item/<%= recipe?.idMeal %>">View</a>
                             <% } else { %>
-                                <a href="/seeRecipe/<%= recipe._id %>">View</a>
+                                <a href="/home/recipe/item/<%= recipe?._id %>">View</a>
                             <% } %>
-                            
                         </div>
                     </div>
                 <% }) %>
             <% } else { %>
                 <p>No posts available.</p>
             <% } %>
-
-
         </div>
+
         <div class="sidebar">
             <a href="/account/addDish">Add Dish</a>
             <a href="/account/userSavedRecipe" style="background-color: #000;color:white">Saved Posts</a>
-            <a href="/account/postcreated" >Created Posts</a>
+            <a href="/account/postcreated">Created Posts</a>
             <a href="/logout">Log out</a>
         </div>
     </div>
@@ -333,6 +328,32 @@
 
         menuIcon.addEventListener('click', () => {
             navLinks.classList.toggle('mobile');
+        });
+
+        // Handle Unsave buttons
+        document.querySelectorAll('.unsave-btn').forEach(button => {
+            button.addEventListener('click', async () => {
+                const id = button.dataset.id;
+
+                try {
+                    const response = await fetch('/account/unsaveDish', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ id })
+                    });
+
+                    const data = await response.json();
+                    if (response.ok) {
+                        button.closest('.post').remove(); // Remove post from DOM
+                        console.log(data.message);
+                    } else {
+                        alert(data.message || "Failed to unsave dish");
+                    }
+                } catch (err) {
+                    console.error(err);
+                    alert("An error occurred while unsaving the dish");
+                }
+            });
         });
     </script>
 </body>

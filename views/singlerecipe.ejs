@@ -215,9 +215,10 @@
       if (data.length > 0) {
         resultsDiv.innerHTML = data.map(meal => `
           <div class="recipe-card">
-            <img src="${meal.strMealThumb}" alt="${meal.strMeal}">
-            <h3>${meal.strMeal}mmkk</h3>
-            <a href="/recipe/item/${meal.idMeal}">View Recipe</a>
+           
+            <img src="${meal.strMealThumb}" alt="${meal.strMealThumb}">
+            <h3>${meal.strMeal}</h3>
+            <a href="/home/recipe/item/${meal.idMeal}">View Recipe</a>
           </div>
         `).join("");
       } else {

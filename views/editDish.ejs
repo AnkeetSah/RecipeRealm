@@ -28,6 +28,7 @@
         .container {
             display: flex;
             padding: 2rem;
+            margin-top: 70px;
             
         }
 
@@ -138,28 +139,28 @@
     <div class="container">
         <div class="form-container">
             <h2>Edit Dish Recipe</h2>
-            <form id="dishForm" action="/editDish/<%= post._id %>" method="post" enctype="multipart/form-data">
+            <form id="dishForm" action="/account/editDish/<%= post._id %>" method="post" enctype="multipart/form-data">
                 <label for="dishName">Dish Name:</label>
-                <input type="text" id="dishName" name="dishName" value="<%= post.dishName %>" required>
+                <input type="text" id="dishName" name="strMeal" value="<%= post.strMeal %>" required>
                 
                 <label for="dishCategory">Dish Category:</label>
-                <input type="text" id="dishCategory" name="dishCategory" value="<%= post.dishCategory %>" required placeholder="Important! This should be based on the main ingredient you are using in your dish.">
+                <input type="text" id="dishCategory" name="strCategory" value="<%= post.strCategory %>" required placeholder="Important! This should be based on the main ingredient you are using in your dish.">
                 
                 <label for="dishIngredients">Dish Ingredients:</label>
                 <textarea id="dishIngredients" name="dishIngredients" rows="4" required placeholder="Important! You have to mention the ingredients followed by a space."><%= post.dishIngredients %></textarea>
                 
                 <label for="dishInstructions">Dish Instructions:</label>
-                <textarea id="dishInstructions" name="dishInstructions" rows="4" required><%= post.dishInstructions %></textarea>
+                <textarea id="dishInstructions" name="strInstructions" rows="4" required><%= post.strInstructions %></textarea>
                 
                 <label for="dishDescription">Dish Description:</label>
                 <textarea id="dishDescription" name="dishDescription" rows="4" required><%= post.dishDescription %></textarea>
                 
                 <label for="dishYouTubeLink">Dish YouTube Link:</label>
-                <input type="url" id="dishYouTubeLink" name="dishYouTubeLink" value="<%= post.dishYouTubeLink %>" required>
+                <input type="url" id="dishYouTubeLink" name="strYoutube" value="<%= post.strYoutube %>" required>
                 
                 <div class="current-image">
                     <p>Current Image:</p>
-                    <img src="/images/uploads/<%= post.filename %>" alt="Current Dish Image">
+                    <img src="<%= post.strMealThumb %>" alt="Current Dish Image">
                 </div>
                 
                 <label for="dishImage">Upload New Dish Image (optional):</label>

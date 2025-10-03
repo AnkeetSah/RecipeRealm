@@ -97,6 +97,7 @@
             display: flex;
             flex-wrap: wrap;
             padding: 2rem;
+            margin-top: 70px;
         }
 
         .post-container {
@@ -269,15 +270,15 @@
     <div class="container">
         <div class="post-container">
             
-           <% post.forEach(post=>{ %>
+           <% posts.forEach(post=>{ %>
                 <div class="post">
-                    <img src="/images/uploads/<%= post.filename %>" alt="">
-                    <p><%= post.dishName%></p>
+                    <img src="<%= post.strMealThumb%>" alt="">
+                    <p><%= post.strMeal%></p>
                     <div class="action">
                         <p><%= post.total_likes.length  %>-Likes</p>
-                        <a href="/postEdit/<%= post._id %>">Edit</a>
+                        <a href="/account/postEdit/<%= post._id %>">Edit</a>
                         <a href="/postDelete/<%= post._id %>">Delete</a>
-                        <a href="/seeRecipe/<%= post._id %>">View</a>
+                        <a href="/home/recipe/item/<%= post._id %>">View</a>
                     </div>
                    
                    </div>

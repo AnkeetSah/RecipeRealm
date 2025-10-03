@@ -14,6 +14,11 @@ const postSchema = mongoose.Schema({
    strYoutube: String,
    strInstructions: String,
    strCategory: String,
+   cloudinary_id: {
+  type: String,
+  required: false
+}
+,
   comments: [commentSchema], // Comments array
   user: [
     {

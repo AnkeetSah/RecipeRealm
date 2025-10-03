@@ -279,7 +279,7 @@
      
 
 
-      <form id="signupForm" action="/register" method="post" class="none">
+      <form id="signupForm" action="/account/register" method="post" class="none">
         <h1 id="signupTitle" class="formTitle">Sign Up</h1>
         <input type="text" name="name" placeholder="Name" required>
         <input type="email" name="email" placeholder="Email" required>
@@ -335,7 +335,7 @@
         loginButton.disabled = true;
 
         try {
-          const response = await fetch('/login', {
+          const response = await fetch('/account/login', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
