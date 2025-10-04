@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile Page</title>
-       <link rel="icon" type="image/png" href="./images/appLogo/fav.png">
-       <link rel="stylesheet" href="/css/header.css">
+    <link rel="icon" type="image/png" href="./images/appLogo/fav.png">
+    <link rel="stylesheet" href="/css/header.css">
     <style>
         body, h1, p, ul, li, a {
             margin: 0;
@@ -22,92 +22,29 @@
             color: #ffffff;
         }
 
-        header {
-            background-color: #000;
-            padding: 6px 7px;
-        }
+       
 
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+       
 
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: #32CD32;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 20px;
-            margin-right: 20px;
-        }
-
-        .nav-links a {
-            color: #fff;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: #32CD32;
-        }
-
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-
-            .menu-icon {
-                display: block;
-                font-size: 24px;
-                cursor: pointer;
-                color: #fff;
-            }
-
-            .menu-icon:hover {
-                color: #32CD32;
-            }
-
-            .nav-links.mobile {
-                display: flex;
-                flex-direction: column;
-                gap: 10px;
-                background: #000;
-                position: absolute;
-                top: 60px;
-                right: 20px;
-                padding: 20px;
-                border-radius: 5px;
-            }
-
-            .nav-links.mobile a {
-                color: #32CD32;
-            }
-        }
-
-        @media (min-width: 769px) {
-            .menu-icon {
-                display: none;
-            }
-        }
+       
 
         .container {
             display: flex;
             flex-wrap: wrap;
-            padding: 2rem;
+            padding: 2rem 80px;
             margin-top: 70px;
         }
 
         .post-container {
             flex: 1;
-            padding: 1rem;
+            padding: 1.5rem;
             background-color: #1f1f1f;
-            border-radius: 8px;
+            border-radius: 12px;
             margin-right: 2rem;
             display: flex;
             flex-wrap: wrap;
+            gap: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
 
         .post-container h2 {
@@ -131,6 +68,7 @@
             padding: 0.5rem;
             margin-bottom: 1rem;
             border: none;
+            font-weight: bolder;
             border-radius: 4px;
             background-color: #00ff00;
             color: #000000;
@@ -186,82 +124,160 @@
 
             .post-container{
                 justify-content: space-around;
-                overflow-y: scroll;
-                height: 200px;
-                margin-left: -15px;
-                flex-wrap: nowrap;
+                overflow-y: auto;
+                height: auto;
+                margin-left: 0;
+                flex-wrap: wrap;
                 width: 100%;
-              }
-              .sidebar{
-                margin-left: -10px;
-              }
+            }
+            .sidebar{
+                margin-left: 0;
+            }
         }
 
+        /* ENHANCED CARD STYLES */
         .post {
-           min-height: 165px;
-            min-width: 150px;
-            background: #000;
-            border-radius: 10px;
+            min-height: 250px;
+            width: 220px;
+            background: linear-gradient(145deg, #1a1a1a, #000000);
+            border-radius: 12px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-right: 10px;
-            padding: 0.5rem;
-            
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            padding: 1rem;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #2a2a2a;
+        }
+
+        .post::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #32CD32, #00cc00);
         }
 
         .post img {
             width: 100%;
-            height: 100px;
-            border-radius: 10px;
+            height: 130px;
+            border-radius: 8px;
             object-fit: cover;
-           
+            margin-bottom: 0.75rem;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .post:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5);
+            border-color: #32CD32;
+        }
+
+        .post:hover img {
+            transform: scale(1.05);
         }
 
         .post p {
-            color: #bfbfbf;
-            font-size: 0.9rem;
+            color: #ffffff;
+            font-size: 1rem;
             text-align: center;
             margin: 0.5rem 0;
+            font-weight: 600;
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
-        .post a {
-           
-            display: block;
-            
-            
-            color: wheat;
-            border-radius: 4px;
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: background-color 0.2s ease;
+        .post .meal-name {
+            color: #32CD32;
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
         }
 
-        
-
-        .post:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-        }
-        .action{
+        .action {
             display: flex;
             align-items: center;
-            justify-content: space-evenly;
-            
-            width: 190px;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: auto;
+            padding-top: 0.75rem;
+            border-top: 1px solid #2a2a2a;
         }
-        
-        .action a{
-            display: block;
-            
+
+        .likes {
+            display: flex;
+            align-items: center;
+            color: #ff6b6b;
+            font-size: 0.85rem;
+            font-weight: 600;
         }
-        header img{
+
+        .likes::before {
+            content: '♥';
+            margin-right: 4px;
+            font-size: 1rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+        }
+
+        .action a {
+            display: inline-block;
+            padding: 0.35rem 0.6rem;
+            background-color: #2a2a2a;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            transition: all 0.2s ease;
+            color: #ffffff;
+            border: 1px solid #3a3a3a;
+        }
+
+        .action a:hover {
+            background-color: #32CD32;
+            color: #000;
+            transform: translateY(-2px);
+        }
+
+        .action a.view-btn:hover {
+            background-color: #4a90e2;
+        }
+
+        .action a.delete-btn:hover {
+            background-color: #ff4757;
+        }
+
+        header img {
             height: 50px;
-           
             position: relative;
-        
+        }
+
+        /* Empty state styling */
+        .empty-state {
+            width: 100%;
+            text-align: center;
+            padding: 2rem;
+            color: #888;
+        }
+
+        .empty-state p {
+            margin-bottom: 1rem;
+        }
+
+        .empty-state a {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background-color: #32CD32;
+            color: #000;
+            border-radius: 6px;
+            font-weight: 600;
         }
     </style>
 </head>
@@ -269,22 +285,27 @@
    <%- include("./header") %>
     <div class="container">
         <div class="post-container">
-            
-           <% posts.forEach(post=>{ %>
-                <div class="post">
-                    <img src="<%= post.strMealThumb%>" alt="">
-                    <p><%= post.strMeal%></p>
-                    <div class="action">
-                        <p><%= post.total_likes.length  %>-Likes</p>
-                        <a href="/account/postEdit/<%= post._id %>">Edit</a>
-                        <a href="/postDelete/<%= post._id %>">Delete</a>
-                        <a href="/home/recipe/item/<%= post._id %>">View</a>
+            <% if (posts.length > 0) { %>
+                <% posts.forEach(post=>{ %>
+                    <div class="post">
+                        <img src="<%= post.strMealThumb%>" alt="<%= post.strMeal%>">
+                        <p class="meal-name"><%= post.strMeal%></p>
+                        <div class="action">
+                            <span class="likes"><%= post.total_likes.length  %></span>
+                            <div class="action-buttons">
+                                <a href="/account/postEdit/<%= post._id %>" class="edit-btn">Edit</a>
+                                <a href="/account/postDelete/<%= post._id %>" class="delete-btn">Delete</a>
+                                <a href="/home/recipe/item/<%= post._id %>" class="view-btn">View</a>
+                            </div>
+                        </div>
                     </div>
-                   
-                   </div>
-          <%  }) %>
-
-
+                <% }) %>
+            <% } else { %>
+                <div class="empty-state">
+                    <p>You haven't created any posts yet.</p>
+                    <a href="/account/addDish">Create Your First Post</a>
+                </div>
+            <% } %>
         </div>
         <div class="sidebar">
             <a href="/account/addDish">Add Dish</a>
@@ -294,13 +315,6 @@
         </div>
     </div>
 
-    <script>
-        const menuIcon = document.querySelector('.menu-icon');
-        const navLinks = document.querySelector('.nav-links');
-
-        menuIcon.addEventListener('click', () => {
-            navLinks.classList.toggle('mobile');
-        });
-    </script>
+   
 </body>
 </html>

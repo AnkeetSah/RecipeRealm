@@ -9,6 +9,7 @@
    <link rel="stylesheet" href="/css/home/randomCard.css">
    <link rel="stylesheet" href="/css/home/hero.css">
    <link rel="stylesheet" href="/css/home/countries.css">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
       /* Reset some default browser styles */
@@ -48,16 +49,111 @@
       /* Footer styling */
       footer {
         background-color: #000;
-        text-align: center;
-        padding: 20px;
+        padding: 40px 20px 20px;
         margin-top: 40px;
+        border-top: 2px solid #32cd32;
       }
-    
-      footer p {
+      
+      .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+      }
+      
+      .footer-section {
+        margin-bottom: 20px;
+      }
+      
+      .footer-section h3 {
+        color: #32cd32;
+        margin-bottom: 15px;
+        font-size: 20px;
+        border-bottom: 1px solid #32cd32;
+        padding-bottom: 5px;
+      }
+      
+      .footer-section p {
+        color: #ccc;
+        line-height: 1.6;
+        margin-bottom: 10px;
+      }
+      
+      .footer-links li {
+        margin-bottom: 10px;
+      }
+      
+      .footer-links a {
+        color: #ccc;
+        transition: color 0.3s;
+        display: flex;
+        align-items: center;
+      }
+      
+      .footer-links a:hover {
+        color: #32cd32;
+      }
+      
+      .footer-links i {
+        margin-right: 8px;
+        width: 20px;
+        text-align: center;
+      }
+      
+      .social-links {
+        display: flex;
+        gap: 15px;
+        margin-top: 15px;
+      }
+      
+      .social-links a {
+        color: #ccc;
+        font-size: 20px;
+        transition: color 0.3s;
+      }
+      
+      .social-links a:hover {
+        color: #32cd32;
+      }
+      
+      .newsletter-form {
+        display: flex;
+        margin-top: 15px;
+      }
+      
+      .newsletter-form input {
+        flex: 1;
+        padding: 10px;
+        border: 1px solid #32cd32;
+        background: #111;
         color: #fff;
+        border-radius: 4px 0 0 4px;
       }
-    
-     
+      
+      .newsletter-form button {
+        background: #32cd32;
+        color: #000;
+        border: none;
+        padding: 0 15px;
+        cursor: pointer;
+        border-radius: 0 4px 4px 0;
+        font-weight: bold;
+        transition: background 0.3s;
+      }
+      
+      .newsletter-form button:hover {
+        background: #28a745;
+      }
+      
+      .footer-bottom {
+        text-align: center;
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid #333;
+        color: #999;
+        font-size: 14px;
+      }
     
       @media (min-width: 769px) {
         .menu-icon {
@@ -181,45 +277,33 @@
         .card-a{
           margin-top: 10px;
         }
-        .byuser{
-          margin-top: 70px;
-        }
+        
 
        .countries .seemore{
         margin-top: 0px;
        }
-       .foodshowsection{
-        padding: 0px;
-        gap: 10px;
-        width:100%;
        
-       }
-       .userfoodcard{
-        margin-left: 0px;
-        font-size: small;
-       padding: 2px;
-       border: 3px solid #32cd32;
-        justify-content: space-between;
-        background: #222;
-        height: 265px;
-        width: 150px;
-       }
-       .userfoodcard p{
-        font-size: smaller;
-       }
-       .userfoodcard .category{
-        width: 145px;
-        margin-left: 1px;
-        font-size: x-small;
-       }
-       .userdata{
-        gap: 6px;
-       }
-       .postdata .desc{
-        font-size: 10px;
-        line-height: 13px;
-       }
+      
         
+        /* Footer mobile adjustments */
+        .footer-content {
+          grid-template-columns: 1fr;
+          gap: 20px;
+        }
+        
+        .newsletter-form {
+          flex-direction: column;
+        }
+        
+        .newsletter-form input {
+          border-radius: 4px;
+          margin-bottom: 10px;
+        }
+        
+        .newsletter-form button {
+          border-radius: 4px;
+          padding: 10px;
+        }
       }
       header img{
         height: 50px;
@@ -245,76 +329,80 @@
       <h1 class="cuisines" style="margin-top: 40px">Random Dish</h1>
       <%- include('partials/home/randomCard', { randomDish: randomDish }) %>
 
-      <h1  class="byuser" style="color: #32cd32;text-align: center">
-        Dish posted by users
-      </h1>
-      <div class="foodshowsection"></div>
+
+      
+
+      
+       
+               
+         <%- include("./partials/userDishes") %>
+
+       
+     
     </main>
+     
 
     <footer>
-      <p>&copy; 2024 RecipeApp. All rights reserved.</p>
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>Recipe Realm</h3>
+          <p>Discover, create, and share delicious recipes from around the world. Join our community of food enthusiasts!</p>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-pinterest"></i></a>
+          </div>
+        </div>
+        
+        <div class="footer-section">
+          <h3>Quick Links</h3>
+          <ul class="footer-links">
+            <li><a href="/home"><i style="margin-right: 3px;" class="fas fa-home"></i> Home</a></li>
+            <li><a href="/home/recipe"><i  style="margin-right: 3px;" class="fas fa-utensils"></i> Recipes</a></li>
+            <li><a href="/home/account"><i  style="margin-right:3px;" class="fas fa-user"></i> Account</a></li>
+            <li><a href="/home/leaderBoard"><i  style="margin-right: 3px;" class="fas fa-trophy"></i> Leader-Board</a></li>
+            <li><a href="/home/aboutus"><i  style="margin-right: 3px;" class="fas fa-info-circle"></i> About</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-section">
+          <h3>Newsletter</h3>
+          <p>Subscribe to our newsletter for weekly recipe inspiration and cooking tips!</p>
+          <form class="newsletter-form">
+            <input type="email" placeholder="Your email address" required>
+            <button type="submit">Subscribe</button>
+          </form>
+        </div>
+        
+        <div class="footer-section">
+          <h3>Contact Us</h3>
+          <p><i class="fas fa-envelope"></i> support@reciperealm.com</p>
+          <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+          <p><i class="fas fa-map-marker-alt"></i> 123 Culinary Street, Foodville</p>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; 2024 Recipe Realm. All rights reserved.</p>
+      </div>
     </footer>
 
     <script>
     
-      const menuIcon = document.querySelector(".menu-icon");
-      const navLinks = document.querySelector(".nav-links");
+     
   
-      menuIcon.addEventListener("click", () => {
-          navLinks.classList.toggle("mobile");
-      });
-  
-      const foodshowsection = document.querySelector(".foodshowsection");
-  
-      window.addEventListener("load", async () => {
-          console.log("Page loaded");
-  
-          try {
-              // Fetch user posts
-              const userPostsResponse = await fetch("https://reciperealm-1.onrender.com/allUserPost");
-              const userPostsData = await userPostsResponse.json();
-              console.log(userPostsData);
-  
-              userPostsData.forEach((post) => {
-                  const content = `
-                      <div class="userfoodcard">
-                          <img  src="/images/uploads/${post.filename}" alt="${post.dishName}" />
-                          <div class="userdata">
-                              <p class="category">${post.dishCategory}</p>
-                              <p class="likes"> ❤️ ${post.total_likes.length}Likes</p>
-                          </div>
-                          <div class="postdata">
-                              <h2>${post.dishName}</h2>
-                              <p class="desc">${post.dishDescription}</p>
-                              <a href="/seeRecipe/${post._id}">See Recipe</a>
-                          </div>
-                      </div>`;
-                  
-                  foodshowsection.innerHTML += content;
-              });
-  
-              // Call fetchContent() after posts are added to the DOM
-              fetchContent();
-          } catch (error) {
-              console.error("Error fetching data:", error);
-          }
-      });
-  
-      const limitWords = (element, wordLimit) => {
-          let text = element.innerText;
-          let words = text.split(" ");
-          if (words.length > wordLimit) {
-              text = words.slice(0, wordLimit).join(" ") + "...";
-              element.innerText = text;
-          }
-      };
-  
-      const fetchContent = () => {
-          let desc = document.querySelectorAll(".desc");
-          desc.forEach((child) => {
-              limitWords(child, 10);
-          });
-      };
+    
+      // Newsletter form submission
+      const newsletterForm = document.querySelector('.newsletter-form');
+      if (newsletterForm) {
+        newsletterForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+          const email = this.querySelector('input[type="email"]').value;
+          alert(`Thank you for subscribing with ${email}! You'll receive our newsletter soon.`);
+          this.reset();
+        });
+      }
   </script>
 
   

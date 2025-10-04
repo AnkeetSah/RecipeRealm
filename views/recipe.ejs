@@ -7,14 +7,13 @@
     <link rel="icon" type="image/png" href="./images/appLogo/fav.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Reset some default browser styles */
         * {
             padding: 0;
             margin: 0;
             box-sizing: border-box;
         }
 
-        body, h1, p, ul,  a {
+        body, h1, p, ul, a {
             margin: 0;
             padding: 0;
             list-style: none;
@@ -22,7 +21,6 @@
             box-sizing: border-box;
         }
 
-        /* General body styling */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: #fff;
@@ -30,7 +28,7 @@
             line-height: 1.6;
         }
 
-        /* Header styling */
+        /* Header styling - UNCHANGED */
         header {
             background-color: #1b1b1b;
             padding: 10px 20px;
@@ -104,15 +102,35 @@
             border-radius: 10px;
             padding: 30px;
             flex-wrap: wrap;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
             margin-bottom: 30px;
             gap: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .head::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 255, 0, 0.03) 0%, transparent 70%);
+            animation: float 8s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-20px, -20px); }
         }
 
         .headchild {
             width: 48%;
             display: flex;
             flex-direction: column;
+            position: relative;
+            z-index: 1;
         }
 
         .recipe-image {
@@ -120,7 +138,13 @@
             height: 400px;
             border-radius: 10px;
             object-fit: cover;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 25px rgba(0, 255, 0, 0.2);
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+        }
+
+        .recipe-image:hover {
+            transform: scale(1.02) translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0, 255, 0, 0.3);
         }
 
         .about-section {
@@ -129,70 +153,137 @@
         }
 
         .about-section h2 {
-            font-size: 32px;
+            font-size: 36px;
             color: #00ff00;
             margin-bottom: 15px;
             font-weight: 700;
+            text-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+            letter-spacing: -0.5px;
         }
 
         .recipe-meta {
             display: flex;
             gap: 15px;
             margin: 20px 0;
+            flex-wrap: wrap;
         }
 
         .meta-item {
             display: flex;
             align-items: center;
-            gap: 5px;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 8px 15px;
-            border-radius: 20px;
+            gap: 8px;
+            background: rgba(0, 255, 0, 0.15);
+            padding: 10px 18px;
+            border-radius: 25px;
             font-size: 14px;
+            border: 1px solid rgba(0, 255, 0, 0.3);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .meta-item:hover {
+            background: rgba(0, 255, 0, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 255, 0, 0.2);
         }
 
         .likes {
             display: flex;
             gap: 15px;
             margin-top: 20px;
+            flex-wrap: wrap;
         }
 
         .likes a {
             color: white;
             cursor: pointer;
-            padding: 12px 20px;
-            background: #444;
-            border-radius: 5px;
-            transition: all 0.3s;
+            padding: 14px 24px;
+            background: linear-gradient(135deg, #444 0%, #555 100%);
+            border-radius: 8px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             align-items: center;
             gap: 8px;
-            font-weight: 500;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .likes a::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .likes a:hover::before {
+            width: 300px;
+            height: 300px;
         }
 
         .likes a:hover {
-            background: #555;
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 255, 0, 0.3);
         }
 
         .likes a.saved {
-            background: #00aa00;
+            background: linear-gradient(135deg, #00cc00 0%, #00ff00 100%);
+            box-shadow: 0 4px 15px rgba(0, 255, 0, 0.4);
+        }
+
+        .likes a.saved:hover {
+            box-shadow: 0 8px 25px rgba(0, 255, 0, 0.5);
+        }
+
+        .likes a.liked {
+            background: linear-gradient(135deg, #ff4757 0%, #ff6b6b 100%);
+            box-shadow: 0 4px 15px rgba(255, 71, 87, 0.4);
+        }
+
+        .likes a.liked:hover {
+            box-shadow: 0 8px 25px rgba(255, 71, 87, 0.5);
+        }
+
+        .like-count {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 24px;
+            background: rgba(0, 255, 0, 0.15);
+            border-radius: 8px;
+            font-weight: 600;
+            border: 1px solid rgba(0, 255, 0, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
 
         .chef-quote {
             display: flex;
             margin-top: 40px;
             align-items: center;
-            background: rgba(0, 255, 0, 0.1);
-            padding: 20px;
-            border-radius: 10px;
+            background: linear-gradient(135deg, rgba(0, 255, 0, 0.1) 0%, rgba(0, 255, 0, 0.05) 100%);
+            padding: 25px;
+            border-radius: 12px;
             border-left: 4px solid #00ff00;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .chef-quote:hover {
+            transform: translateX(5px);
         }
 
         .chef-icon {
             height: 80px;
             width: 80px;
             margin-right: 20px;
+            filter: drop-shadow(0 0 15px rgba(0, 255, 0, 0.3));
         }
 
         .chef-quote h1 {
@@ -210,17 +301,29 @@
             border-radius: 10px;
             padding: 30px;
             margin-right: 40px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease;
+        }
+
+        .ingredients:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0, 255, 0, 0.15);
         }
 
         .instructions {
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
             width: 55%;
             background: linear-gradient(135deg, #333 0%, #444 100%);
             min-height: 600px;
             max-height: auto;
             border-radius: 10px;
             padding: 30px;
+            transition: transform 0.3s ease;
+        }
+
+        .instructions:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0, 255, 0, 0.15);
         }
 
         .Recipe {
@@ -230,88 +333,158 @@
         }
 
         .section-title {
-            font-size: 24px;
+            font-size: 28px;
             color: #00ff00;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #00ff00;
+            margin-bottom: 25px;
+            padding-bottom: 12px;
+            border-bottom: 3px solid #00ff00;
+            text-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, #00ff00, transparent);
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
         }
 
         .items {
-            margin-bottom: 20px;
-            font-weight: bold;
+            margin-bottom: 18px;
+            font-weight: 600;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 16px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.03);
+            border-left: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .items:hover {
+            background: rgba(0, 255, 0, 0.08);
+            border-left-color: #00ff00;
+            transform: translateX(8px);
+            box-shadow: 0 4px 15px rgba(0, 255, 0, 0.15);
         }
 
         .ingredient-item {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
         .ingredient-icon {
-            width: 25px;
-            height: 25px;
+            width: 28px;
+            height: 28px;
+            filter: drop-shadow(0 0 5px rgba(0, 255, 0, 0.3));
         }
 
         .ingredient-image {
-            height: 30px;
-            border-radius: 4px;
+            height: 32px;
+            border-radius: 6px;
+            border: 2px solid rgba(0, 255, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .ingredient-image:hover {
+            transform: scale(1.2);
         }
 
         .measure {
-            background: rgba(0, 255, 0, 0.2);
-            padding: 5px 10px;
-            border-radius: 4px;
+            background: linear-gradient(135deg, rgba(0, 255, 0, 0.2) 0%, rgba(0, 255, 0, 0.3) 100%);
+            padding: 8px 16px;
+            border-radius: 6px;
             font-size: 14px;
+            font-weight: 700;
+            border: 1px solid rgba(0, 255, 0, 0.4);
+            box-shadow: 0 2px 8px rgba(0, 255, 0, 0.2);
         }
 
         .instruction-steps {
-            margin-left: 20px;
+            margin-left: 0;
+            counter-reset: step-counter;
         }
 
         .instruction-steps li {
             margin-bottom: 20px;
-            padding-left: 10px;
-            line-height: 1.7;
+            padding: 20px;
+            padding-left: 70px;
+            line-height: 1.8;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            border-left: 3px solid rgba(0, 255, 0, 0.3);
+            position: relative;
+            transition: all 0.3s ease;
+            counter-increment: step-counter;
         }
 
-        .instruction-steps li::marker {
-            color: #00ff00;
-            font-weight: bold;
+        .instruction-steps li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, #00ff00 0%, #00cc00 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 18px;
+            color: #000;
+            box-shadow: 0 4px 15px rgba(0, 255, 0, 0.4);
+        }
+
+        .instruction-steps li:hover {
+            background: rgba(0, 255, 0, 0.05);
+            transform: translateX(8px);
+            border-left-color: #00ff00;
         }
 
         .video-section {
             margin-top: 40px;
             text-align: center;
             background: linear-gradient(135deg, #333 0%, #444 100%);
-            padding: 30px;
+            padding: 40px;
             border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease;
+        }
+
+        .video-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0, 255, 0, 0.15);
         }
 
         .video-section h2 {
-            font-size: 24px;
+            font-size: 28px;
             color: #00ff00;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            text-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
         }
 
         .video-container {
             position: relative;
             width: 100%;
-            max-width: 560px;
+            max-width: 800px;
             margin: 0 auto;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 255, 0, 0.2);
         }
 
         .video-container iframe {
             width: 100%;
-            height: 315px;
+            height: 450px;
             border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
 
         .footer {
@@ -320,13 +493,13 @@
             background: linear-gradient(135deg, #00aa00 0%, #00ff00 100%);
             border-radius: 10px;
             margin-top: 40px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 25px rgba(0, 255, 0, 0.4);
         }
 
         .footer p {
             font-size: 16px;
             color: #000;
-            font-weight: 500;
+            font-weight: 600;
         }
 
         /* Responsive Design */
@@ -383,7 +556,7 @@
             }
 
             .about-section h2 {
-                font-size: 26px;
+                font-size: 28px;
             }
 
             .chef-quote {
@@ -394,6 +567,17 @@
             .chef-icon {
                 margin-right: 0;
                 margin-bottom: 15px;
+            }
+
+            .instruction-steps li {
+                padding-left: 65px;
+            }
+
+            .instruction-steps li::before {
+                width: 38px;
+                height: 38px;
+                font-size: 16px;
+                left: 15px;
             }
         }
 
@@ -407,7 +591,7 @@
             }
             
             .about-section h2 {
-                font-size: 22px;
+                font-size: 24px;
             }
             
             .recipe-meta {
@@ -428,9 +612,17 @@
             .measure {
                 align-self: flex-end;
             }
+            
+            .likes {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .video-container iframe {
+                height: 250px;
+            }
         }
 
-        /* Animation for save button */
         @keyframes pulse {
             0% { transform: scale(1); }
             50% { transform: scale(1.05); }
@@ -441,15 +633,14 @@
             animation: pulse 0.5s ease;
         }
 
-        /* Scroll to top button */
         .scroll-top {
             position: fixed;
             bottom: 30px;
             right: 30px;
-            background: #00ff00;
+            background: linear-gradient(135deg, #00ff00 0%, #00cc00 100%);
             color: #000;
-            width: 50px;
-            height: 50px;
+            width: 55px;
+            height: 55px;
             border-radius: 50%;
             display: flex;
             justify-content: center;
@@ -458,9 +649,9 @@
             cursor: pointer;
             opacity: 0;
             visibility: hidden;
-            transition: all 0.3s;
+            transition: all 0.4s ease;
             z-index: 999;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 25px rgba(0, 255, 0, 0.4);
         }
 
         .scroll-top.show {
@@ -469,24 +660,36 @@
         }
 
         .scroll-top:hover {
-            background: #00cc00;
-            transform: translateY(-3px);
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 12px 35px rgba(0, 255, 0, 0.6);
         }
 
-        /* Custom recipe styling */
         .custom-recipe-note {
-            background: rgba(0, 255, 0, 0.1);
-            padding: 15px;
+            background: linear-gradient(135deg, rgba(0, 255, 0, 0.1) 0%, rgba(0, 255, 0, 0.05) 100%);
+            padding: 18px;
             border-radius: 8px;
-            margin-bottom: 20px;
+            margin-top: 20px;
             border-left: 4px solid #00ff00;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .custom-recipe-note i {
+            color: #00ff00;
+            margin-right: 8px;
         }
 
         .no-ingredients {
             text-align: center;
             color: #888;
             font-style: italic;
-            padding: 20px;
+            padding: 40px 20px;
+        }
+
+        .no-ingredients i {
+            font-size: 48px;
+            color: #00ff00;
+            margin-bottom: 15px;
+            display: block;
         }
     </style>
 </head>
@@ -512,10 +715,8 @@
     <div class="container">
         <div class="head">
             <div class="headchild">
-                <!-- Handle image source for both local and external recipes -->
                 <% 
                 let imageSrc = data?.strMealThumb;
-                // If it's a local recipe with just a filename, prepend the path
                 if (imageSrc && !imageSrc.startsWith('http') && !imageSrc.startsWith('/')) {
                     imageSrc = '/images/recipes/' + imageSrc;
                 }
@@ -527,17 +728,15 @@
                 
                 <div class="recipe-meta">
                     <div class="meta-item">
-                        <i class="fas fa-clock"></i>
-                        <span>30 mins</span>
-                    </div>
-                    <div class="meta-item">
-                        <i class="fas fa-user-friends"></i>
-                        <span>4 servings</span>
-                    </div>
-                    <div class="meta-item">
                         <i class="fas fa-fire"></i>
                         <span><%= data?.strCategory || 'Custom' %></span>
                     </div>
+                    <% if (data.createdBy) { %>
+                    <div class="meta-item">
+                        <i class="fas fa-user"></i>
+                        <span>Created by <%= data.createdBy.name %></span>
+                    </div>
+                    <% } %>
                 </div>
                 
                 <p><%= data?.strInstructions?.substring(0, 150) ?? data?.dishDescription?.substring(0, 150) ?? 'No description available' %>...</p>
@@ -546,6 +745,17 @@
                     <a id="saveRecipeBtn" href="#" onclick="saveRecipe()">
                         <i class="far fa-bookmark"></i> Save Recipe
                     </a>
+                    
+                    <% if (data.createdBy) { %>
+                    <div class="like-count">
+                        <i class="fas fa-heart"></i>
+                        <span id="likeCount"><%= data.total_likes ? data.total_likes.length : 0 %></span>
+                    </div>
+                    
+                    <a id="likeRecipeBtn" href="#" onclick="toggleLike()">
+                        <i class="far fa-heart"></i> Like
+                    </a>
+                    <% } %>
                 </div>
                 
                 <div class="chef-quote">
@@ -563,10 +773,8 @@
                 let ingredients = [];
                 let isExternalRecipe = false;
                 
-                // Check if this is an external API recipe (has strIngredient1 format)
                 if (data?.strIngredient1 !== undefined && data.strIngredient1 !== '') {
                     isExternalRecipe = true;
-                    // External API recipe - use the standard format
                     for (let i = 1; i <= 20; i++) {
                         const ingredient = data[`strIngredient${i}`];
                         const measure = data[`strMeasure${i}`];
@@ -580,7 +788,6 @@
                         }
                     }
                 } else if (data?.dishIngredients && Array.isArray(data.dishIngredients)) {
-                    // Local database recipe - it's already an array
                     isExternalRecipe = false;
                     
                     data.dishIngredients.forEach(part => {
@@ -593,7 +800,6 @@
                         }
                     });
                 } else if (data?.dishIngredients && typeof data.dishIngredients === 'string') {
-                    // If dishIngredients is a string (fallback), split by dots
                     isExternalRecipe = false;
                     const ingredientParts = data.dishIngredients.split('.');
                     ingredientParts.forEach(part => {
@@ -607,7 +813,6 @@
                     });
                 }
                 
-                // If no ingredients found
                 if (ingredients.length === 0) {
                 %>
                     <div class="no-ingredients">
@@ -616,7 +821,6 @@
                     </div>
                 <%
                 } else {
-                    // Display ingredients
                     ingredients.forEach(ingredient => { 
                 %>
                     <div class="items">
@@ -651,7 +855,6 @@
                    const instructions = data?.strInstructions ?? data?.dishDescription ?? '';
                    let instructionSentences = instructions?.split('.') ?? [];
                    
-                   // Remove empty strings
                    instructionSentences = instructionSentences.filter(sentence => sentence?.trim() !== '');
                    
                    if (instructionSentences.length === 0) {
@@ -678,15 +881,12 @@
             <div class="video-container">
                 <%
                 let youtubeUrl = data.strYoutube;
-                // Convert YouTube URL to embed format
                 if (youtubeUrl.includes('youtube.com/watch?v=')) {
                     youtubeUrl = youtubeUrl.replace('watch?v=', 'embed/');
                 } else if (youtubeUrl.includes('youtu.be/')) {
                     youtubeUrl = youtubeUrl.replace('youtu.be/', 'youtube.com/embed/');
                 } else if (youtubeUrl.includes('youtube.com/embed/')) {
-                    // Already in embed format
                 } else {
-                    // Try to extract video ID from various formats
                     const videoIdMatch = youtubeUrl.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&?\/]+)/);
                     if (videoIdMatch) {
                         youtubeUrl = 'https://www.youtube.com/embed/' + videoIdMatch[1];
@@ -699,157 +899,273 @@
         <% } %>
     </div>
     
-    <div class="footer">
-        <p>&copy; 2024 Recipe Page. All Rights Reserved.</p>
-    </div>
-
     <div class="scroll-top" id="scrollTop">
         <i class="fas fa-chevron-up"></i>
     </div>
 
-    <script>
-        // JavaScript code
-        const menuIcon = document.getElementById('menuIcon');
-        const navLinks = document.getElementById('navLinks');
-        const scrollTopBtn = document.getElementById('scrollTop');
-        const saveRecipeBtn = document.getElementById('saveRecipeBtn');
+   <script>
+    const menuIcon = document.getElementById('menuIcon');
+    const navLinks = document.getElementById('navLinks');
+    const scrollTopBtn = document.getElementById('scrollTop');
+    const saveRecipeBtn = document.getElementById('saveRecipeBtn');
+    const likeRecipeBtn = document.getElementById('likeRecipeBtn');
+    const likeCount = document.getElementById('likeCount');
+    
+    // Get data from server
+    const dishId = '<%= data?.idMeal ?? data?._id ?? "" %>';
+    const userId = '<%= user?._id ?? "" %>';
+    const savedPosts = JSON.parse('<%- JSON.stringify(user?.savedPost || []) %>');
+    
+    // Get the total_likes array from the recipe data
+    const totalLikes = <%- JSON.stringify(data?.total_likes || []) %>;
+    
+    let isSaved = savedPosts.includes(dishId);
+    
+    // Fix: Check if current user has liked this recipe by comparing IDs properly
+    let isLiked = false;
+    if (userId && totalLikes && totalLikes.length > 0) {
+        // Convert both IDs to strings for comparison
+        const userIdStr = userId.toString();
+        isLiked = totalLikes.some(likeId => {
+            // Handle both ObjectId objects and string IDs
+            const likeIdStr = likeId.toString ? likeId.toString() : likeId;
+            return likeIdStr === userIdStr;
+        });
+    }
+
+    console.log('Like status:', {
+        userId: userId,
+        totalLikes: totalLikes,
+        isLiked: isLiked
+    });
+
+    menuIcon?.addEventListener('click', () => {
+        navLinks?.classList.toggle('mobile');
+    });
+
+    navLinks?.addEventListener('click', (e) => {
+        if (e.target?.tagName === 'A') {
+            navLinks?.classList.remove('mobile');
+        }
+    });
+
+    window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 300) {
+            scrollTopBtn?.classList.add('show');
+        } else {
+            scrollTopBtn?.classList.remove('show');
+        }
+    });
+
+    scrollTopBtn?.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+
+    function saveRecipe() {
+        event?.preventDefault();
+
+        if (isSaved) {
+            unSaveDish();
+        } else {
+            saveDish();
+        }
+    }
+
+    function saveDish() {
+        fetch('/saveDish', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ dishId })
+        })
+        .then(response => {
+            if (response?.ok) {
+                return response.json();
+            }
+            throw new Error('Failed to save recipe');
+        })
+        .then(data => {
+            if (saveRecipeBtn) {
+                saveRecipeBtn.innerHTML = '<i class="fas fa-bookmark"></i> Saved';
+                saveRecipeBtn.classList.add('saved');
+                saveRecipeBtn.classList.add('save-pulse');
+                isSaved = true;
+                
+                setTimeout(() => {
+                    saveRecipeBtn.classList.remove('save-pulse');
+                }, 500);
+            }
+        })
+        .catch(error => {
+            console.error('Error saving recipe:', error);
+            alert('Error saving recipe. Please try again.');
+        });
+    }
+
+    function unSaveDish() {
+        let id = dishId;
+        fetch('/account/unSaveDish', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id })
+        })
+        .then(response => {
+            if (response?.ok) {
+                return response.json();
+            }
+            throw new Error('Failed to unsave recipe');
+        })
+        .then(data => {
+            if (saveRecipeBtn) {
+                saveRecipeBtn.innerHTML = '<i class="far fa-bookmark"></i> Save Recipe';
+                saveRecipeBtn.classList.remove('saved');
+                saveRecipeBtn.classList.add('save-pulse');
+                isSaved = false;
+                
+                setTimeout(() => {
+                    saveRecipeBtn.classList.remove('save-pulse');
+                }, 500);
+            }
+        })
+        .catch(error => {
+            console.error('Error unsaving recipe:', error);
+            alert('Error unsaving recipe. Please try again.');
+        });
+    }
+
+    function toggleLike() {
+        event?.preventDefault();
+
+        if (!userId) {
+            alert('Please log in to like recipes');
+            return;
+        }
+
+        if (isLiked) {
+            unlikeRecipe();
+        } else {
+            likeRecipe();
+        }
+    }
+
+    function likeRecipe() {
+        console.log('Liking recipe:', { postId: dishId, userId: userId });
         
-        // Get dish ID - handle both MongoDB IDs and external API IDs
-        const dishId = '<%= data?.idMeal ?? data?._id ?? "" %>';
-        const user = '<%= user?.savedPost ?? "" %>';
-        let savedArray = user?.split(',') ?? [];
-        let isSaved = false;
-
-        // Mobile menu toggle
-        menuIcon?.addEventListener('click', () => {
-            navLinks?.classList.toggle('mobile');
-        });
-
-        // Close mobile menu when clicking on a link
-        navLinks?.addEventListener('click', (e) => {
-            if (e.target?.tagName === 'A') {
-                navLinks?.classList.remove('mobile');
+        fetch('/api/like', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ 
+                postId: dishId,
+                userId: userId
+            })
+        })
+        .then(response => {
+            console.log('Like response status:', response.status);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
-        });
-
-        // Scroll to top functionality
-        window.addEventListener('scroll', () => {
-            if (window.pageYOffset > 300) {
-                scrollTopBtn?.classList.add('show');
-            } else {
-                scrollTopBtn?.classList.remove('show');
+            return response.json();
+        })
+        .then(data => {
+            console.log('Like success:', data);
+            if (likeRecipeBtn && likeCount) {
+                likeRecipeBtn.innerHTML = '<i class="fas fa-heart"></i> Liked';
+                likeRecipeBtn.classList.add('liked');
+                likeRecipeBtn.classList.add('save-pulse');
+                isLiked = true;
+                
+                likeCount.textContent = data.totalLikes || (parseInt(likeCount.textContent) + 1);
+                
+                setTimeout(() => {
+                    likeRecipeBtn.classList.remove('save-pulse');
+                }, 500);
             }
+        })
+        .catch(error => {
+            console.error('Error liking recipe:', error);
+            alert('Error liking recipe: ' + error.message);
         });
+    }
 
-        scrollTopBtn?.addEventListener('click', () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
+    function unlikeRecipe() {
+        console.log('Unliking recipe:', { postId: dishId, userId: userId });
+        
+        fetch('/api/unlike', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ 
+                postId: dishId,
+                userId: userId
+            })
+        })
+        .then(response => {
+            console.log('Unlike response status:', response.status);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Unlike success:', data);
+            if (likeRecipeBtn && likeCount) {
+                likeRecipeBtn.innerHTML = '<i class="far fa-heart"></i> Like';
+                likeRecipeBtn.classList.remove('liked');
+                likeRecipeBtn.classList.add('save-pulse');
+                isLiked = false;
+                
+                likeCount.textContent = data.totalLikes || (parseInt(likeCount.textContent) - 1);
+                
+                setTimeout(() => {
+                    likeRecipeBtn.classList.remove('save-pulse');
+                }, 500);
+            }
+        })
+        .catch(error => {
+            console.error('Error unliking recipe:', error);
+            alert('Error unliking recipe: ' + error.message);
         });
+    }
 
-        // Save recipe functionality
-        function saveRecipe() {
-            event?.preventDefault(); // Prevent default anchor tag behavior
-
-            // Determine action based on current state
-            if (isSaved) {
-                // Already saved, so unsave
-                unSaveDish();
-            } else {
-                // Not saved, so save
-                saveDish();
+    window.onload = function() {
+        // Set initial state for save button
+        if (isSaved) {
+            if (saveRecipeBtn) {
+                saveRecipeBtn.innerHTML = '<i class="fas fa-bookmark"></i> Saved';
+                saveRecipeBtn.classList.add('saved');
             }
         }
-
-        // Function to handle saving recipe
-        function saveDish() {
-            fetch('/saveDish', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ dishId })
-            })
-            .then(response => {
-                if (response?.ok) {
-                    return response.json();
-                }
-                throw new Error('Failed to save recipe');
-            })
-            .then(data => {
-                // Update UI after successful save
-                if (saveRecipeBtn) {
-                    saveRecipeBtn.innerHTML = '<i class="fas fa-bookmark"></i> Saved';
-                    saveRecipeBtn.classList.add('saved');
-                    saveRecipeBtn.classList.add('save-pulse');
-                    isSaved = true;
-                    
-                    // Remove animation class after animation completes
-                    setTimeout(() => {
-                        saveRecipeBtn.classList.remove('save-pulse');
-                    }, 500);
-                }
-            })
-            .catch(error => {
-                console.error('Error saving recipe:', error);
-                alert('Error saving recipe. Please try again.');
-            });
-        }
-
-        // Function to unsave the dish
-        function unSaveDish() {
-            fetch('/unSaveDish', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ dishId })
-            })
-            .then(response => {
-                if (response?.ok) {
-                    return response.json();
-                }
-                throw new Error('Failed to unsave recipe');
-            })
-            .then(data => {
-                // Update UI after successful unsave
-                if (saveRecipeBtn) {
-                    saveRecipeBtn.innerHTML = '<i class="far fa-bookmark"></i> Save Recipe';
-                    saveRecipeBtn.classList.remove('saved');
-                    saveRecipeBtn.classList.add('save-pulse');
-                    isSaved = false;
-                    
-                    // Remove animation class after animation completes
-                    setTimeout(() => {
-                        saveRecipeBtn.classList.remove('save-pulse');
-                    }, 500);
-                }
-            })
-            .catch(error => {
-                console.error('Error unsaving recipe:', error);
-                alert('Error unsaving recipe. Please try again.');
-            });
-        }
-
-        // Initialize page state
-        window.onload = function() {
-            if (savedArray?.includes(dishId)) {
-                if (saveRecipeBtn) {
-                    saveRecipeBtn.innerHTML = '<i class="fas fa-bookmark"></i> Saved';
-                    saveRecipeBtn.classList.add('saved');
-                    isSaved = true;
-                }
+        
+        // Set initial state for like button - FIXED
+        if (isLiked) {
+            if (likeRecipeBtn) {
+                likeRecipeBtn.innerHTML = '<i class="fas fa-heart"></i> Liked';
+                likeRecipeBtn.classList.add('liked');
             }
-            
-            // Add error handling for images
-            const images = document.querySelectorAll('img');
-            images.forEach(img => {
-                img.onerror = function() {
-                    this.style.display = 'none';
-                };
-            });
-        };
-    </script>
+        }
+        
+        console.log('Initial like state:', {
+            isLiked: isLiked,
+            userId: userId,
+            totalLikes: totalLikes
+        });
+        
+        const images = document.querySelectorAll('img');
+        images.forEach(img => {
+            img.onerror = function() {
+                this.style.display = 'none';
+            };
+        });
+    };
+</script>
 </body>
 </html>

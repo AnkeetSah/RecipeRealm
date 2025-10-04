@@ -237,6 +237,85 @@ router.post('/editDish/:id', isLoggedIn, upload.single('dishImage'), async (req,
 });
 
 
+router.post("/updateProfile", isLoggedIn, upload.single('profileImage'), async (req, res) => {
+  try {
+    const userId = req.body.id;
+    if (!userId) return res.status(400).json({ message: "User ID is required" });
+
+    const user = await userModel.findById(userId);
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    // If a new profile image is uploaded
+    if (req.file) {
+      // Delete old profile pic from Cloudinary if exists
+      if (user.cloudinary_id) {
+        try {
+          await cloudinary.uploader.destroy(user.cloudinary_id);
+          console.log("Old profile image deleted from Cloudinary");
+        } catch (err) {
+          console.error("Error deleting old profile image:", err);
+        }
+      }
+
+      // Update user with new Cloudinary image details
+      user.profilePic = req.file.path;       // Cloudinary secure URL
+      user.cloudinary_id = req.file.filename; // Cloudinary public_id
+    }
+
+    // Update other fields if provided
+    if (req.body.name) user.name = req.body.name;
+    if (req.body.email) user.email = req.body.email;
+
+    await user.save();
+
+    res.status(200).json({
+      message: "Profile updated successfully",
+      user,
+    });
+  } catch (error) {
+    console.error("Update profile error:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
+
+
+router.get('/postDelete/:id', isLoggedIn, async (req, res) => {
+  try {
+    // Find and delete the post
+    let deletedPost = await postModel.findOneAndDelete({ _id: req.params.id });
+    if (!deletedPost) {
+      return res.status(404).send('Post not found');
+    }
+
+    // Remove the post from the user's post array
+    let user = await userModel.findOne({ email: req.user.email });
+    if (!user) {
+      return res.status(404).send('User not found');
+    }
+
+    user.post = (user.post || []).filter(postId => postId.toString() !== deletedPost._id.toString());
+    await user.save();
+
+    // Delete the image from Cloudinary if exists
+    if (deletedPost.cloudinary_id) {
+      try {
+        await cloudinary.uploader.destroy(deletedPost.cloudinary_id);
+        console.log('Image deleted from Cloudinary successfully');
+      } catch (err) {
+        console.error('Error deleting image from Cloudinary:', err);
+      }
+    }
+
+    console.log('Deleted post:', deletedPost);
+    res.redirect('/account/postcreated');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+
 
 
 

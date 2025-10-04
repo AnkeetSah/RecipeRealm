@@ -10,21 +10,33 @@
     <div class="menu-icon">&#9776;</div>
     <ul class="nav-links">
       <li><a href="/home"><i style="margin-right: 3px;" class="fas fa-home"></i> Home</a></li>
-      <li><a href="/home/recipe"><i  style="margin-right: 3px;" class="fas fa-utensils"></i> Recipes</a></li>
-      <li><a href="/home/account"><i  style="margin-right:3px;" class="fas fa-user"></i> Account</a></li>
-      <li><a href="/home/leaderBoard"><i  style="margin-right: 3px;" class="fas fa-trophy"></i> Leader-Board</a></li>
-      <li><a href="/home/aboutus"><i  style="margin-right: 3px;" class="fas fa-info-circle"></i> About</a></li>
+      <li><a href="/home/recipe"><i style="margin-right: 3px;" class="fas fa-utensils"></i> Recipes</a></li>
+      <li><a href="/home/account"><i style="margin-right: 3px;" class="fas fa-user"></i> Account</a></li>
+      <li><a href="/home/leaderBoard"><i style="margin-right: 3px;" class="fas fa-trophy"></i> Leader-Board</a></li>
+      <li><a href="/home/aboutus"><i style="margin-right: 3px;" class="fas fa-info-circle"></i> About</a></li>
     </ul>
   </nav>
 </header>
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const menuIcon = document.querySelector(".menu-icon");
-    const navLinks = document.querySelector(".nav-links");
 
-    menuIcon.addEventListener("click", () => {
-      console.log("Hamburger menu clicked");
-      navLinks.classList.toggle("mobile");
-    });
+
+<script>
+ document.addEventListener("DOMContentLoaded", () => {
+  const menuIcon = document.querySelector(".menu-icon");
+  const navLinks = document.querySelector(".nav-links");
+
+  // Toggle mobile menu
+  menuIcon.addEventListener("click", () => {
+    navLinks.classList.toggle("mobile");
   });
+
+  // Highlight active link based on URL
+  const currentPath = window.location.pathname;
+  const links = document.querySelectorAll(".nav-links a");
+
+  links.forEach(link => {
+    if (link.getAttribute("href") === currentPath) {
+      link.classList.add("active");
+    }
+  });
+});
 </script>

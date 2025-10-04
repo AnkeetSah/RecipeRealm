@@ -21,24 +21,23 @@ router.get('/recipeByMultiIngredinet', (req, res) => {
 
 router.get('/item/:id', isLoggedIn, async (req, res) => {
   const id = req.params.id;
-  
+
   try {
     // First, check if ID is a MongoDB ObjectId (24 hex characters)
     const isMongoDBId = /^[0-9a-fA-F]{24}$/.test(id);
-    
+
     let user = null;
     let localRecipe = null;
     let data = null;
-    
-    // Get user data
+
+    // Logged-in user
     user = await userModel.findOne({ email: req.user.email });
-    
+
     if (isMongoDBId) {
-      // Only try to find in database if it's a valid MongoDB ID
-      localRecipe = await postModel.findById(id);
-      
+      // Fetch local recipe and populate user
+      localRecipe = await postModel.findById(id).populate("user");
+
       if (localRecipe) {
-        // Use local database recipe
         data = {
           idMeal: localRecipe._id?.toString(),
           strMeal: localRecipe.strMeal,
@@ -46,40 +45,80 @@ router.get('/item/:id', isLoggedIn, async (req, res) => {
           strInstructions: localRecipe.strInstructions || localRecipe.dishDescription,
           strYoutube: localRecipe.strYoutube,
           strCategory: localRecipe.strCategory,
-dishIngredients: localRecipe.dishIngredients.split(','),
- // Include this for frontend
+          dishIngredients: localRecipe.dishIngredients.split(','),
+
+          // Custom marker for local recipes
           strArea: 'Custom',
-          // Add empty ingredient fields to match external API structure
-          strIngredient1: '',
-          strMeasure1: ''
+
+          // Include recipe owner
+          createdBy: localRecipe.user?.[0] ? {
+            id: localRecipe.user[0]._id,
+            name: localRecipe.user[0].name,
+            email: localRecipe.user[0].email,
+            profilePic: localRecipe.user[0].profilePic
+          } : null,
+
+          // Extra local-only fields
+          total_likes: localRecipe.total_likes,
+          commented_user: localRecipe.commented_user,
+          comments: localRecipe.comments
         };
       }
-    }console.log(data)
-    
-    // If no local recipe found (either not MongoDB ID or not found in DB), try external API
+    }
+    console.log(data)
+
+    // If no local recipe found, fallback to third-party API
     if (!data) {
       try {
         const recipeResponse = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
         if (recipeResponse.ok) {
           const recipe = await recipeResponse.json();
-          data = recipe?.meals?.[0];
+          data = recipe?.meals?.[0] || null;
         }
       } catch (apiError) {
         console.error('Error fetching from external API:', apiError);
       }
     }
-    
-    // If no data found from either source
+
+    // If nothing found
     if (!data) {
       return res.status(404).send("Recipe not found");
     }
-    
+
     console.log('Final data:', data);
-    res.render("recipe", { data, user: user || {} });
-    
+
+    // Render recipe with logged-in user + recipe data
+    res.render("recipe", { data,user});
+
   } catch (error) {
     console.error('Error fetching recipe:', error);
     res.status(500).send("An error occurred while fetching data.");
+  }
+});
+
+// ✅ CORRECT: Proper route with error handling and response
+router.get('/allPost', async (req, res) => {
+  try {
+    const recipes = await postModel.find();
+    console.log('Found recipes:', recipes.length);
+    
+    // Send the recipes back to the client
+    res.status(200).json({
+      success: true,
+      message: 'Recipes fetched successfully',
+      data: recipes,
+      count: recipes.length
+    });
+    
+  } catch (error) {
+    console.error('Error fetching recipes:', error);
+    
+    // Send error response
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch recipes',
+      error: error.message
+    });
   }
 });
 

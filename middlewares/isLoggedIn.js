@@ -7,7 +7,7 @@ const isLoggedIn = (req, res, next) => {
     try {
       let data = jwt.verify(req.cookies.token, "shhhhh");
       req.user = data;
-      console.log(req.user.email);
+      
       
       next();
     } catch (err) {

@@ -16,15 +16,20 @@
     }
 
     body {
-      background-color: #111;
-      color: #eee;
-      padding-top: 70px;
-    }
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+        }
 
+        .container{
+          margin-top: 90px;
+        }
     main {
       max-width: 1100px;
       margin: 3rem auto;
       padding: 1rem;
+      
     }
 
     h1.page-title {
@@ -113,13 +118,14 @@
   </style>
 
   <!-- Font Awesome (for icons) -->
-  <script src="https://kit.fontawesome.com/4c0c1e6f6b.js" crossorigin="anonymous"></script>
+ 
 </head>
 <body>
   <!-- Header -->
   <%- include("./header") %>
 
-  <main>
+  <div class="container">
+    <main>
     <h1 class="page-title">Options for Finding Recipes</h1>
     <p class="page-subtitle">Choose how you want to explore delicious recipes with your ingredients.</p>
 
@@ -140,6 +146,7 @@
     </div>
   </main>
 
+  </div>
  
 </body>
 </html>

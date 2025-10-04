@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,7 +8,9 @@
     <link rel="stylesheet" href="/css/header.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Reset and General Styling */
         body,
@@ -25,78 +28,10 @@
 
         /* General body styling */
         body {
-            font-family: 'Poppins', sans-serif;
-            color: #fff;
-            background: linear-gradient(135deg, #121212 0%, #1a1a1a 100%);
-            min-height: 100vh;
-            padding-top: 90px;
-        }
-
-        /* Header styling */
-        header {
-            background-color: #000;
-            padding: 6px 7px;
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: #32cd32;
-        }
-
-        .menu-icon {
-            display: none; /* Hidden on larger screens */
-            font-size: 24px;
-            cursor: pointer;
-            color: #fff;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 20px;
-        }
-
-        .nav-links a {
-            color: #fff;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: #32cd32;
-        }
-
-        /* Responsive Navbar */
-        @media (max-width: 768px) {
-            .menu-icon {
-                display: block;
-            }
-
-            .nav-links {
-                display: none; /* Initially hidden */
-                flex-direction: column;
-                gap: 10px;
-                background: #000;
-                position: absolute;
-                top: 60px;
-                right: 20px;
-                padding: 20px;
-                border-radius: 5px;
-                z-index: 10; /* Ensure it appears above other elements */
-            }
-
-            .nav-links.mobile {
-                display: flex; /* Show when menu icon is clicked */
-            }
-
-            .nav-links.mobile a {
-                color: #32cd32; /* Active link color when mobile */
-            }
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
         }
 
         /* Main content container */
@@ -110,50 +45,25 @@
 
         /* Leaderboard container styling */
         .leaderboard-container {
-            background: linear-gradient(145deg, #1a1a1a, #222);
+            background: #1e1e1e;
             padding: 40px 30px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             width: 100%;
             max-width: 850px;
             text-align: center;
-            border: 2px solid #00ff00;
+            border: 1px solid #2a2a2a;
             position: relative;
             overflow: hidden;
-        }
-
-        .leaderboard-container::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(0,255,0,0.1) 0%, transparent 70%);
-            transform: rotate(30deg);
-            pointer-events: none;
         }
 
         h1 {
             margin-bottom: 30px;
             color: #00ff00;
             font-size: 32px;
-            font-weight: 700;
+            font-weight: 600;
             position: relative;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        h1:before {
-            content: "";
-            width: 80px;
-            height: 4px;
-            background: linear-gradient(90deg, transparent, #00ff00, transparent);
-            position: absolute;
-            left: 50%;
-            bottom: -15px;
-            transform: translateX(-50%);
-            border-radius: 2px;
+            letter-spacing: 0.5px;
         }
 
         .logo-container {
@@ -165,7 +75,7 @@
         .logo-container img {
             max-width: 120px;
             height: auto;
-            filter: drop-shadow(0 0 10px rgba(0, 255, 0, 0.5));
+            filter: drop-shadow(0 0 10px rgba(0, 255, 0, 0.3));
         }
 
         .leaderboard {
@@ -181,7 +91,7 @@
 
         /* Custom scrollbar */
         .leaderboard::-webkit-scrollbar {
-            width: 8px;
+            width: 6px;
         }
 
         .leaderboard::-webkit-scrollbar-track {
@@ -190,7 +100,7 @@
         }
 
         .leaderboard::-webkit-scrollbar-thumb {
-            background: linear-gradient(to bottom, #00ff00, #026c02);
+            background: #00cc00;
             border-radius: 4px;
         }
 
@@ -198,54 +108,35 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 20px;
-            margin-bottom: 12px;
-            background: linear-gradient(to right, rgba(0, 255, 0, 0.15), rgba(2, 108, 2, 0.15));
+            padding: 18px 20px;
+            margin-bottom: 10px;
+            background: #252525;
             color: white;
             border-radius: 12px;
             font-size: 16px;
             font-weight: 500;
             transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(0, 255, 0, 0.2);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .leaderboard li::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .leaderboard li:hover::before {
-            left: 100%;
+            border-left: 4px solid transparent;
         }
 
         .leaderboard li:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 255, 0, 0.2);
-            background: linear-gradient(to right, rgba(0, 255, 0, 0.25), rgba(2, 108, 2, 0.25));
-        }
-
-        .leaderboard li span {
-            display: flex;
-            align-items: center;
+            background: #2a2a2a;
+            border-left: 4px solid #00ff00;
+            transform: translateX(5px);
         }
 
         .userPic {
-            width: 40px;
-            height: 40px;
+            width: 42px;
+            height: 42px;
             border-radius: 50%;
             object-fit: cover;
             margin-right: 15px;
-            border: 2px solid #00ff00;
-            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+            border: 2px solid #333;
+            transition: all 0.3s ease;
+        }
+
+        .leaderboard li:hover .userPic {
+            border-color: #00ff00;
         }
 
         .leaderboard li h4 {
@@ -260,79 +151,107 @@
             color: #00ff00;
         }
 
-        .profile-link img {
-            border-radius: 0;
-            height: 20px;
-            width: 20px;
+        .profile-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background: #333;
+            border-radius: 50%;
             margin-left: 15px;
             transition: all 0.3s ease;
-            filter: invert(1);
         }
 
-        .profile-link:hover img {
-            transform: scale(1.2);
-            filter: invert(0.5) sepia(1) saturate(5) hue-rotate(70deg);
+        .profile-link:hover {
+            background: #00cc00;
+            transform: scale(1.1);
+        }
+
+        .profile-link i {
+            color: #fff;
+            font-size: 16px;
         }
 
         .rank {
-            display: inline-block;
-            width: 28px;
-            height: 28px;
-            background: linear-gradient(to bottom, #00ff00, #026c02);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: #333;
             border-radius: 50%;
             text-align: center;
-            line-height: 28px;
             margin-right: 12px;
             font-weight: 600;
-            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .leaderboard li:hover .rank {
+            background: #00cc00;
         }
 
         .top-3 .rank {
-            width: 34px;
-            height: 34px;
-            line-height: 34px;
-            font-size: 18px;
+            width: 38px;
+            height: 38px;
+            font-size: 16px;
         }
 
         /* Special styling for top 3 */
         .leaderboard li:nth-child(1) {
-            background: linear-gradient(to right, rgba(255, 215, 0, 0.2), rgba(218, 165, 32, 0.2));
-            border: 1px solid rgba(255, 215, 0, 0.3);
+            background: linear-gradient(to right, #252525, #2a2a2a);
+            border-left: 4px solid #FFD700;
         }
 
         .leaderboard li:nth-child(1) .rank {
-            background: linear-gradient(to bottom, #FFD700, #DAA520);
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+            background: #FFD700;
+            color: #000;
         }
 
         .leaderboard li:nth-child(2) {
-            background: linear-gradient(to right, rgba(192, 192, 192, 0.2), rgba(169, 169, 169, 0.2));
-            border: 1px solid rgba(192, 192, 192, 0.3);
+            background: linear-gradient(to right, #252525, #2a2a2a);
+            border-left: 4px solid #C0C0C0;
         }
 
         .leaderboard li:nth-child(2) .rank {
-            background: linear-gradient(to bottom, #C0C0C0, #A9A9A9);
-            box-shadow: 0 0 15px rgba(192, 192, 192, 0.5);
+            background: #C0C0C0;
+            color: #000;
         }
 
         .leaderboard li:nth-child(3) {
-            background: linear-gradient(to right, rgba(205, 127, 50, 0.2), rgba(160, 82, 45, 0.2));
-            border: 1px solid rgba(205, 127, 50, 0.3);
+            background: linear-gradient(to right, #252525, #2a2a2a);
+            border-left: 4px solid #CD853F;
         }
 
         .leaderboard li:nth-child(3) .rank {
-            background: linear-gradient(to bottom, #CD853F, #A0522D);
-            box-shadow: 0 0 15px rgba(205, 127, 50, 0.5);
+            background: #CD853F;
+            color: #000;
         }
 
         .likes-count {
             display: flex;
             align-items: center;
             font-weight: 600;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 6px 12px;
+            background: #333;
+            padding: 8px 16px;
             border-radius: 20px;
-            border: 1px solid rgba(0, 255, 0, 0.3);
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .leaderboard li:hover .likes-count {
+            background: #00cc00;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-stats {
+            display: flex;
+            align-items: center;
         }
 
         /* Animation for list items */
@@ -341,6 +260,7 @@
                 opacity: 0;
                 transform: translateY(20px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -352,23 +272,80 @@
             opacity: 0;
         }
 
-        .leaderboard li:nth-child(1) { animation-delay: 0.1s; }
-        .leaderboard li:nth-child(2) { animation-delay: 0.2s; }
-        .leaderboard li:nth-child(3) { animation-delay: 0.3s; }
-        .leaderboard li:nth-child(4) { animation-delay: 0.4s; }
-        .leaderboard li:nth-child(5) { animation-delay: 0.5s; }
-        .leaderboard li:nth-child(6) { animation-delay: 0.6s; }
-        .leaderboard li:nth-child(7) { animation-delay: 0.7s; }
-        .leaderboard li:nth-child(8) { animation-delay: 0.8s; }
-        .leaderboard li:nth-child(9) { animation-delay: 0.9s; }
-        .leaderboard li:nth-child(10) { animation-delay: 1.0s; }
+        .leaderboard li:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .leaderboard li:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .leaderboard li:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .leaderboard li:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .leaderboard li:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+
+        .leaderboard li:nth-child(6) {
+            animation-delay: 0.6s;
+        }
+
+        .leaderboard li:nth-child(7) {
+            animation-delay: 0.7s;
+        }
+
+        .leaderboard li:nth-child(8) {
+            animation-delay: 0.8s;
+        }
+
+        .leaderboard li:nth-child(9) {
+            animation-delay: 0.9s;
+        }
+
+        .leaderboard li:nth-child(10) {
+            animation-delay: 1.0s;
+        }
+
+        /* Stats section */
+        .stats-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding: 20px;
+            background: #252525;
+            border-radius: 12px;
+        }
+
+        .stat-item {
+            text-align: center;
+            flex: 1;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #00ff00;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #aaa;
+        }
 
         /* Responsive Design */
         @media (max-width: 768px) {
             .main-container {
                 padding: 15px;
+                margin-top: 70px;
             }
-            
+
             .leaderboard-container {
                 width: 90%;
                 padding: 25px 15px;
@@ -380,31 +357,36 @@
 
             .leaderboard li {
                 font-size: 14px;
-                padding: 12px 15px;
+                padding: 15px;
             }
 
             .userPic {
-                width: 35px;
-                height: 35px;
+                width: 36px;
+                height: 36px;
                 margin-right: 10px;
             }
 
             .rank {
-                width: 24px;
-                height: 24px;
-                line-height: 24px;
+                width: 28px;
+                height: 28px;
                 margin-right: 10px;
+                font-size: 12px;
             }
 
             .top-3 .rank {
-                width: 28px;
-                height: 28px;
-                line-height: 28px;
+                width: 32px;
+                height: 32px;
+                font-size: 14px;
             }
 
             .likes-count {
-                font-size: 14px;
-                padding: 4px 10px;
+                font-size: 13px;
+                padding: 6px 12px;
+            }
+
+            .stats-container {
+                flex-direction: column;
+                gap: 15px;
             }
         }
 
@@ -424,57 +406,88 @@
                 gap: 10px;
             }
 
-            .leaderboard li span:last-child {
+            .user-stats {
                 align-self: flex-end;
+            }
+
+            .user-info,
+            .user-stats {
+                width: 100%;
+                justify-content: space-between;
             }
         }
 
-        header img{
+        header img {
             height: 50px;
             position: relative;
         }
     </style>
 </head>
+
 <body>
     <!-- Header -->
     <%- include("./header") %>
 
-    <div class="main-container">
-        <div class="leaderboard-container">
-            <div class="logo-container">
-                <img src="https://images.squarespace-cdn.com/content/v1/60576b36c740e90bc9edbc76/1617285138250-KO51124U9UURCJDG6EMF/Logo+transparent+background.png" alt="Logo">
-            </div>
-            <h1>Leaderboard</h1>
-            <ul id="leaderboard" class="leaderboard">
-                <% leaderBoard.forEach((user, i) => { %>
-                    <% let src = user.pic ? `/images/profilePic/${user.pic}` : 'https://srcwap.com/wp-content/uploads/2022/08/abstract-user-flat-4.png'; %>   
-                    <li class="<%= i < 3 ? 'top-3' : '' %>">
-                        <span>
-                            <span class="rank"><%= i + 1 %></span>
-                            <img src="<%= src %>" class="userPic" alt="Profile Picture">
-                            <h4><%= user.name %></h4>
-                        </span>
-                        <span>
-                            <span class="likes-count"><%= user.total_likes %> Likes</span>
-                            <a href="/viewProfile/<%=user.id %>" class="profile-link">
-                                <img src="https://cdn-icons-png.flaticon.com/512/11102/11102083.png" alt="View Profile">
-                            </a>
-                        </span>
-                    </li>
-                <% }) %>
-            </ul>
-        </div>
-    </div>
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const menuIcon = document.querySelector(".menu-icon");
-            const navLinks = document.querySelector(".nav-links");
+        <div class="main-container">
+            <div class="leaderboard-container">
+                <div class="logo-container">
+                    <img src="https://images.squarespace-cdn.com/content/v1/60576b36c740e90bc9edbc76/1617285138250-KO51124U9UURCJDG6EMF/Logo+transparent+background.png"
+                        alt="Logo">
+                </div>
+                <h1>Top Contributors</h1>
 
-            menuIcon.addEventListener("click", () => {
-                console.log("Hamburger menu clicked");
-                navLinks.classList.toggle("mobile");
-            });
-        });
-    </script>
+                <ul id="leaderboard" class="leaderboard">
+                    <% leaderBoard.forEach((user, i)=> { %>
+
+                        <li class="<%= i < 3 ? 'top-3' : '' %>">
+                            <div class="user-info">
+                                <span class="rank">
+                                    <%= i + 1 %>
+                                </span>
+                                
+                                <img src="<%= user.pic %>" class="userPic" alt="Profile Picture">
+                                <h4>
+                                    <%= user.name %>
+                                </h4>
+                            </div>
+                            <div class="user-stats">
+                                <span class="likes-count">
+                                    <%= user.total_likes %> Likes
+                                </span>
+                                <a href="/viewProfile/<%=user.id %>" class="profile-link">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </li>
+                        <% }) %>
+                </ul>
+
+                <div class="stats-container">
+                    <div class="stat-item">
+                        <div class="stat-value">
+                            <%= leaderBoard.length %>
+                        </div>
+                        <div class="stat-label">Total Contributors</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">
+                            <%= leaderBoard[0] ? leaderBoard[0].total_likes : 0 %>
+                        </div>
+                        <div class="stat-label">Top Contributor Likes</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">
+                            <%= Math.round(leaderBoard.reduce((sum, user)=> sum + user.total_likes, 0) /
+                                leaderBoard.length) || 0 %>
+                        </div>
+                        <div class="stat-label">Average Likes</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+           
+        </script>
 </body>
+
 </html>

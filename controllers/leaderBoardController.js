@@ -16,6 +16,7 @@ const getLeaderBoard = async (req, res) => {
     }));
 
     leaderBoard.sort((a, b) => b.total_likes - a.total_likes);
+    
     res.render('leaderBoard', { leaderBoard });
   } catch (err) {
     console.error(err);

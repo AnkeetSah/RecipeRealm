@@ -8,14 +8,14 @@ header, nav, ul, li, a {
 }
 
 /* Header styling */
- header {
-            background-color: #000;
-            padding: 6px 7px;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-        }
+header {
+  background-color: #000;
+  padding: 10px 40px;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+}
 
 nav {
   display: flex;
@@ -25,7 +25,6 @@ nav {
 
 header img {
   height: 50px;
-  position: relative;
 }
 
 /* Logo styling */
@@ -44,15 +43,22 @@ header img {
 
 .nav-links a {
   color: #fff;
-  transition: color 0.3s;
-   font-weight: 500;
-            padding: 5px 10px;
-            border-radius: 4px;
+  transition: color 0.3s, background-color 0.3s;
+  font-weight: 500;
+  padding: 5px 10px;
+  border-radius: 4px;
 }
 
 .nav-links a:hover {
-   color: #00ff00;
-            background-color: rgba(0, 255, 0, 0.1);
+  color: #00ff00;
+  background-color: rgba(0, 255, 0, 0.1);
+}
+
+/* Active link styling */
+.nav-links a.active {
+  color: #32cd32;
+  background-color: rgba(0, 255, 0, 0.1);
+  font-weight: 600;
 }
 
 /* Mobile menu icon */
@@ -80,10 +86,10 @@ header img {
   .nav-links.mobile {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 15px;
     background: #000;
     position: absolute;
-    top: 60px;
+    top: 75px;
     right: 20px;
     padding: 20px;
     border-radius: 5px;
@@ -91,6 +97,10 @@ header img {
 
   .nav-links.mobile a {
     color: #32cd32;
+  }
+
+  header {
+    padding: 10px;
   }
 }
 

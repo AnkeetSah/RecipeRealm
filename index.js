@@ -45,38 +45,6 @@ app.use("/account",accountRoutes);
 
 
 
-/*
-app.post("/recipe/item", async (req, res) => {
-  const key = req.body.dish;
-
-  // Check if data is in cache
-  if (cache.has(key)) {
-    const dishData = cache.get(key);
-    return res.render("recipesearch", { dishData });
-  }
-
-  // If not in cache, fetch data from API
-  try {
-    const dishResponse = await fetch(
-      `https://www.themealdb.com/api/json/v1/1/search.php?s=${key}`
-    );
-    const dishes = await dishResponse.json();
-    const dishData = dishes.meals;
-
-    // Store the fetched data in cache
-    cache.set(key, dishData);
-    dishData.forEach((dish) => {
-      dish.area = key;
-    });
-
-    res.render("recipesearch", { dishData });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("An error occurred while fetching data.");
-  }
-});
-
-*/
 
 
 
@@ -115,94 +83,8 @@ app.post('/saveDish', isLoggedIn, async (req, res) => {
   }
 });
 
-app.post('/unSaveDish', isLoggedIn, async (req, res) => {
-  try {
-
-    const { dishId } = req.body;
-
-    // Find the user by email
-    let user = await userModel.findOne({ email: req.user.email });
-
-    // Check if the dish ID is already in the user's saved list
-    const index = user.savedPost.indexOf(dishId);
 
 
-    // If found, remove it from the list
-    user.savedPost.splice(index, 1);
-
-
-    // Save the updated user data
-    await user.save();
-
-    // Send a success response
-    res.status(200).json({ message: user });
-  } catch (error) {
-    // Handle errors
-    console.error('Error saving dish:', error);
-    res.status(500).json({ error: 'Failed to save dish' });
-  }
-});
-
-app.post('/editDish/:id', isLoggedIn, upload.single('dishImage'), async (req, res) => {
-
-  try {
-    let updatedData = {
-      strMeal: req.body.strMeal,
-      strCategory: req.body.strCategory,
-      dishIngredients: req.body.dishIngredients,
-      strInstructions: req.body.strInstructions,
-      dishDescription: req.body.dishDescription,
-      strYoutube: req.body.strYoutube,
-    };
-
-    if (req.file) {
-      updatedData.filename = req.file.filename;
-    }
-
-    let updatedPost = await postModel.findByIdAndUpdate(req.params.id, updatedData, { new: true });
-
-    res.redirect('/account/postcreated');
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Internal Server Error');
-  }
-});
-
-
-app.get('/postDelete/:id', isLoggedIn, async (req, res) => {
-  try {
-    let deletedPost = await postModel.findOneAndDelete({ _id: req.params.id });
-    if (!deletedPost) {
-      return res.status(404).send('Post not found');
-    }
-
-    let user = await userModel.findOne({ email: req.user.email });
-    if (!user) {
-      return res.status(404).send('User not found');
-    }
-
-    let postIndex = user.post.indexOf(deletedPost._id);
-    if (postIndex > -1) {
-      user.post.splice(postIndex, 1);
-      await user.save();
-    }
-
-    fs.unlink(`./public/images/uploads/${deletedPost.filename}`, (err) => {
-      if (err) {
-        console.error('Error deleting image:', err);
-      } else {
-        console.log('Image deleted successfully');
-      }
-    });
-
-
-    console.log(deletedPost);
-    res.redirect('/account/postcreated');
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Internal Server Error');
-  }
-});
 
 
 
@@ -230,37 +112,99 @@ app.get('/seeRecipe/:id', isLoggedIn, async (req, res) => {
 });
 
 
-app.post('/likeUpdate', isLoggedIn, async (req, res) => {
+app.post('/api/like', async (req, res) => {
   try {
-
-    // Find the logged-in user by email
-    let user = await userModel.findOne({
-      email: req.user.email
-    });
-
-    // Find the recipe by id
-    let post = await postModel.findOne({
-      _id: req.body.postid
-    });
-
-
-    let index = post.total_likes.indexOf(user._id);
-    console.log(index)
-    if (index == -1) {
-      post.total_likes.push(user._id);
-      await post.save();
+    const { postId, userId } = req.body;
+  console.log(req.body)
+    const post = await postModel.findById(postId);
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
     }
-    else {
-      post.total_likes.splice(index, 1);
+
+    // Prevent duplicate likes
+    if (!post.total_likes.includes(userId)) {
+      post.total_likes.push(userId);
       await post.save();
     }
 
-    res.status(200).json({ message: post.total_likes.length });
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Internal Server Error');
+    res.status(200).json({ message: "Like updated", totalLikes: post.total_likes.length });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
   }
 });
+
+app.post('/api/unlike', async (req, res) => {
+  try {
+    console.log('=== UNLIKE API CALL ===');
+    console.log('Request body:', req.body);
+    
+    const { postId, userId } = req.body;
+
+    // Input validation
+    if (!postId) {
+      return res.status(400).json({ message: "postId is required" });
+    }
+    if (!userId) {
+      return res.status(400).json({ message: "userId is required" });
+    }
+
+    // Find the post
+    const post = await postModel.findById(postId);
+    if (!post) {
+      console.log('Post not found with ID:', postId);
+      return res.status(404).json({ message: "Post not found" });
+    }
+
+    console.log('Post found:', {
+      id: post._id,
+      title: post.strMeal || post.dishName,
+      currentLikes: post.total_likes,
+      currentLikesCount: post.total_likes.length
+    });
+
+    // Convert to string for consistent comparison
+    const userIdStr = userId.toString();
+    
+    // Check if user has liked the post
+    const initialLength = post.total_likes.length;
+    
+    // Filter out the user ID
+    post.total_likes = post.total_likes.filter(
+      likeId => likeId.toString() !== userIdStr
+    );
+
+    // Check if anything was actually removed
+    if (post.total_likes.length < initialLength) {
+      await post.save();
+      console.log('Post after unlike:', {
+        newLikes: post.total_likes,
+        newLikesCount: post.total_likes.length
+      });
+      
+      return res.status(200).json({ 
+        message: "Unlike successful", 
+        totalLikes: post.total_likes.length 
+      });
+    } else {
+      console.log('User had not liked this post');
+      return res.status(200).json({ 
+        message: "User had not liked this post", 
+        totalLikes: post.total_likes.length 
+      });
+    }
+
+  } catch (error) {
+    console.error('Unlike API Error:', error);
+    res.status(500).json({ 
+      message: "Server error",
+      error: error.message 
+    });
+  }
+});
+
+
+
 
 
 app.post('/comments', isLoggedIn, async (req, res) => {
@@ -295,57 +239,9 @@ app.post('/comments', isLoggedIn, async (req, res) => {
 
 
 
-/*
-app.get('/getCategory', async (req, res) => {
-  try {
-    const posts = await postModel.find();
-    const categories = posts.map(m => m.dishCategory);
-    const combinedIngredients = categories.join(',').split(',');
-    res.json(combinedIngredients);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Error fetching categories");
-  }
-});
-
-
-app.post('/getDishListAsPerCategory', async (req, res) => {
-  try {
-    const posts = await postModel.find();
-    const cat = req.body.category.trim();
-    const filteredPosts = posts.filter(post => {
-      const dishCategories = post.dishCategory.split(',').map(c => c.trim());
-      return dishCategories.includes(cat);
-    });
-
-    res.json(filteredPosts);
-  } catch (error) {
-    console.error('Error fetching posts:', error);
-    res.status(500).send('Error fetching data');
-  }
-});
-*/
-
-
-app.post("/updateProfile", upload.single('profileImage'), async (req, res) => {
-  console.log(req.body.id);
-  const user = await userModel.findByIdAndUpdate(
-    req.body.id,
-    { profilePic: req.file.filename },
-    { new: true }
-  );
 
 
 
-  res.status(200).json({
-    message: "Profile updated successfully",
-  });
-
-
-
-
-
-})
 
 
 
