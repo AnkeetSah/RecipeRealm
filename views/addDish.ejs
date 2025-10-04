@@ -1,24 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Dish</title>
-     <link rel="stylesheet" href="/css/header.css">
+    <link rel="icon" type="image/png" href="/images/appLogo/fav.png">
+
+    <link rel="stylesheet" href="/css/header.css">
     <style>
-        body, h1, p, ul, li, a {
+        body,
+        h1,
+        p,
+        ul,
+        li,
+        a {
             margin: 0;
             padding: 0;
             list-style: none;
             text-decoration: none;
             box-sizing: border-box;
         }
+
         /* Universal box-sizing fix */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
 
 
         body {
@@ -28,7 +37,7 @@
             color: #ffffff;
         }
 
-      
+
 
         @media (max-width: 768px) {
             .nav-links {
@@ -72,7 +81,7 @@
         .container {
             display: flex;
             margin-top: 70px;
-              padding: 2rem 80px;
+            padding: 2rem 80px;
         }
 
         /* STUNNING FORM CONTAINER ENHANCEMENT */
@@ -82,7 +91,7 @@
             background: linear-gradient(145deg, #1a1a1a 0%, #222 100%);
             border-radius: 20px;
             margin-right: 2rem;
-            box-shadow: 
+            box-shadow:
                 0 10px 40px rgba(0, 0, 0, 0.6),
                 0 0 0 1px rgba(32, 248, 3, 0.1),
                 inset 0 1px 0 rgba(255, 255, 255, 0.05);
@@ -103,8 +112,13 @@
         }
 
         @keyframes shimmer {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
+            0% {
+                background-position: -200% 0;
+            }
+
+            100% {
+                background-position: 200% 0;
+            }
         }
 
         .form-container h2 {
@@ -162,7 +176,7 @@
         .form-container textarea:focus {
             outline: none;
             border-color: #20f803;
-            box-shadow: 
+            box-shadow:
                 0 0 0 3px rgba(32, 248, 3, 0.15),
                 inset 0 2px 4px rgba(0, 0, 0, 0.4);
             background: linear-gradient(135deg, #2f2f2f 0%, #292929 100%);
@@ -249,7 +263,7 @@
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             margin-top: 1rem;
-            box-shadow: 
+            box-shadow:
                 0 8px 25px rgba(32, 248, 3, 0.3),
                 0 2px 0 rgba(255, 255, 255, 0.1) inset;
             position: relative;
@@ -271,7 +285,7 @@
         .submit-btn:hover {
             background: linear-gradient(135deg, #1bd002 0%, #18b802 100%);
             transform: translateY(-3px);
-            box-shadow: 
+            box-shadow:
                 0 12px 30px rgba(32, 248, 3, 0.4),
                 0 2px 0 rgba(255, 255, 255, 0.1) inset;
         }
@@ -291,7 +305,8 @@
             padding: 1rem;
         }
 
-        .sidebar a, .sidebar button {
+        .sidebar a,
+        .sidebar button {
             display: block;
             width: 100%;
             padding: 0.5rem;
@@ -306,7 +321,8 @@
             cursor: pointer;
         }
 
-        .sidebar a:hover, .sidebar button:hover {
+        .sidebar a:hover,
+        .sidebar button:hover {
             background-color: #00cc00;
         }
 
@@ -327,7 +343,8 @@
                 padding: 0.5rem;
             }
 
-            .sidebar a, .sidebar button {
+            .sidebar a,
+            .sidebar button {
                 padding: 0.75rem;
                 margin-bottom: 1rem;
             }
@@ -338,7 +355,8 @@
                 font-size: 1.25rem;
             }
 
-            .sidebar a, .sidebar button {
+            .sidebar a,
+            .sidebar button {
                 font-size: 0.9rem;
                 padding: 0.5rem;
             }
@@ -384,115 +402,124 @@
             background: rgba(0, 0, 0, 0.7);
             z-index: 999;
         }
-        header img{
+
+        header img {
             height: 50px;
         }
     </style>
 </head>
+
 <body>
-     <%- include("./header") %>
-    <div class="container">
-        <div class="form-container">
-            <h2>Create a Dish Post</h2>
-            <form id="dishForm" action="/account/dishUpload" method="post" enctype="multipart/form-data">
-                <div class="form-group">
-                    <label for="dishName">Dish Name:</label>
-                    <input type="text" id="dishName" name="dishName" required placeholder="Enter your delicious dish name">
-                </div>
+    <%- include("./header") %>
+        <div class="container">
+            <div class="form-container">
+                <h2>Create a Dish Post</h2>
+                <form id="dishForm" action="/account/dishUpload" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="dishName">Dish Name:</label>
+                        <input type="text" id="dishName" name="dishName" required
+                            placeholder="Enter your delicious dish name">
+                    </div>
 
-                <div class="form-group">
-                    <label for="dishCategory">Dish Category:</label>
-                    <input type="text" id="dishCategory" name="dishCategory" required placeholder="e.g., Italian, Asian, Dessert">
-                    <span class="form-hint">Based on main ingredients, separated by commas</span>
-                </div>
+                    <div class="form-group">
+                        <label for="dishCategory">Dish Category:</label>
+                        <input type="text" id="dishCategory" name="dishCategory" required
+                            placeholder="e.g., Italian, Asian, Dessert">
+                        <span class="form-hint">Based on main ingredients, separated by commas</span>
+                    </div>
 
-                <div class="form-group">
-                    <label for="dishIngredients">Dish Ingredients:</label>
-                    <textarea id="dishIngredients" name="dishIngredients" rows="4" required placeholder="List all ingredients separated by commas"></textarea>
-                    <span class="form-hint">Separate ingredients with commas</span>
-                </div>
+                    <div class="form-group">
+                        <label for="dishIngredients">Dish Ingredients:</label>
+                        <textarea id="dishIngredients" name="dishIngredients" rows="4" required
+                            placeholder="List all ingredients separated by commas"></textarea>
+                        <span class="form-hint">Separate ingredients with commas</span>
+                    </div>
 
-                <div class="form-group">
-                    <label for="dishInstructions">Dish Instructions:</label>
-                    <textarea id="dishInstructions" name="dishInstructions" rows="4" required placeholder="Step-by-step cooking instructions"></textarea>
-                    <span class="form-hint">Write clear instructions for preparation</span>
-                </div>
+                    <div class="form-group">
+                        <label for="dishInstructions">Dish Instructions:</label>
+                        <textarea id="dishInstructions" name="dishInstructions" rows="4" required
+                            placeholder="Step-by-step cooking instructions"></textarea>
+                        <span class="form-hint">Write clear instructions for preparation</span>
+                    </div>
 
-                <div class="form-group">
-                    <label for="dishDescription">Dish Description:</label>
-                    <textarea id="dishDescription" name="dishDescription" rows="4" required placeholder="Describe the flavors, texture, and special features"></textarea>
-                </div>
+                    <div class="form-group">
+                        <label for="dishDescription">Dish Description:</label>
+                        <textarea id="dishDescription" name="dishDescription" rows="4" required
+                            placeholder="Describe the flavors, texture, and special features"></textarea>
+                    </div>
 
-                <div class="form-group">
-                    <label for="dishYouTubeLink">Dish YouTube Link:</label>
-                    <input type="url" id="dishYouTubeLink" name="dishYouTubeLink" required placeholder="https://youtube.com/your-video">
-                </div>
+                    <div class="form-group">
+                        <label for="dishYouTubeLink">Dish YouTube Link:</label>
+                        <input type="url" id="dishYouTubeLink" name="dishYouTubeLink" required
+                            placeholder="https://youtube.com/your-video">
+                    </div>
 
-                <div class="form-group">
-                    <label for="dishImage">Upload Dish Image:</label>
-                    <div class="file-input-wrapper">
-                        <input type="file" id="dishImage" name="dishImage" accept="image/*" required>
-                        <div class="file-input-label" id="fileInputLabel">
-                            📷 Choose Dish Image
+                    <div class="form-group">
+                        <label for="dishImage">Upload Dish Image:</label>
+                        <div class="file-input-wrapper">
+                            <input type="file" id="dishImage" name="dishImage" accept="image/*" required>
+                            <div class="file-input-label" id="fileInputLabel">
+                                📷 Choose Dish Image
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <button class="submit-btn" type="submit">✨ Save Post</button>
-            </form>
+                    <button class="submit-btn" type="submit">✨ Saved Post</button>
+                </form>
+            </div>
+            <div class="sidebar">
+                <a href="/account/addDish" style="background-color: #000;color:white;border: 1px solid #00cc00;">Add Dish</a>
+                <a href="/account/userSavedRecipe">Save Post</a>
+                <a href="/account/postcreated">Post Created</a>
+                <a href="/logout">Log out</a>
+            </div>
         </div>
-        <div class="sidebar">
-            <a href="/account/addDish" style="background-color: #000;color:white">Add Dish</a>
-            <a href="/account/userSavedRecipe">Save Post</a>
-            <a href="/account/postcreated">Post Created</a>
-            <a href="/logout">Log out</a>
+
+        <div class="popup-overlay"></div>
+        <div class="popup" id="popupMessage">
+            <p>The dish has been added!</p>
+            <button onclick="closePopup()">OK</button>
         </div>
-    </div>
 
-    <div class="popup-overlay"></div>
-    <div class="popup" id="popupMessage">
-        <p>The dish has been added!</p>
-        <button onclick="closePopup()">OK</button>
-    </div>
+        <script>
+            const menuIcon = document.querySelector('.menu-icon');
+            const navLinks = document.querySelector('.nav-links');
 
-    <script>
-        const menuIcon = document.querySelector('.menu-icon');
-        const navLinks = document.querySelector('.nav-links');
+            menuIcon.addEventListener('click', () => {
+                navLinks.classList.toggle('mobile');
+            });
 
-        menuIcon.addEventListener('click', () => {
-            navLinks.classList.toggle('mobile');
-        });
+            const dishForm = document.getElementById('dishForm');
+            const popup = document.getElementById('popupMessage');
+            const overlay = document.querySelector('.popup-overlay');
+            const fileInput = document.getElementById('dishImage');
+            const fileInputLabel = document.getElementById('fileInputLabel');
 
-        const dishForm = document.getElementById('dishForm');
-        const popup = document.getElementById('popupMessage');
-        const overlay = document.querySelector('.popup-overlay');
-        const fileInput = document.getElementById('dishImage');
-        const fileInputLabel = document.getElementById('fileInputLabel');
+            // Enhanced file input functionality
+            fileInput.addEventListener('change', function () {
+                if (this.files.length > 0) {
+                    fileInputLabel.textContent = `📷 ${this.files[0].name}`;
+                    fileInputLabel.classList.add('has-file');
+                } else {
+                    fileInputLabel.textContent = '📷 Choose Dish Image';
+                    fileInputLabel.classList.remove('has-file');
+                }
+            });
 
-        // Enhanced file input functionality
-        fileInput.addEventListener('change', function() {
-            if (this.files.length > 0) {
-                fileInputLabel.textContent = `📷 ${this.files[0].name}`;
-                fileInputLabel.classList.add('has-file');
-            } else {
-                fileInputLabel.textContent = '📷 Choose Dish Image';
-                fileInputLabel.classList.remove('has-file');
+            dishForm.addEventListener('submit', function (event) {
+                showPopup();
+            });
+
+            function showPopup() {
+                popup.style.display = 'block';
+                overlay.style.display = 'block';
             }
-        });
 
-        dishForm.addEventListener('submit', function(event) {
-            showPopup();
-        });
-
-        function showPopup() {
-            popup.style.display = 'block';
-            overlay.style.display = 'block';
-        }
-
-        function closePopup() {
-            popup.style.display = 'none';
-            overlay.style.display = 'none';
-        }
-    </script>
+            function closePopup() {
+                popup.style.display = 'none';
+                overlay.style.display = 'none';
+            }
+        </script>
 </body>
+
 </html>

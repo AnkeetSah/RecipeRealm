@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Profile Page</title>
-    <link rel="icon" type="image/png" href="./images/appLogo/fav.png">
+    <title>Recipe Added</title>
+    <link rel="icon" type="image/png" href="/images/appLogo/fav.png">
     <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body, h1, p, ul, li, a {
             margin: 0;
@@ -21,12 +22,6 @@
             background-color: #121212;
             color: #ffffff;
         }
-
-       
-
-       
-
-       
 
         .container {
             display: flex;
@@ -138,7 +133,7 @@
         /* ENHANCED CARD STYLES */
         .post {
             min-height: 250px;
-            width: 220px;
+            width: 240px; /* Increased width to accommodate all buttons */
             background: linear-gradient(145deg, #1a1a1a, #000000);
             border-radius: 12px;
             display: flex;
@@ -208,50 +203,107 @@
             margin-top: auto;
             padding-top: 0.75rem;
             border-top: 1px solid #2a2a2a;
+            gap: 10px; /* Added gap between like count and buttons */
         }
 
+        /* FIXED LIKE HEART STYLING */
         .likes {
             display: flex;
             align-items: center;
-            color: #ff6b6b;
-            font-size: 0.85rem;
-            font-weight: 600;
+            gap: 6px;
+            padding: 6px 10px;
+            background: rgba(255, 107, 107, 0.15);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            transition: all 0.3s ease;
+            flex-shrink: 0; /* Prevent shrinking */
         }
 
-        .likes::before {
-            content: '♥';
-            margin-right: 4px;
-            font-size: 1rem;
+        .likes:hover {
+            background: rgba(255, 107, 107, 0.25);
+            transform: scale(1.05);
+        }
+
+        .likes i {
+            color: #ff6b6b;
+            font-size: 0.9rem;
+            text-shadow: 0 0 8px rgba(255, 107, 107, 0.5);
+        }
+
+        .likes span {
+            color: #ffffff;
+            font-size: 0.85rem;
+            font-weight: 600;
+            min-width: 16px;
+            text-align: center;
         }
 
         .action-buttons {
             display: flex;
-            gap: 5px;
+            gap: 6px;
+            flex-wrap: nowrap; /* Prevent wrapping */
+            justify-content: flex-end;
+            flex-grow: 1; /* Take available space */
         }
 
+        /* ENHANCED BUTTON STYLES - COMPACT VERSION */
         .action a {
-            display: inline-block;
-            padding: 0.35rem 0.6rem;
-            background-color: #2a2a2a;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            transition: all 0.2s ease;
-            color: #ffffff;
-            border: 1px solid #3a3a3a;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.4rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            min-width: 40px;
+            gap: 3px;
+            white-space: nowrap;
         }
 
-        .action a:hover {
-            background-color: #32CD32;
-            color: #000;
+        .action a.edit-btn {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            border: 1px solid #3d8b40;
+        }
+
+        .action a.edit-btn:hover {
+            background: linear-gradient(135deg, #45a049, #3d8b40);
             transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
         }
 
-        .action a.view-btn:hover {
-            background-color: #4a90e2;
+        .action a.delete-btn {
+            background: linear-gradient(135deg, #ff4757, #ff3742);
+            color: white;
+            border: 1px solid #e84118;
         }
 
         .action a.delete-btn:hover {
-            background-color: #ff4757;
+            background: linear-gradient(135deg, #ff3742, #e84118);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(255, 71, 87, 0.3);
+        }
+
+        .action a.view-btn {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            border: 1px solid #2573a7;
+        }
+
+        .action a.view-btn:hover {
+            background: linear-gradient(135deg, #2980b9, #2573a7);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+        }
+
+        /* Button icons - smaller for compact layout */
+        .action a i {
+            font-size: 0.65rem;
         }
 
         header img {
@@ -291,11 +343,20 @@
                         <img src="<%= post.strMealThumb%>" alt="<%= post.strMeal%>">
                         <p class="meal-name"><%= post.strMeal%></p>
                         <div class="action">
-                            <span class="likes"><%= post.total_likes.length  %></span>
+                            <div class="likes">
+                                <i class="fas fa-heart"></i>
+                                <span><%= post.total_likes.length  %></span>
+                            </div>
                             <div class="action-buttons">
-                                <a href="/account/postEdit/<%= post._id %>" class="edit-btn">Edit</a>
-                                <a href="/account/postDelete/<%= post._id %>" class="delete-btn">Delete</a>
-                                <a href="/home/recipe/item/<%= post._id %>" class="view-btn">View</a>
+                                <a href="/account/postEdit/<%= post._id %>" class="edit-btn">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+                                <a href="/account/postDelete/<%= post._id %>" class="delete-btn">
+                                    <i class="fas fa-trash"></i> Del
+                                </a>
+                                <a href="/home/recipe/item/<%= post._id %>" class="view-btn">
+                                    <i class="fas fa-eye"></i> View
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -310,7 +371,7 @@
         <div class="sidebar">
             <a href="/account/addDish">Add Dish</a>
             <a href="/account/userSavedRecipe">Saved Posts</a>
-            <a href="/account/postcreated" style="background-color: #000;color:white">Created Posts</a>
+            <a href="/account/postcreated" style="background-color: #000;color:white;border: 1px solid #00cc00;">Created Posts</a>
             <a href="/logout">Log out</a>
         </div>
     </div>
