@@ -4,20 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Post</title>
-       <link rel="icon" type="image/png" href="./images/appLogo/fav.png">
-       <link rel="stylesheet" href="/css/header.css">
+    <link rel="icon" type="image/png" href="./images/appLogo/fav.png">
+    <link rel="stylesheet" href="/css/header.css">
     <style>
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', system-ui, sans-serif;
             background-color: #121212;
             color: #ffffff;
         }
+        *,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
         .navbar {
             background-color: black;
             padding: 6px 7px;
-           
         }
 
         .navbar h1 {
@@ -29,49 +33,244 @@
             display: flex;
             padding: 2rem;
             margin-top: 70px;
-            
+            gap: 2rem;
         }
 
+        /* STUNNING FORM CONTAINER ENHANCEMENT */
         .form-container {
             flex: 1;
-            padding: 1rem;
-            background-color: #1f1f1f;
-            border-radius: 8px;
+            padding: 2.5rem;
+            background: linear-gradient(145deg, #1a1a1a 0%, #222 100%);
+            border-radius: 20px;
             margin-right: 2rem;
+            box-shadow: 
+                0 10px 40px rgba(0, 0, 0, 0.6),
+                0 0 0 1px rgba(32, 248, 3, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #20f803, #00ff00, #20f803);
+            background-size: 200% 100%;
+            animation: shimmer 3s infinite linear;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
         }
 
         .form-container h2 {
-            color: #00ff00;
+            color: #20f803;
+            font-size: 2.2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            font-weight: 700;
+            text-shadow: 0 0 20px rgba(32, 248, 3, 0.4);
+            letter-spacing: -0.5px;
+            position: relative;
+        }
+
+        .form-container h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #20f803, transparent);
+            border-radius: 2px;
+        }
+
+        .form-group {
+            margin-bottom: 1.8rem;
+            position: relative;
         }
 
         .form-container label {
             display: block;
-            margin-bottom: 0.5rem;
-            color: #bfbfbf;
+            margin-bottom: 0.8rem;
+            color: #e8e8e8;
+            font-weight: 600;
+            font-size: 1rem;
+            letter-spacing: 0.3px;
         }
 
         .form-container input,
         .form-container textarea {
             width: 100%;
-            padding: 0.5rem;
-            margin-bottom: 1rem;
-            border: none;
-            border-radius: 4px;
-            background-color: #2b2b2b;
+            padding: 1rem 1.2rem;
+            border: 2px solid #333;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #2b2b2b 0%, #252525 100%);
             color: #ffffff;
+            font-size: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: inherit;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
-        .form-container button {
-            padding: 0.5rem 1rem;
-            border: none;
-            border-radius: 4px;
-            background-color: #00ff00;
-            color: #000000;
+        .form-container input:focus,
+        .form-container textarea:focus {
+            outline: none;
+            border-color: #20f803;
+            box-shadow: 
+                0 0 0 3px rgba(32, 248, 3, 0.15),
+                inset 0 2px 4px rgba(0, 0, 0, 0.4);
+            background: linear-gradient(135deg, #2f2f2f 0%, #292929 100%);
+            transform: translateY(-2px);
+        }
+
+        .form-container input::placeholder,
+        .form-container textarea::placeholder {
+            color: #888;
+            opacity: 0.8;
+        }
+
+        .form-container textarea {
+            resize: vertical;
+            min-height: 120px;
+            line-height: 1.5;
+        }
+
+        .form-hint {
+            display: block;
+            font-size: 0.85rem;
+            color: #20f803;
+            margin-top: 0.5rem;
+            font-style: italic;
+            opacity: 0.8;
+            padding-left: 0.5rem;
+            border-left: 2px solid #20f803;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+
+        .file-input-wrapper input[type="file"] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
             cursor: pointer;
         }
 
-        .form-container button:hover {
-            background-color: #00cc00;
+        .file-input-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            padding: 1.2rem;
+            background: linear-gradient(135deg, #2b2b2b 0%, #252525 100%);
+            border: 2px dashed #444;
+            border-radius: 12px;
+            color: #bfbfbf;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 500;
+        }
+
+        .file-input-label:hover {
+            border-color: #20f803;
+            color: #20f803;
+            background: linear-gradient(135deg, #2f2f2f 0%, #292929 100%);
+            transform: translateY(-2px);
+        }
+
+        .file-input-label.has-file {
+            border-color: #20f803;
+            color: #20f803;
+            border-style: solid;
+            background: rgba(32, 248, 3, 0.05);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1.2rem 2rem;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #20f803 0%, #1bd002 100%);
+            color: #000;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-top: 1rem;
+            box-shadow: 
+                0 8px 25px rgba(32, 248, 3, 0.3),
+                0 2px 0 rgba(255, 255, 255, 0.1) inset;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.5px;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s;
+        }
+
+        .submit-btn:hover {
+            background: linear-gradient(135deg, #1bd002 0%, #18b802 100%);
+            transform: translateY(-3px);
+            box-shadow: 
+                0 12px 30px rgba(32, 248, 3, 0.4),
+                0 2px 0 rgba(255, 255, 255, 0.1) inset;
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        .submit-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .current-image {
+            margin-bottom: 2rem;
+            text-align: center;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #2b2b2b 0%, #252525 100%);
+            border-radius: 12px;
+            border: 2px solid #333;
+        }
+
+        .current-image p {
+            color: #20f803;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .current-image img {
+            max-width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            border: 2px solid #444;
+            transition: transform 0.3s ease;
+        }
+
+        .current-image img:hover {
+            transform: scale(1.02);
         }
 
         .sidebar {
@@ -81,7 +280,7 @@
             padding: 1rem;
         }
 
-        .sidebar button {
+        .sidebar a {
             display: block;
             width: 100%;
             padding: 0.5rem;
@@ -93,86 +292,113 @@
             cursor: pointer;
         }
 
-        .sidebar button:hover {
+        .sidebar a:hover {
             background-color: #00cc00;
         }
 
-        .current-image {
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-
-        .current-image img {
-            max-width: 100%;
-            border-radius: 8px;
-        }
-        header img{
+        header img {
             height: 50px;
             position: relative;
-        
         }
+
         @media(max-width:450px) {
-            .container{
+            .container {
                 flex-wrap: wrap;
+                padding: 1rem;
             }
-            .form-container{
+            .form-container {
                 margin-right: 0px;
                 margin-bottom: 10px;
+                padding: 1.5rem;
             }
-            .sidebar{
+            .sidebar {
                 width: 100%;
+            }
+            .form-container h2 {
+                font-size: 1.8rem;
             }
         }
     </style>
 </head>
 <body>
-    <header>
-        <nav class="navbar">
-            <div class="app-icon">
-                <!-- You can replace "Recipe App" with your preferred app name -->
-                <span class="app-name">
-                    <img src="/images/appLogo/headerLogo.png" alt="">
-                </span>
-            </div>
-        </nav>
-    </header>
+    <%- include("./header") %>
     <div class="container">
         <div class="form-container">
             <h2>Edit Dish Recipe</h2>
             <form id="dishForm" action="/account/editDish/<%= post._id %>" method="post" enctype="multipart/form-data">
-                <label for="dishName">Dish Name:</label>
-                <input type="text" id="dishName" name="strMeal" value="<%= post.strMeal %>" required>
+                <div class="form-group">
+                    <label for="dishName">Dish Name:</label>
+                    <input type="text" id="dishName" name="strMeal" value="<%= post.strMeal %>" required>
+                </div>
                 
-                <label for="dishCategory">Dish Category:</label>
-                <input type="text" id="dishCategory" name="strCategory" value="<%= post.strCategory %>" required placeholder="Important! This should be based on the main ingredient you are using in your dish.">
+                <div class="form-group">
+                    <label for="dishCategory">Dish Category:</label>
+                    <input type="text" id="dishCategory" name="strCategory" value="<%= post.strCategory %>" required placeholder="e.g., Italian, Asian, Dessert">
+                    <span class="form-hint">Based on main ingredients, separated by commas</span>
+                </div>
                 
-                <label for="dishIngredients">Dish Ingredients:</label>
-                <textarea id="dishIngredients" name="dishIngredients" rows="4" required placeholder="Important! You have to mention the ingredients followed by a space."><%= post.dishIngredients %></textarea>
+                <div class="form-group">
+                    <label for="dishIngredients">Dish Ingredients:</label>
+                    <textarea id="dishIngredients" name="dishIngredients" rows="4" required placeholder="List all ingredients separated by commas"><%= post.dishIngredients %></textarea>
+                    <span class="form-hint">Separate ingredients with commas</span>
+                </div>
                 
-                <label for="dishInstructions">Dish Instructions:</label>
-                <textarea id="dishInstructions" name="strInstructions" rows="4" required><%= post.strInstructions %></textarea>
+                <div class="form-group">
+                    <label for="dishInstructions">Dish Instructions:</label>
+                    <textarea id="dishInstructions" name="strInstructions" rows="10" required placeholder="Step-by-step cooking instructions"><%= post.strInstructions %></textarea>
+                    <span class="form-hint">Write clear instructions for preparation</span>
+                </div>
                 
-                <label for="dishDescription">Dish Description:</label>
-                <textarea id="dishDescription" name="dishDescription" rows="4" required><%= post.dishDescription %></textarea>
+                <div class="form-group">
+                    <label for="dishDescription">Dish Description:</label>
+                    <textarea id="dishDescription" name="dishDescription" rows="4" required placeholder="Describe the flavors, texture, and special features"><%= post.dishDescription %></textarea>
+                </div>
                 
-                <label for="dishYouTubeLink">Dish YouTube Link:</label>
-                <input type="url" id="dishYouTubeLink" name="strYoutube" value="<%= post.strYoutube %>" required>
+                <div class="form-group">
+                    <label for="dishYouTubeLink">Dish YouTube Link:</label>
+                    <input type="url" id="dishYouTubeLink" name="strYoutube" value="<%= post.strYoutube %>" required placeholder="https://youtube.com/your-video">
+                </div>
                 
                 <div class="current-image">
-                    <p>Current Image:</p>
+                    <p>📷 Current Image</p>
                     <img src="<%= post.strMealThumb %>" alt="Current Dish Image">
                 </div>
                 
-                <label for="dishImage">Upload New Dish Image (optional):</label>
-                <input type="file" id="dishImage" name="dishImage" accept="image/*">
-                
-                <button type="submit">Edit Post</button>
+                <div class="form-group">
+                    <label for="dishImage">Upload New Dish Image (optional):</label>
+                    <div class="file-input-wrapper">
+                        <input type="file" id="dishImage" name="dishImage" accept="image/*">
+                        <div class="file-input-label" id="fileInputLabel">
+                            📷 Choose New Image
+                        </div>
+                    </div>
+                </div>
+
+                <button class="submit-btn" type="submit">✨ Update Post</button>
             </form>
         </div>
         <div class="sidebar">
-            <button onclick="document.getElementById('dishForm').submit();">Edit Post</button>
-            <button onclick="window.location.href='/account/postcreated';">Created Posts</button>
+            <a href="/account/addDish" style="background-color: #000;color:white">Add Dish</a>
+            <a href="/account/userSavedRecipe">Save Post</a>
+            <a href="/account/postcreated">Post Created</a>
+            <a href="/logout">Log out</a>
         </div>
     </div>
+
+    <script>
+        // Enhanced file input functionality
+        const fileInput = document.getElementById('dishImage');
+        const fileInputLabel = document.getElementById('fileInputLabel');
+
+        fileInput.addEventListener('change', function() {
+            if (this.files.length > 0) {
+                fileInputLabel.textContent = `📷 ${this.files[0].name}`;
+                fileInputLabel.classList.add('has-file');
+            } else {
+                fileInputLabel.textContent = '📷 Choose New Image';
+                fileInputLabel.classList.remove('has-file');
+            }
+        });
+    </script>
 </body>
 </html>

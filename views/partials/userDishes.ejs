@@ -536,7 +536,7 @@
 
             try {
                 // Fetch actual API data
-                const response = await fetch("http://localhost:3000/home/recipe/allPost");
+                const response = await fetch("/home/recipe/allPost");
                 
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);

@@ -83,12 +83,6 @@ app.post('/saveDish', isLoggedIn, async (req, res) => {
   }
 });
 
-
-
-
-
-
-
 app.get('/seeRecipe/:id', isLoggedIn, async (req, res) => {
   let user = await userModel.findOne({
     email: req.user.email
@@ -205,8 +199,6 @@ app.post('/api/unlike', async (req, res) => {
 
 
 
-
-
 app.post('/comments', isLoggedIn, async (req, res) => {
   try {
     let user = await userModel.findOne({ email: req.user.email });
@@ -296,7 +288,7 @@ app.get('/viewProfile/:id', async (req, res) => {
   const user = await userModel.findById(req.params.id).populate('post');
   console.log(user);
 
-
+  
   res.render('viewProfile', { user })
 
 
