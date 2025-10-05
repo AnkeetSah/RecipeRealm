@@ -126,37 +126,9 @@
         }
       }
 
-      @media (max-width: 768px) {
-        .nav-links {
-          display: none;
-        }
+      
 
-        .menu-icon {
-          display: block;
-        }
-
-        .nav-links.mobile {
-          display: flex;
-          flex-direction: column;
-          gap: 12px;
-          background: #1b1b1b;
-          position: absolute;
-          top: 60px;
-          right: 20px;
-          padding: 20px;
-          border-radius: 10px;
-          box-shadow: 0 4px 12px rgba(0,0,0,0.7);
-        }
-
-        .nav-links.mobile a {
-          color: #00ff00;
-        }
-      }
-
-      header img {
-        height: 50px;
-        position: relative;
-      }
+      
 
       /* Animations */
       @keyframes fadeInUp {
@@ -185,15 +157,6 @@
       <% }) %>
     </div>
 
-    <script>
-      const menuIcon = document.querySelector(".menu-icon");
-      const navLinks = document.querySelector(".nav-links");
-
-      if(menuIcon && navLinks){
-        menuIcon.addEventListener("click", () => {
-          navLinks.classList.toggle("mobile");
-        });
-      }
-    </script>
+    
   </body>
 </html>

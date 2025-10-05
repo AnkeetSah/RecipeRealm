@@ -19,64 +19,42 @@
       color: #ffffff;
       background-color: #121212;
       overflow-x: hidden;
+      padding-top: 100px;
     }
-
-  
-
-  
-
-    
-
-   
-
-   
 
     /* Page Title */
     h1 {
-      margin-top: 110px;
       text-align: center;
       color: #00ff00;
       font-size: 32px;
       animation: fadeIn 1s ease-in;
     }
 
-    /* Cards Container */
+    /* Container */
     .container {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       align-items: center;
-      padding: 20px;
+      margin-top: 30px;
       gap: 20px;
-      animation: fadeInUp 1.2s ease;
+      animation: fadeInUp 1s ease;
     }
 
-    /* Cards */
-  .child {
-  background: linear-gradient(145deg, #1b1b1b, #222);
-  border: 1px solid #2a2a2a;
-  border-radius: 15px;
-  width: 220px;
-  padding: 15px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;   /* center button/title/image */
-  box-shadow: 0 6px 15px rgba(0,0,0,0.6);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
-  opacity: 0;
-  animation: fadeInCard 0.8s ease forwards;
-}
-
-.foodname {
-  font-size: 18px;
-  color: #ffffff;
-  margin: 6px 0; /* smaller margin to reduce gap */
-  font-weight: 500;
-  letter-spacing: 0.5px;
-}
-
+    /* Card */
+    .child {
+      background: linear-gradient(145deg, #1b1b1b, #222);
+      border: 1px solid #2a2a2a;
+      border-radius: 15px;
+      width: 220px;
+      padding: 15px;
+      text-align: center;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.6);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+      opacity: 0;
+      animation: fadeInCard 0.8s ease forwards;
+    }
 
     .child:hover {
       transform: translateY(-10px) scale(1.05);
@@ -90,20 +68,28 @@
       animation-delay: 0.4s;
     }
 
-    /* Image */
+    /* Food Image */
     .foodimage {
       width: 100%;
-      height: 160px;
+      height: 140px;
       border-radius: 12px;
       object-fit: cover;
       margin-bottom: 12px;
       transition: transform 0.4s ease;
     }
+
     .child:hover .foodimage {
       transform: scale(1.08);
     }
 
-  
+    /* Food Title */
+    .foodname {
+      font-size: 18px;
+      color: #ffffff;
+      margin-bottom: 10px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
 
     /* Button */
     .show-btn {
@@ -116,6 +102,8 @@
       border-radius: 8px;
       font-weight: bold;
       transition: all 0.3s ease;
+      display: inline-block;
+      text-decoration: none;
     }
 
     .show-btn:hover {
@@ -125,33 +113,27 @@
     }
 
     /* Responsive */
-    @media (max-width: 768px) {
-      .nav-links {
-        display: none;
+    @media (max-width: 450px) {
+      .child {
+        width: 160px;
+        padding: 8px;
       }
-      .menu-icon {
-        display: block;
+      .foodimage {
+        height: 110px;
       }
-      .nav-links.mobile {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        background: #1b1b1b;
-        position: absolute;
-        top: 60px;
-        right: 20px;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.7);
+      .foodname {
+        font-size: 16px;
       }
-      .nav-links.mobile a {
-        color: #00ff00;
+      .show-btn {
+        font-size: 14px;
+        padding: 8px 14px;
+      }
+      .container {
+        padding: 0;
       }
     }
 
-    header img {
-      height: 50px;
-    }
+    
 
     /* Animations */
     @keyframes fadeIn {
@@ -162,11 +144,6 @@
     @keyframes fadeInUp {
       from { opacity: 0; transform: translateY(30px); }
       to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes slideDown {
-      from { transform: translateY(-100%); }
-      to { transform: translateY(0); }
     }
 
     @keyframes fadeInCard {
@@ -190,21 +167,5 @@
     <% }) %>
   </div>
 
-  <script>
-    const menuIcon = document.getElementById('menuIcon');
-    const navLinks = document.getElementById('navLinks');
-
-    if(menuIcon && navLinks){
-      menuIcon.addEventListener('click', () => {
-        navLinks.classList.toggle('mobile');
-      });
-
-      navLinks.addEventListener('click', (e) => {
-        if (e.target.tagName === 'A') {
-          navLinks.classList.remove('mobile');
-        }
-      });
-    }
-  </script>
 </body>
 </html>

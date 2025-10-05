@@ -1,625 +1,695 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Community Creations</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        /* Base Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+<div class="foodshowsection-wrapper">
+    <div class="section-header">
+        <h1 class="byuser">
+            <i class="fas fa-users"></i>
+            Community Creations
+        </h1>
+        <p class="section-subtitle">Discover delicious dishes shared by food enthusiasts</p>
+    </div>
+    
+    <div class="foodshowsection" id="userDishesContainer">
+        <div class="loading-state">
+            <div class="loading-spinner"></div>
+            <p>Loading community recipes...</p>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Base Styles */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    /* Wrapper & Header */
+    .foodshowsection-wrapper {
+        padding: 50px 30px;
+        max-width: 100%;
+        margin: 40px auto;
+        background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+        border-radius: 24px;
+        border: 1px solid #2a2a2a;
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.6);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .foodshowsection-wrapper::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, #32cd32, transparent);
+    }
+
+    .section-header {
+        text-align: center;
+        margin-bottom: 50px;
+        position: relative;
+    }
+
+    .byuser {
+        color: #32cd32;
+        font-size: 3rem;
+        font-weight: 800;
+        margin-bottom: 18px;
+        text-shadow: 0 0 25px rgba(50, 205, 50, 0.5);
+        letter-spacing: -0.5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 18px;
+    }
+
+    .byuser i {
+        font-size: 2.8rem;
+        color: #32cd32;
+        filter: drop-shadow(0 0 12px rgba(50, 205, 50, 0.7));
+        background: rgba(50, 205, 50, 0.1);
+        padding: 12px;
+        border-radius: 50%;
+    }
+
+    .section-subtitle {
+        color: #ccc;
+        font-size: 1.25rem;
+        max-width: 500px;
+        margin: 0 auto;
+        line-height: 1.6;
+        position: relative;
+        padding-bottom: 15px;
+    }
+
+    .section-subtitle::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, #32cd32, transparent);
+    }
+
+    /* Horizontal Scroll Container */
+    .foodshowsection {
+        display: flex;
+        gap: 30px;
+        overflow-x: auto;
+        padding: 25px 20px;
+        scrollbar-width: thin;
+        scrollbar-color: #32cd32 #222;
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    }
+
+    .foodshowsection::-webkit-scrollbar {
+        height: 12px;
+    }
+
+    .foodshowsection::-webkit-scrollbar-track {
+        background: #222;
+        border-radius: 10px;
+    }
+
+    .foodshowsection::-webkit-scrollbar-thumb {
+        background: linear-gradient(135deg, #32cd32, #00ff00);
+        border-radius: 10px;
+        border: 2px solid #222;
+    }
+
+    .foodshowsection::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(135deg, #00ff00, #32cd32);
+    }
+
+    /* Enhanced Card Styling with Full-Width Images */
+    .userfoodcard {
+        min-width: 320px;
+        max-width: 320px;
+        height: 420px;
+        background: linear-gradient(145deg, #222, #2a2a2a);
+        border-radius: 20px;
+        border: 1px solid #333;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        cursor: pointer;
+        position: relative;
+        opacity: 0;
+        animation: cardSlideIn 0.6s ease forwards;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    @keyframes cardSlideIn {
+        from {
+            opacity: 0;
+            transform: translateX(30px);
         }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
 
-        
+    .userfoodcard:hover {
+        transform: translateY(-12px) scale(1.02);
+        border-color: #32cd32;
+        box-shadow: 0 20px 40px rgba(50, 205, 50, 0.25);
+    }
 
-        /* Wrapper & Header */
+    .card-image {
+        position: relative;
+        height: 200px;
+        overflow: hidden;
+        width: 100%;
+    }
+
+    .card-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s ease;
+    }
+
+    .userfoodcard:hover .card-image img {
+        transform: scale(1.1);
+    }
+
+    .image-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(to bottom, transparent 40%, rgba(0, 0, 0, 0.8) 100%);
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 18px;
+    }
+
+    .likes-badge {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(255, 71, 87, 0.9);
+        padding: 8px 14px;
+        border-radius: 20px;
+        color: white;
+        font-weight: 700;
+        font-size: 0.9rem;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .likes-badge i {
+        font-size: 0.9rem;
+    }
+
+    .category-tag {
+        position: absolute;
+        bottom: 15px;
+        left: 18px;
+        background: rgba(50, 205, 50, 0.9);
+        color: #000;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-content {
+        padding: 24px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        background: #1a1a1a;
+    }
+
+    .dish-title {
+        font-size: 1.4rem;
+        color: #fff;
+        margin-bottom: 12px;
+        font-weight: 700;
+        line-height: 1.3;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        min-height: 1em;
+    }
+
+    .dish-desc {
+        color: #aaa;
+        font-size: 0.95rem;
+        line-height: 1.5;
+        margin-bottom: 20px;
+        flex-grow: 1;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .card-actions {
+        margin-top: auto;
+    }
+
+    .recipe-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        width: 100%;
+        background: linear-gradient(135deg, #32cd32, #00ff00);
+        color: #000;
+        padding: 14px 20px;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(50, 205, 50, 0.3);
+    }
+
+    .recipe-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(50, 205, 50, 0.5);
+        background: linear-gradient(135deg, #00ff00, #32cd32);
+    }
+
+    /* Loading States */
+    .loading-state {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 80px 20px;
+        color: #32cd32;
+        width: 100%;
+    }
+
+    .loading-spinner {
+        width: 60px;
+        height: 60px;
+        border: 4px solid rgba(50, 205, 50, 0.2);
+        border-left: 4px solid #32cd32;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-bottom: 25px;
+    }
+
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+
+    /* Shimmer Loading */
+    .shimmer-loading {
+        display: flex;
+        gap: 30px;
+        padding: 10px 20px;
+        overflow-x: auto;
+    }
+
+    .shimmer-card {
+        min-width: 320px;
+        height: 420px;
+        background: #222;
+        border-radius: 20px;
+        overflow: hidden;
+        animation: shimmer 2s infinite linear;
+        flex-shrink: 0;
+    }
+
+    .shimmer-img {
+        height: 200px;
+        background: #2a2a2a;
+        width: 100%;
+    }
+
+    .shimmer-content {
+        padding: 24px;
+    }
+
+    .shimmer-line {
+        height: 12px;
+        background: #2a2a2a;
+        border-radius: 6px;
+        margin-bottom: 15px;
+    }
+
+    .shimmer-title {
+        width: 80%;
+        height: 24px;
+    }
+
+    .shimmer-desc {
+        width: 95%;
+        height: 16px;
+    }
+
+    .shimmer-desc.short {
+        width: 70%;
+    }
+
+    .shimmer-btn {
+        width: 100%;
+        height: 48px;
+        margin-top: 20px;
+        border-radius: 12px;
+    }
+
+    @keyframes shimmer {
+        0% { opacity: 0.6; }
+        50% { opacity: 1; }
+        100% { opacity: 0.6; }
+    }
+
+    /* Empty & Error States */
+    .empty-state, .error-state {
+        text-align: center;
+        padding: 80px 20px;
+        width: 100%;
+    }
+
+    .empty-icon, .error-icon {
+        font-size: 5rem;
+        color: #32cd32;
+        margin-bottom: 25px;
+        opacity: 0.7;
+    }
+
+    .empty-state h3, .error-state h3 {
+        color: #32cd32;
+        font-size: 1.8rem;
+        margin-bottom: 15px;
+    }
+
+    .empty-state p, .error-state p {
+        color: #ccc;
+        margin-bottom: 30px;
+        max-width: 400px;
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 1.1rem;
+    }
+
+    .empty-cta, .retry-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: linear-gradient(135deg, #32cd32, #00ff00);
+        color: #000;
+        padding: 16px 32px;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 700;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 1.05rem;
+        box-shadow: 0 4px 15px rgba(50, 205, 50, 0.3);
+    }
+
+    .empty-cta:hover, .retry-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(50, 205, 50, 0.5);
+    }
+
+    /* Mobile Responsive Improvements */
+    @media (max-width: 768px) {
         .foodshowsection-wrapper {
-            padding: 50px 30px;
-            max-width: 100%;
-            margin: 40px auto;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
-            border-radius: 24px;
-            border: 1px solid #2a2a2a;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.6);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .foodshowsection-wrapper::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, #32cd32, transparent);
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 50px;
-            position: relative;
+            padding: 40px 20px;
+            margin: 30px 20px;
+            border-radius: 20px;
         }
 
         .byuser {
-            color: #32cd32;
-            font-size: 3rem;
-            font-weight: 800;
-            margin-bottom: 18px;
-            text-shadow: 0 0 25px rgba(50, 205, 50, 0.5);
-            letter-spacing: -0.5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 18px;
+            font-size: 2.4rem;
+            flex-direction: column;
+            gap: 12px;
         }
 
         .byuser i {
-            font-size: 2.8rem;
-            color: #32cd32;
-            filter: drop-shadow(0 0 12px rgba(50, 205, 50, 0.7));
-            background: rgba(50, 205, 50, 0.1);
-            padding: 12px;
-            border-radius: 50%;
+            font-size: 2.2rem;
+            padding: 10px;
         }
 
         .section-subtitle {
-            color: #ccc;
-            font-size: 1.25rem;
-            max-width: 500px;
-            margin: 0 auto;
-            line-height: 1.6;
-            position: relative;
-            padding-bottom: 15px;
+            font-size: 1.15rem;
+            padding: 0 10px;
         }
 
-        .section-subtitle::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, #32cd32, transparent);
-        }
-
-        /* Horizontal Scroll Container */
         .foodshowsection {
-            display: flex;
-            gap: 30px;
-            overflow-x: auto;
-            padding: 25px 20px;
-            scrollbar-width: thin;
-            scrollbar-color: #32cd32 #222;
-            scroll-behavior: smooth;
+            gap: 25px;
+            padding: 20px 15px;
         }
 
-        .foodshowsection::-webkit-scrollbar {
-            height: 12px;
-        }
-
-        .foodshowsection::-webkit-scrollbar-track {
-            background: #222;
-            border-radius: 10px;
-        }
-
-        .foodshowsection::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, #32cd32, #00ff00);
-            border-radius: 10px;
-            border: 2px solid #222;
-        }
-
-        .foodshowsection::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(135deg, #00ff00, #32cd32);
-        }
-
-        /* Enhanced Card Styling with Full-Width Images */
         .userfoodcard {
-            min-width: 320px;
-            max-width: 320px;
-            height: 420px;
-            background: linear-gradient(145deg, #222, #2a2a2a);
-            border-radius: 20px;
-            border: 1px solid #333;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            cursor: pointer;
-            position: relative;
-            opacity: 0;
-            animation: cardSlideIn 0.6s ease forwards;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-        }
-
-        @keyframes cardSlideIn {
-            from {
-                opacity: 0;
-                transform: translateX(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .userfoodcard:hover {
-            transform: translateY(-12px) scale(1.02);
-            border-color: #32cd32;
-            box-shadow: 0 20px 40px rgba(50, 205, 50, 0.25);
+            min-width: 280px;
+            height: 400px;
         }
 
         .card-image {
-            position: relative;
-            height: 200px;
-            overflow: hidden;
-            width: 100%;
+            height: 180px;
         }
-
-        .card-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.6s ease;
+        
+        .card-content {
+            padding: 20px;
         }
-
-        .userfoodcard:hover .card-image img {
-            transform: scale(1.1);
+        
+        .dish-title {
+            font-size: 1.3rem;
         }
-
-        .image-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(to bottom, transparent 40%, rgba(0, 0, 0, 0.8) 100%);
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            padding: 18px;
-        }
-
-        .likes-badge {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            background: rgba(255, 71, 87, 0.9);
-            padding: 8px 14px;
-            border-radius: 20px;
-            color: white;
-            font-weight: 700;
-            font-size: 0.9rem;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        .likes-badge i {
+        
+        .recipe-btn {
+            padding: 12px 18px;
             font-size: 0.9rem;
         }
+        
+        .shimmer-card {
+            min-width: 280px;
+            height: 400px;
+        }
+    }
 
-        .category-tag {
-            position: absolute;
-            bottom: 15px;
-            left: 18px;
-            background: rgba(50, 205, 50, 0.9);
-            color: #000;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    @media (max-width: 480px) {
+        .foodshowsection-wrapper {
+            padding: 30px 15px;
+            margin: 20px 10px;
+            border-radius: 16px;
+        }
+
+        .byuser {
+            font-size: 2rem;
+            gap: 10px;
+        }
+
+        .byuser i {
+            font-size: 1.8rem;
+            padding: 8px;
+        }
+
+        .section-subtitle {
+            font-size: 1rem;
+            padding: 0 5px;
+        }
+
+        .foodshowsection {
+            gap: 20px;
+            padding: 15px 10px;
+        }
+
+        .userfoodcard {
+            min-width: 260px;
+            height: 380px;
+        }
+
+        .card-image {
+            height: 170px;
         }
 
         .card-content {
-            padding: 24px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            background: #1a1a1a;
+            padding: 18px;
         }
 
         .dish-title {
-            font-size: 1.4rem;
-            color: #fff;
-            margin-bottom: 12px;
-            font-weight: 700;
-            line-height: 1.3;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            min-height: 1em;
+            font-size: 1.2rem;
         }
 
         .dish-desc {
-            color: #aaa;
-            font-size: 0.95rem;
-            line-height: 1.5;
-            margin-bottom: 20px;
-            flex-grow: 1;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
+            font-size: 0.9rem;
         }
-
-        .card-actions {
-            margin-top: auto;
-        }
-
-        .recipe-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            width: 100%;
-            background: linear-gradient(135deg, #32cd32, #00ff00);
-            color: #000;
-            padding: 14px 20px;
-            border-radius: 12px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(50, 205, 50, 0.3);
-        }
-
-        .recipe-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(50, 205, 50, 0.5);
-            background: linear-gradient(135deg, #00ff00, #32cd32);
-        }
-
-        /* Loading States */
-        .loading-state {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 80px 20px;
-            color: #32cd32;
-            width: 100%;
-        }
-
-        .loading-spinner {
-            width: 60px;
-            height: 60px;
-            border: 4px solid rgba(50, 205, 50, 0.2);
-            border-left: 4px solid #32cd32;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 25px;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Shimmer Loading */
-        .shimmer-loading {
-            display: flex;
-            gap: 30px;
-            padding: 10px 20px;
-        }
-
-        .shimmer-card {
-            min-width: 320px;
-            height: 420px;
-            background: #222;
-            border-radius: 20px;
-            overflow: hidden;
-            animation: shimmer 2s infinite linear;
-        }
-
-        .shimmer-img {
-            height: 200px;
-            background: #2a2a2a;
-            width: 100%;
-        }
-
-        .shimmer-content {
-            padding: 24px;
-        }
-
-        .shimmer-line {
-            height: 12px;
-            background: #2a2a2a;
-            border-radius: 6px;
-            margin-bottom: 15px;
-        }
-
-        .shimmer-title {
-            width: 80%;
-            height: 24px;
-        }
-
-        .shimmer-desc {
-            width: 95%;
-            height: 16px;
-        }
-
-        .shimmer-desc.short {
-            width: 70%;
-        }
-
-        .shimmer-btn {
-            width: 100%;
-            height: 48px;
-            margin-top: 20px;
-            border-radius: 12px;
-        }
-
-        @keyframes shimmer {
-            0% { opacity: 0.6; }
-            50% { opacity: 1; }
-            100% { opacity: 0.6; }
-        }
-
-        /* Empty & Error States */
-        .empty-state, .error-state {
-            text-align: center;
-            padding: 80px 20px;
-            width: 100%;
-        }
-
-        .empty-icon, .error-icon {
-            font-size: 5rem;
-            color: #32cd32;
-            margin-bottom: 25px;
-            opacity: 0.7;
-        }
-
-        .empty-state h3, .error-state h3 {
-            color: #32cd32;
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-        }
-
-        .empty-state p, .error-state p {
-            color: #ccc;
-            margin-bottom: 30px;
-            max-width: 400px;
-            margin-left: auto;
-            margin-right: auto;
-            font-size: 1.1rem;
-        }
-
-        .empty-cta, .retry-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: linear-gradient(135deg, #32cd32, #00ff00);
-            color: #000;
-            padding: 16px 32px;
-            border-radius: 12px;
-            text-decoration: none;
-            font-weight: 700;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 1.05rem;
-            box-shadow: 0 4px 15px rgba(50, 205, 50, 0.3);
-        }
-
-        .empty-cta:hover, .retry-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(50, 205, 50, 0.5);
-        }
-
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            .foodshowsection-wrapper {
-                padding: 40px 20px;
-                margin: 30px 20px;
-            }
-
-            .byuser {
-                font-size: 2.4rem;
-                flex-direction: column;
-                gap: 12px;
-            }
-
-            .byuser i {
-                font-size: 2.2rem;
-            }
-
-            .section-subtitle {
-                font-size: 1.15rem;
-                padding: 0 10px;
-            }
-
-            .foodshowsection {
-                gap: 25px;
-                padding: 20px 15px;
-            }
-
-            .userfoodcard {
-                min-width: 280px;
-                height: 400px;
-            }
-
-            .card-image {
-                height: 180px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .foodshowsection-wrapper {
-                padding: 30px 15px;
-                margin: 20px 0px;
-               
-            }
-
-            .byuser {
-                font-size: 2rem;
-            }
-
-            .section-subtitle {
-                font-size: 1rem;
-            }
-
-            .foodshowsection {
-                gap: 20px;
-                padding: 15px 10px;
-            }
-
-            .userfoodcard {
-                min-width: 260px;
-                height: 380px;
-            }
-
-            .card-image {
-                height: 170px;
-            }
-
-            .card-content {
-                padding: 20px;
-            }
-
-            .dish-title {
-                font-size: 1.3rem;
-            }
-
-            .dish-desc {
-                font-size: 0.9rem;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="foodshowsection-wrapper">
-        <div class="section-header">
-            <h1 class="byuser">
-                <i class="fas fa-users"></i>
-                Community Creations
-            </h1>
-            <p class="section-subtitle">Discover delicious dishes shared by food enthusiasts</p>
-        </div>
         
-        <div class="foodshowsection" id="userDishesContainer">
-            <div class="loading-state">
-                <div class="loading-spinner"></div>
-                <p>Loading community recipes...</p>
+        .recipe-btn {
+            padding: 10px 16px;
+            font-size: 0.85rem;
+        }
+        
+        .shimmer-card {
+            min-width: 260px;
+            height: 380px;
+        }
+        
+        .empty-state, .error-state {
+            padding: 60px 15px;
+        }
+        
+        .empty-icon, .error-icon {
+            font-size: 4rem;
+        }
+        
+        .empty-state h3, .error-state h3 {
+            font-size: 1.5rem;
+        }
+        
+        .empty-state p, .error-state p {
+            font-size: 1rem;
+        }
+    }
+    
+    /* Extra small devices */
+    @media (max-width: 360px) {
+        .foodshowsection-wrapper {
+            padding: 25px 12px;
+            margin: 15px 8px;
+        }
+        
+        .userfoodcard {
+            min-width: 240px;
+            height: 360px;
+        }
+        
+        .shimmer-card {
+            min-width: 240px;
+            height: 360px;
+        }
+        
+        .card-image {
+            height: 160px;
+        }
+        
+        .byuser {
+            font-size: 1.8rem;
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", async () => {
+        const container = document.getElementById("userDishesContainer");
+        
+        // Show shimmer loading
+        container.innerHTML = `
+            <div class="shimmer-loading">
+                ${Array(6).fill(0).map(() => `
+                    <div class="shimmer-card">
+                        <div class="shimmer-img"></div>
+                        <div class="shimmer-content">
+                            <div class="shimmer-line shimmer-title"></div>
+                            <div class="shimmer-line shimmer-desc"></div>
+                            <div class="shimmer-line shimmer-desc short"></div>
+                            <div class="shimmer-line shimmer-btn"></div>
+                        </div>
+                    </div>
+                `).join('')}
             </div>
-        </div>
-    </div>
+        `;
 
-    <script>
-        document.addEventListener("DOMContentLoaded", async () => {
-            const container = document.getElementById("userDishesContainer");
+        try {
+            // Fetch actual API data
+            const response = await fetch("/home/recipe/allPost");
             
-            // Show shimmer loading
-            container.innerHTML = `
-                <div class="shimmer-loading">
-                    ${Array(6).fill(0).map(() => `
-                        <div class="shimmer-card">
-                            <div class="shimmer-img"></div>
-                            <div class="shimmer-content">
-                                <div class="shimmer-line shimmer-title"></div>
-                                <div class="shimmer-line shimmer-desc"></div>
-                                <div class="shimmer-line shimmer-desc short"></div>
-                                <div class="shimmer-line shimmer-btn"></div>
-                            </div>
-                        </div>
-                    `).join('')}
-                </div>
-            `;
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const data = await response.json();
 
-            try {
-                // Fetch actual API data
-                const response = await fetch("/home/recipe/allPost");
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                const data = await response.json();
-
-                if (!data.success || !data.data || data.data.length === 0) {
-                    container.innerHTML = `
-                        <div class="empty-state">
-                            <div class="empty-icon">
-                                <i class="fas fa-utensils"></i>
-                            </div>
-                            <h3>No Recipes Yet</h3>
-                            <p>Be the first to share your culinary creation!</p>
-                            <a href="/account/addDish" class="empty-cta">
-                                <i class="fas fa-plus"></i>
-                                Share Your Recipe
-                            </a>
-                        </div>
-                    `;
-                    return;
-                }
-
-                // Clear and create cards with actual API data
-                container.innerHTML = '';
-                
-                data.data.forEach((dish, index) => {
-                    const card = document.createElement('div');
-                    card.className = 'userfoodcard';
-                    card.style.animationDelay = `${index * 0.1}s`;
-                    
-                    // Safe description handling
-                    const description = dish.dishDescription || dish.strInstructions || 'A delicious community recipe';
-                    const shortDesc = description.split(" ").slice(0, 15).join(" ") + (description.split(" ").length > 15 ? "..." : "");
-                    
-                    card.innerHTML = `
-                        <div class="card-image">
-                            <img src="${dish.strMealThumb}" alt="${dish.strMeal}" 
-                                 onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=300&fit=crop'">
-                            <div class="image-overlay">
-                                <div class="likes-badge">
-                                    <i class="fas fa-heart"></i>
-                                    <span>${dish.total_likes ? dish.total_likes.length : 0}</span>
-                                </div>
-                            </div>
-                            <div class="category-tag">${dish.strCategory || 'Food'}</div>
-                        </div>
-                        
-                        <div class="card-content">
-                            <h3 class="dish-title">${dish.strMeal || 'Unnamed Recipe'}</h3>
-                            <p class="dish-desc">${shortDesc}</p>
-                            
-                            <div class="card-actions">
-                                <a href="/home/recipe/item/${dish._id}" class="recipe-btn">
-                                    View Recipe
-                                    <i class="fas fa-arrow-right"></i>
-                                </a>
-                            </div>
-                        </div>
-                    `;
-                    
-                    container.appendChild(card);
-                });
-
-            } catch (err) {
-                console.error('Error loading dishes:', err);
+            if (!data.success || !data.data || data.data.length === 0) {
                 container.innerHTML = `
-                    <div class="error-state">
-                        <div class="error-icon">
-                            <i class="fas fa-exclamation-triangle"></i>
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <i class="fas fa-utensils"></i>
                         </div>
-                        <h3>Something Went Wrong</h3>
-                        <p>We're having trouble loading recipes right now.</p>
-                        <button class="retry-btn" onclick="location.reload()">
-                            <i class="fas fa-redo"></i>
-                            Try Again
-                        </button>
+                        <h3>No Recipes Yet</h3>
+                        <p>Be the first to share your culinary creation!</p>
+                        <a href="/account/addDish" class="empty-cta">
+                            <i class="fas fa-plus"></i>
+                            Share Your Recipe
+                        </a>
                     </div>
                 `;
+                return;
             }
-        });
-    </script>
-</body>
-</html>
+
+            // Clear and create cards with actual API data
+            container.innerHTML = '';
+            
+            data.data.forEach((dish, index) => {
+                const card = document.createElement('div');
+                card.className = 'userfoodcard';
+                card.style.animationDelay = `${index * 0.1}s`;
+                
+                // Safe description handling
+                const description = dish.dishDescription || dish.strInstructions || 'A delicious community recipe';
+                const shortDesc = description.split(" ").slice(0, 15).join(" ") + (description.split(" ").length > 15 ? "..." : "");
+                
+                card.innerHTML = `
+                    <div class="card-image">
+                        <img src="${dish.strMealThumb}" alt="${dish.strMeal}" 
+                             onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=300&fit=crop'">
+                        <div class="image-overlay">
+                            <div class="likes-badge">
+                                <i class="fas fa-heart"></i>
+                                <span>${dish.total_likes ? dish.total_likes.length : 0}</span>
+                            </div>
+                        </div>
+                        <div class="category-tag">${dish.strCategory || 'Food'}</div>
+                    </div>
+                    
+                    <div class="card-content">
+                        <h3 class="dish-title">${dish.strMeal || 'Unnamed Recipe'}</h3>
+                        <p class="dish-desc">${shortDesc}</p>
+                        
+                        <div class="card-actions">
+                            <a href="/home/recipe/item/${dish._id}" class="recipe-btn">
+                                View Recipe
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(card);
+            });
+
+        } catch (err) {
+            console.error('Error loading dishes:', err);
+            container.innerHTML = `
+                <div class="error-state">
+                    <div class="error-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <h3>Something Went Wrong</h3>
+                    <p>We're having trouble loading recipes right now.</p>
+                    <button class="retry-btn" onclick="location.reload()">
+                        <i class="fas fa-redo"></i>
+                        Try Again
+                    </button>
+                </div>
+            `;
+        }
+    });
+</script>

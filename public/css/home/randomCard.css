@@ -6,6 +6,25 @@
         justify-content: center;
         margin-bottom: 100px;
       }
+
+      .card-a {
+  background: #32cd32;
+  color: #000;
+  font-weight: bolder;
+  padding: 4px 8px;
+  border-radius: 5px;
+  text-align: center;
+  margin-top: 10px;
+  transition: all 0.3s ease; /* smooth effect */
+}
+
+.card-a:hover {
+  background: #28a428; /* darker green */
+  color: #fff; /* text turns white */
+  transform: scale(1.05); /* slight zoom */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* subtle shadow */
+}
+
     
       .card {
         

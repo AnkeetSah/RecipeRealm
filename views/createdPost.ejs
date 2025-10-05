@@ -15,6 +15,9 @@
             text-decoration: none;
             box-sizing: border-box;
         }
+        *{
+            box-sizing: border-box;
+        }
 
         body {
             margin: 0;
@@ -76,12 +79,32 @@
             background-color: #00cc00;
         }
 
+        .post {
+            min-height: 250px;
+            width: 280px; /* Increased width to accommodate all buttons */
+            background: linear-gradient(145deg, #1a1a1a, #000000);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #2a2a2a;
+        }
+
+
         /* Media Queries for Responsive Design */
         @media (max-width: 768px) {
             .container {
                 flex-direction: column;
-                padding: 1rem;
+                padding: 20px 10px;
+                
             }
+
+            
 
             .post-container {
                 margin-right: 0;
@@ -97,6 +120,7 @@
                 padding: 0.75rem;
                 margin-bottom: 1rem;
             }
+            
         }
 
         @media (max-width: 480px) {
@@ -128,25 +152,15 @@
             .sidebar{
                 margin-left: 0;
             }
+
+            .post{
+                width: 100%;
+            }
+            
         }
 
         /* ENHANCED CARD STYLES */
-        .post {
-            min-height: 250px;
-            width: 240px; /* Increased width to accommodate all buttons */
-            background: linear-gradient(145deg, #1a1a1a, #000000);
-            border-radius: 12px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 1rem;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid #2a2a2a;
-        }
-
+        
         .post::before {
             content: '';
             position: absolute;
@@ -372,7 +386,7 @@
             <a href="/account/addDish">Add Dish</a>
             <a href="/account/userSavedRecipe">Saved Posts</a>
             <a href="/account/postcreated" style="background-color: #000;color:white;border: 1px solid #00cc00;">Created Posts</a>
-            <a href="/logout">Log out</a>
+            <a href="/account/logout">Log out</a>
         </div>
     </div>
 
